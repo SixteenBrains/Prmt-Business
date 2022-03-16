@@ -1,21 +1,5 @@
-Business: https://youtu.be/Z3vDNaUazBY
-Promoter: https://youtu.be/g_xWBHr7n4M
 
-What I need u to do is step by step:
+Business - https://xd.adobe.com/view/4e4866b6-cc1b-44cb-aa8d-6498dcc1e92f-1b1b/screen/a7ab34b7-3f79-4a6a-9f82-ec9699e801b3/specs/
+Promoter - https://xd.adobe.com/view/4e4866b6-cc1b-44cb-aa8d-6498dcc1e92f-1b1b/screen/88765045-c185-4202-8ab5-e5c0084631fe/specs/
 
-Step 1: Create userflow and information architecture from the design, 
-which u can use for creating the database structure and when it is finished I will pay you 5000
-
-Business app
-Registration - 5000
-Create Add - ₹7500
-Edit App / Preview add / Edit add - 6000
-Payment - 10000
-HomeScreen ( Live, Draft, Expired adds) -  7000
-
-Promoter app
-Registration - 5000
-Live adds screen - 5000
-Share ads - 5500
-Dashboard - 7000
-My Earning - 7000
+https://pub.dev/packages/dart_code_metrics

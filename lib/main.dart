@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/signup/cubit/signup_cubit.dart';
-import 'screens/create-account/create_account.dart';
-import 'screens/signup/signup_screen.dart';
+import 'screens/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,10 +27,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: 'GoogleSans',
         ),
-        // home: const OnBoardingPage(),
-        //home: const SignUpScreen(),
-        home: const CreateAccount(),
+        home: const SplashScreen(),
       ),
     );
   }

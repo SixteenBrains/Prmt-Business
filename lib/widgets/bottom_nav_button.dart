@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class BottomNavButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -39,7 +38,7 @@ class BottomNavButton extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.openSans(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,

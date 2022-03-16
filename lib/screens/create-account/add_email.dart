@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import '/screens/create-account/add_business_name.dart';
+import '/widgets/bottom_nav_button.dart';
 
-import 'package:prmt_business/screens/create-account/add_email.dart';
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
-
-class CreateAccount extends StatelessWidget {
-  const CreateAccount({Key? key}) : super(key: key);
+class AddEmail extends StatelessWidget {
+  const AddEmail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +34,16 @@ class CreateAccount extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             Text(
-              'Awesome!',
+              'Your Email ID',
               style: TextStyle(
                 color: Colors.grey.shade800,
                 fontSize: 22.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 4.0),
-            Text(
-              'Now tell us your Full Name',
-              style: TextStyle(
-                color: Colors.grey.shade800,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
             const SizedBox(height: 12.0),
             Text(
-              'Enter your full name here.',
+              'Enter your email address to get your\nupdates on your email.',
               style: TextStyle(
                 color: Colors.grey.shade800,
                 fontSize: 16.0,
@@ -61,11 +51,12 @@ class CreateAccount extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             TextField(
+              keyboardType: TextInputType.emailAddress,
               style: const TextStyle(fontSize: 20.0),
               // onChanged: (value) =>
               //     context.read<SignUpCubit>().phoneNoChanged(value),
               decoration: InputDecoration(
-                hintText: 'Eg - John Doe',
+                hintText: 'Eg - abc@gmail.com',
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
                 ),
@@ -82,7 +73,7 @@ class CreateAccount extends StatelessWidget {
             BottomNavButton(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const AddEmail(),
+                  builder: (_) => const AddBusinessName(),
                 ),
               ),
               label: 'CONTINUE',

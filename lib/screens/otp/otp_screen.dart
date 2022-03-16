@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
+import '/screens/create-account/create_account.dart';
+import '/widgets/bottom_nav_button.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -15,19 +16,14 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   String _code = '';
   bool _resendCode = false;
+  int _countDown = 30;
 
   late Timer _timer;
 
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      if (timer.tick == 5) {
-        setState(() {
-          _resendCode = true;
-        });
-        _timer.cancel();
-      }
-    });
+    startTimer();
+
     super.initState();
   }
 
@@ -37,14 +33,35 @@ class _OtpScreenState extends State<OtpScreen> {
     super.dispose();
   }
 
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_countDown == 0) {
+          setState(() {
+            timer.cancel();
+            _resendCode = true;
+          });
+        } else {
+          setState(() {
+            _countDown--;
+          });
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final timeLeft = 30 - _timer.tick;
     print('Sms code $_code');
+    print(_resendCode);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: Column(
@@ -103,68 +120,77 @@ class _OtpScreenState extends State<OtpScreen> {
               },
             ),
             const SizedBox(height: 22.0),
-            // Row(
-            //   children: const [
-            //     Icon(Icons.timer, color: Colors.blue),
-            //     SizedBox(width: 7.0),
-            //     Text(
-            //       'Resend OTP in 30s',
-            //       style: TextStyle(
-            //         color: Color(0xff666666),
-            //         fontSize: 16.0,
-            //       ),
-            //     )
-            //   ],
-            // ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Didn\'t Receive OTP?',
-                  style: TextStyle(
-                    color: Colors.grey.shade700,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 15.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.refresh,
-                          color: Colors.blue,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Resend OTP',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      ],
+            if (!_resendCode)
+              Row(
+                children: [
+                  const Icon(Icons.timer, color: Colors.blue),
+                  const SizedBox(width: 7.0),
+                  Text(
+                    'Resend OTP in ${_countDown}s',
+                    style: const TextStyle(
+                      color: Color(0xff666666),
+                      fontSize: 16.0,
                     ),
-                    const Text(
-                      'Change Number',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w600,
+                  )
+                ],
+              ),
+            if (_resendCode)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Didn\'t Receive OTP?',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.refresh,
+                            color: Colors.blue,
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Resend OTP',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                )
-              ],
-            ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text(
+                          'Change Number',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             const Spacer(),
             BottomNavButton(
-              onTap: () {},
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const CreateAccount(),
+                ),
+              ),
               label: 'CONTINUE',
               isEnabled: false,
             ),
