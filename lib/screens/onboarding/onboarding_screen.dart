@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:introduction_screen/introduction_screen.dart';
-
 import '/screens/signup/signup_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 

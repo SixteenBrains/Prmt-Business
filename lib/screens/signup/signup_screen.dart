@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prmt_business/screens/otp/otp_screen.dart';
+import '/screens/otp/otp_screen.dart';
 import '/screens/signup/cubit/signup_cubit.dart';
 import '/widgets/bottom_nav_button.dart';
 
