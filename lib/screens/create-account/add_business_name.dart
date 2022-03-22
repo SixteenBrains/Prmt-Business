@@ -11,7 +11,7 @@ class AddBusinessName extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: Column(
@@ -79,7 +79,7 @@ class AddBusinessName extends StatelessWidget {
                 ),
               ),
               label: 'CONTINUE',
-              isEnabled: false,
+              isEnabled: true,
             ),
           ],
         ),

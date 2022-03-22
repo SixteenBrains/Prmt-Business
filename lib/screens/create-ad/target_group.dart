@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/create-ad/demographics.dart';
-import 'package:prmt_business/screens/create-ad/widgets/custom_chip.dart';
-import '/screens/create-ad/ad_type.dart';
-
+import '/screens/create-ad/demographics.dart';
+import '/screens/create-ad/widgets/custom_chip.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'progress_container.dart';
 
@@ -43,13 +41,13 @@ class TargetGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _canvas = MediaQuery.of(context).size;
+    //final _canvas = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: SingleChildScrollView(
@@ -187,7 +185,7 @@ class TargetGroup extends StatelessWidget {
                 label: 'CONTINUE',
                 isEnabled: true,
               ),
-              const SizedBox(height: 10.0),
+              //const SizedBox(height: 10.0),
             ],
           ),
         ),

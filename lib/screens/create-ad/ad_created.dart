@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/create-ad/target_group.dart';
-import '/screens/create-ad/ad_name.dart';
+import '/screens/create-ad/target_group.dart';
+
 import '/widgets/bottom_nav_button.dart';
 
 class AdCreated extends StatelessWidget {

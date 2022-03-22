@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:prmt_business/utils/image_util.dart';
-import '/screens/create-account/profile_completed.dart';
+import '/utils/image_util.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'ad_content.dart';
 import 'progress_container.dart';
@@ -12,8 +11,7 @@ class AdType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
-    print('Sizes --- ${(_canvas.width - 25) / 11} ');
-    final _progressSize = (_canvas.width - 25) / 11;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -41,7 +39,7 @@ class AdType extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20.0),
-              const ProgressContainer(progress: 3),
+              const ProgressContainer(progress: 2),
               const SizedBox(height: 20.0),
               Text(
                 'Ad Type',

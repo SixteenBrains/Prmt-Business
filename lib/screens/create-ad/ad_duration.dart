@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:prmt_business/screens/create-ad/target_group.dart';
-import '/screens/create-ad/ad_type.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'ad_created.dart';
 import 'progress_container.dart';
@@ -25,7 +23,7 @@ class _AdDurationState extends State<AdDuration> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: SingleChildScrollView(
@@ -265,10 +263,10 @@ class _AdDurationState extends State<AdDuration> {
                   )
                 ],
               ),
-// TODO: added custom choosen text field as in
-//https://xd.adobe.com/view/4e4866b6-cc1b-44cb-aa8d-6498dcc1e92f-1b1b/screen/1fbbdc10-238d-4d5b-bf68-e75d2a377fa7/specs/
+              // TODO: added custom choosen text field as in
+              //https://xd.adobe.com/view/4e4866b6-cc1b-44cb-aa8d-6498dcc1e92f-1b1b/screen/1fbbdc10-238d-4d5b-bf68-e75d2a377fa7/specs/
               //  const Spacer(),
-              SizedBox(height: _canvas.height * 0.17),
+              SizedBox(height: _canvas.height * 0.15),
               BottomNavButton(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -278,7 +276,7 @@ class _AdDurationState extends State<AdDuration> {
                 label: 'CONTINUE',
                 isEnabled: true,
               ),
-              const SizedBox(height: 10.0),
+              //const SizedBox(height: 10.0),
             ],
           ),
         ),

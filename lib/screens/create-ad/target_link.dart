@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '/screens/create-ad/ad_type.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'ad_duration.dart';
 import 'progress_container.dart';
@@ -15,7 +14,7 @@ class TargetLink extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: SingleChildScrollView(
@@ -108,7 +107,7 @@ class TargetLink extends StatelessWidget {
                 ),
               ),
               //  const Spacer(),
-              SizedBox(height: _canvas.height * 0.518),
+              SizedBox(height: _canvas.height * 0.5),
               BottomNavButton(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -116,9 +115,9 @@ class TargetLink extends StatelessWidget {
                   ),
                 ),
                 label: 'CONTINUE',
-                isEnabled: false,
+                isEnabled: true,
               ),
-              const SizedBox(height: 10.0),
+              //  const SizedBox(height: 10.0),
             ],
           ),
         ),

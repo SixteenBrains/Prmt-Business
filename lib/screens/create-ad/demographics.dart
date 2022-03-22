@@ -34,7 +34,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
+          vertical: 20.0,
           horizontal: 25.0,
         ),
         child: SingleChildScrollView(
@@ -80,7 +80,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              const ProgressContainer(progress: 6),
+              const ProgressContainer(progress: 7),
               const SizedBox(height: 20.0),
               Text(
                 'Your State',
@@ -197,8 +197,8 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                   );
                 },
               ),
-              SizedBox(height: _canvas.height * 0.34),
-              const SizedBox(height: 25.0),
+              SizedBox(height: _canvas.height * 0.36),
+              // const SizedBox(height: 25.0),
               BottomNavButton(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -208,7 +208,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                 label: 'CONTINUE',
                 isEnabled: true,
               ),
-              const SizedBox(height: 10.0),
+              //const SizedBox(height: 10.0),
             ],
           ),
         ),

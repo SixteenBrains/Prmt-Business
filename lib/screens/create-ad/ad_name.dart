@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/create-ad/ad_type.dart';
-import '/screens/create-account/profile_completed.dart';
+import '/screens/create-ad/ad_type.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'progress_container.dart';
 
