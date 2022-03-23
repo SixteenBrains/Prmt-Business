@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/signup/cubit/signup_cubit.dart';
-import 'screens/splash/splash_screen.dart';
+import 'screens/dashboard/dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,10 +26,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           primarySwatch: Colors.blue,
           fontFamily: 'GoogleSans',
         ),
-        home: const SplashScreen(),
+        //home: const SplashScreen(),
+        home: const DashBoard(),
       ),
     );
   }
