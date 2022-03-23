@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:prmt_business/constants/expired_ads_consts.dart';
 import '/constants/constants.dart';
 import '/models/ad_model.dart';
 import '/widgets/display_image.dart';
 
 import 'show_pie_chart.dart';
 
-class LiveAds extends StatelessWidget {
-  const LiveAds({Key? key}) : super(key: key);
+class ExpiredAds extends StatelessWidget {
+  const ExpiredAds({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +61,10 @@ class LiveAds extends StatelessWidget {
           const SizedBox(height: 20.0),
           Expanded(
             child: ListView.builder(
-              itemCount: liveAds.length,
+              itemCount: expiredAds.length,
               itemBuilder: (context, index) {
-                return LiveAdCard(
-                  ad: liveAds[index],
+                return ExpiredCard(
+                  ad: expiredAds[index],
                 );
               },
             ),
@@ -75,10 +76,10 @@ class LiveAds extends StatelessWidget {
   }
 }
 
-class LiveAdCard extends StatelessWidget {
+class ExpiredCard extends StatelessWidget {
   final Ad? ad;
 
-  const LiveAdCard({Key? key, this.ad}) : super(key: key);
+  const ExpiredCard({Key? key, this.ad}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var numFormate = NumberFormat.currency(
@@ -112,14 +113,25 @@ class LiveAdCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  ad?.productName ?? 'N/A',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
+                RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ad?.productName ?? 'N/A',
+                      ),
+                      const TextSpan(
+                        text: ' (Expired)',
+                        style: TextStyle(color: Color(0xffFD6F66)),
+                      )
+                    ],
                   ),
                 ),
-                const SizedBox(height: 3.0),
+                const SizedBox(height: 4.0),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -176,9 +188,7 @@ class LiveAdCard extends StatelessWidget {
                       height: 80.0,
                       width: 140.0,
                       decoration: BoxDecoration(
-                        color: ad!.isNegative
-                            ? const Color(0xffFFE2E0)
-                            : const Color(0xffF4F4F9),
+                        color: const Color(0xffFFE2E0),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Column(

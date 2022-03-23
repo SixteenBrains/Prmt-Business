@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prmt_business/widgets/bottom_nav_button.dart';
 
+import 'widgets/draft_ads.dart';
+import 'widgets/expired_ads.dart';
 import 'widgets/live_ads.dart';
 
 class DashBoard extends StatelessWidget {
@@ -13,115 +15,125 @@ class DashBoard extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 190.0,
+            SizedBox(
+              height: 200.0,
               width: double.infinity,
-              color: const Color(0xff2588E7),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 20.0,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
+                ///fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    'assets/images/bg_blue.png',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    height: 200.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 20.0,
+                    ),
+                    child: Column(
                       children: [
+                        const SizedBox(height: 8.0),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const CircleAvatar(
-                              radius: 22.0,
-                              backgroundImage: NetworkImage(
-                                  'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-                            ),
-                            const SizedBox(width: 20.0),
-                            RichText(
-                              text: const TextSpan(
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
+                            Row(
+                              children: [
+                                const CircleAvatar(
+                                  radius: 22.0,
+                                  backgroundImage: NetworkImage(
+                                      'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: 'PRMT',
+                                const SizedBox(width: 20.0),
+                                RichText(
+                                  text: const TextSpan(
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'PRMT',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextSpan(text: ' - Business'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Stack(
+                                children: const [
+                                  Center(
+                                    child: Icon(
+                                      Icons.notifications_outlined,
+                                      size: 25.0,
                                     ),
                                   ),
-                                  TextSpan(text: ' - Business'),
+                                  Positioned(
+                                    top: 8.0,
+                                    right: 10.0,
+                                    child: CircleAvatar(
+                                      radius: 4.0,
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  )
                                 ],
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Total spent on ads',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            Text(
+                              'Number of ads',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
                               ),
                             ),
                           ],
                         ),
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Stack(
-                            children: const [
-                              Center(
-                                child: Icon(
-                                  Icons.notifications_outlined,
-                                  size: 25.0,
-                                ),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          children: [
+                            const Text(
+                              '₹ 5,000',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w700,
                               ),
-                              Positioned(
-                                top: 8.0,
-                                right: 10.0,
-                                child: CircleAvatar(
-                                  radius: 4.0,
-                                  backgroundColor: Colors.red,
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            SizedBox(width: _canvas.width * 0.3),
+                            const Text(
+                              '4',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),
-                    const SizedBox(height: 20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          'Total spent on ads',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        Text(
-                          'Number of ads',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        const Text(
-                          '₹ 5,000',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(width: _canvas.width * 0.3),
-                        const Text(
-                          '4',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -177,8 +189,8 @@ class DashBoard extends StatelessWidget {
                         child: TabBarView(
                           children: [
                             LiveAds(),
-                            Icon(Icons.directions_transit),
-                            Icon(Icons.directions_bike),
+                            DrafAds(),
+                            ExpiredAds(),
                           ],
                         ),
                       ),

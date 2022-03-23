@@ -5,6 +5,8 @@ import '/screens/signup/cubit/signup_cubit.dart';
 import 'screens/dashboard/dashboard.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -13,9 +15,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
-    );
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+
+        /// systemNavigationBarColor: Colors.blue, // navigation bar color
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark // status bar color
+        ));
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<SignUpCubit>(
