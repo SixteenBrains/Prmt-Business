@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
-
+import '/widgets/bottom_nav_button.dart';
 import 'widgets/draft_ads.dart';
 import 'widgets/expired_ads.dart';
 import 'widgets/live_ads.dart';
@@ -19,7 +18,6 @@ class DashBoard extends StatelessWidget {
               height: 200.0,
               width: double.infinity,
               child: Stack(
-                ///fit: StackFit.expand,
                 children: [
                   Image.asset(
                     'assets/images/bg_blue.png',
@@ -140,15 +138,6 @@ class DashBoard extends StatelessWidget {
               child: DefaultTabController(
                 length: 3,
                 child: Scaffold(
-                  // bottomNavigationBar: Padding(
-                  //   padding: const EdgeInsets.only(
-                  //       left: 10.0, right: 10.0, bottom: 20.0),
-                  //   child: BottomNavButton(
-                  //     label: 'CREATE NEW AD',
-                  //     isEnabled: true,
-                  //     onTap: () {},
-                  //   ),
-                  // ),
                   backgroundColor: const Color(0xffF5F5F5),
                   appBar: PreferredSize(
                     child: AppBar(
