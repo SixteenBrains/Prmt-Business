@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/dashboard/dashboard.dart';
-import '/screens/create-ad/ad_name.dart';
+import '/screens/dashboard/dashboard.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class TopUpSuccussful extends StatelessWidget {

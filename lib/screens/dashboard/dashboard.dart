@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/profile/profile_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/draft_ads.dart';
 import 'widgets/expired_ads.dart';
@@ -38,10 +39,17 @@ class DashBoard extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const CircleAvatar(
-                                  radius: 22.0,
-                                  backgroundImage: NetworkImage(
-                                      'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                                GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const ProfileScreen(),
+                                    ),
+                                  ),
+                                  child: const CircleAvatar(
+                                    radius: 22.0,
+                                    backgroundImage: NetworkImage(
+                                        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                                  ),
                                 ),
                                 const SizedBox(width: 20.0),
                                 RichText(
