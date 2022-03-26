@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/create-account/create_account.dart';
+import 'package:prmt_business/screens/signup/otp_screen.dart';
+import 'package:prmt_business/screens/signup/signup_screen.dart';
 import 'auth_wrapper.dart';
 
 class CustomRouter {
@@ -12,6 +15,15 @@ class CustomRouter {
 
       case AuthWrapper.routeName:
         return AuthWrapper.route();
+
+      case SignUpScreen.routeName:
+        return SignUpScreen.route();
+
+      case OtpScreen.routeName:
+        return OtpScreen.route(args: settings.arguments as OtpScreenArgs);
+
+      case CreateAccount.routeName:
+        return CreateAccount.route();
 
       default:
         return _errorRoute();

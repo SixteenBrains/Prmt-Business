@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:prmt_business/models/appuser.dart';
-import 'package:prmt_business/repositories/auth/auth_repository.dart';
+import '/models/appuser.dart';
+import '/repositories/auth/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

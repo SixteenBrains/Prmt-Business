@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
-
-import 'package:prmt_business/screens/create-account/add_email.dart';
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '/blocs/bloc/auth_bloc.dart';
+import '/widgets/bottom_nav_button.dart';
 
 class CreateAccount extends StatelessWidget {
+  static const String routeName = '/create-account';
   const CreateAccount({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const CreateAccount(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _authBloc = context.read<AuthBloc>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -80,11 +89,12 @@ class CreateAccount extends StatelessWidget {
             ),
             const Spacer(),
             BottomNavButton(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const AddEmail(),
-                ),
-              ),
+              onTap: () => _authBloc.add(AuthLogoutRequested()),
+              // onTap: () => Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (_) => const AddEmail(),
+              //   ),
+              // ),
               label: 'CONTINUE',
               isEnabled: true,
             ),

@@ -158,8 +158,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               BottomNavButton(
                 isEnabled: true,
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SignUpScreen())),
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => SignUpScreen())),
                 label: 'LOG IN OR SIGN UP',
               ),
             ],

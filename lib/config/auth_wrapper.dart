@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/screens/create-account/create_account.dart';
+import 'package:prmt_business/screens/signup/signup_screen.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/widgets/loading_indicator.dart';
 
@@ -20,11 +22,11 @@ class AuthWrapper extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.status == AuthStatus.unauthenticated) {
-          //  Navigator.of(context).pushNamed(LoginScreen.routeName);
+          Navigator.of(context).pushNamed(SignUpScreen.routeName);
         } else if (state.status == AuthStatus.authenticated) {
           print('Auth State user - ${state.user?.uid}');
 
-          ///Navigator.of(context).pushNamed(FeedScreen.routeName);
+          Navigator.of(context).pushNamed(CreateAccount.routeName);
         }
       },
       child: const Scaffold(
