@@ -29,7 +29,7 @@ class DisplayImage extends StatelessWidget {
         child: CircularProgressIndicator(
           strokeWidth: 2.0,
           value: downloadProgress.progress,
-          color: Colors.white,
+          color: Colors.blue,
         ),
       ),
       errorWidget: (context, url, error) =>

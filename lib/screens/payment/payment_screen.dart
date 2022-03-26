@@ -285,10 +285,11 @@ class PaymentScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                SvgPicture.asset(
+                                Image.asset(
                                   'assets/images/phone-pe.png',
-                                  height: 30.0,
-                                  width: 30.0,
+                                  height: 32.0,
+                                  width: 32.0,
+                                  fit: BoxFit.cover,
                                 ),
                                 const SizedBox(width: 10.0),
                                 const Text(

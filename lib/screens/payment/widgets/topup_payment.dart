@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prmt_business/screens/payment/payment_succuss.dart';
-import 'package:prmt_business/screens/payment/widgets/topup_succussful.dart';
+import '/screens/payment/widgets/topup_succussful.dart';
 import '/widgets/bottom_nav_button.dart';
 
 import 'add_icon.dart';
@@ -292,10 +291,11 @@ class TopUpPaymentScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                SvgPicture.asset(
+                                Image.asset(
                                   'assets/images/phone-pe.png',
-                                  height: 30.0,
-                                  width: 30.0,
+                                  height: 32.0,
+                                  width: 32.0,
+                                  fit: BoxFit.cover,
                                 ),
                                 const SizedBox(width: 10.0),
                                 const Text(

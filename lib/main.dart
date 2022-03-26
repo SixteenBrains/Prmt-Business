@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/signup/cubit/signup_cubit.dart';
-import 'screens/dashboard/dashboard.dart';
+import 'screens/splash/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: 'GoogleSans',
         ),
-        //home: const SplashScreen(),
-        home: const DashBoard(),
+        home: const SplashScreen(),
+        //home: const DashBoard(),
       ),
     );
   }

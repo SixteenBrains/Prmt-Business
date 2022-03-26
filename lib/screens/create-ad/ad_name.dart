@@ -92,7 +92,7 @@ class AdName extends StatelessWidget {
                   ),
                 ),
                 label: 'CONTINUE',
-                isEnabled: false,
+                isEnabled: true,
               ),
               const SizedBox(height: 10.0),
             ],

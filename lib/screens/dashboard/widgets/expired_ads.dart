@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prmt_business/constants/expired_ads_consts.dart';
-import '/constants/constants.dart';
+
 import '/models/ad_model.dart';
 import '/widgets/display_image.dart';
 

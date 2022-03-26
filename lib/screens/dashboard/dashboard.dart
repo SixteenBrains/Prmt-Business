@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/profile/profile_screen.dart';
+import '/screens/create-ad/ad_name.dart';
+import '/screens/profile/profile_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/draft_ads.dart';
 import 'widgets/expired_ads.dart';
@@ -11,6 +12,7 @@ class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
+    print('Canvas height -- ${_canvas.height}');
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -182,14 +184,12 @@ class DashBoard extends StatelessWidget {
                   ),
                   body: Stack(
                     children: [
-                      const Expanded(
-                        child: TabBarView(
-                          children: [
-                            LiveAds(),
-                            DrafAds(),
-                            ExpiredAds(),
-                          ],
-                        ),
+                      const TabBarView(
+                        children: [
+                          LiveAds(),
+                          DrafAds(),
+                          ExpiredAds(),
+                        ],
                       ),
                       Positioned(
                         left: 10.0,
@@ -201,7 +201,11 @@ class DashBoard extends StatelessWidget {
                           child: BottomNavButton(
                             label: 'CREATE NEW AD',
                             isEnabled: true,
-                            onTap: () {},
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const AdName(),
+                              ),
+                            ),
                           ),
                         ),
                       ),

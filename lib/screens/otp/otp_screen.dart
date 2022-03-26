@@ -192,7 +192,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
               label: 'CONTINUE',
-              isEnabled: false,
+              isEnabled: true,
             ),
           ],
         ),

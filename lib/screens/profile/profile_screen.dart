@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prmt_business/screens/my-ads/my_ads.dart';
-import 'package:prmt_business/screens/notifications/my_notifications.dart';
-import 'package:prmt_business/screens/profile/edit_profile.dart';
+import '/screens/my-ads/my_ads.dart';
+import '/screens/notifications/my_notifications.dart';
+import '/screens/profile/edit_profile.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -25,14 +25,17 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 25.0),
-                  const Align(
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.clear,
-                        color: Colors.black,
-                        size: 20.0,
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.clear,
+                          color: Colors.black,
+                          size: 20.0,
+                        ),
                       ),
                     ),
                   ),
@@ -98,7 +101,10 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               const CircleAvatar(
                                 backgroundColor: Colors.white,
-                                child: Icon(Icons.access_alarms_sharp),
+                                child: Icon(
+                                  FontAwesomeIcons.bullhorn,
+                                  size: 20.0,
+                                ),
                               ),
                               const SizedBox(width: 10.0),
                               Column(
@@ -229,7 +235,10 @@ class ProfileScreen extends StatelessWidget {
                           children: [
                             const CircleAvatar(
                               backgroundColor: Colors.white,
-                              child: Icon(FontAwesomeIcons.question),
+                              child: Icon(
+                                FontAwesomeIcons.question,
+                                size: 20.0,
+                              ),
                             ),
                             const SizedBox(width: 10.0),
                             Column(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/screens/create-ad/ad_name.dart';
+import '/screens/dashboard/dashboard.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class PaymentSuccussfull extends StatelessWidget {
@@ -102,7 +102,7 @@ class PaymentSuccussfull extends StatelessWidget {
             BottomNavButton(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const AdName(),
+                  builder: (_) => const DashBoard(),
                 ),
               ),
               label: 'GO TO MY DASHBOARD',

@@ -1,4 +1,4 @@
-package com.example.prmt_business
+package com.sixteenbrains.prmt_business
 
 import io.flutter.embedding.android.FlutterActivity
 

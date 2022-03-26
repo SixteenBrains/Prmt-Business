@@ -1,7 +1,6 @@
-import 'package:bubble_showcase/bubble_showcase.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:prmt_business/screens/payment/widgets/top_up.dart';
+import '/screens/payment/widgets/top_up.dart';
 import '/widgets/bottom_nav_button.dart';
 import '/models/ad_model.dart';
 import '/screens/dashboard/widgets/show_pie_chart.dart';
