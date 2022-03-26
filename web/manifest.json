@@ -1,6 +1,6 @@
 {
-    "name": "prmt_business",
-    "short_name": "prmt_business",
+    "name": "prmt_admin",
+    "short_name": "prmt_admin",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

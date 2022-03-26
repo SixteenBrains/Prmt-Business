@@ -1,4 +1,4 @@
-# prmt_business
+# prmt_admin
 
 A new Flutter project.
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(prmt_business LANGUAGES CXX)
+project(prmt_admin LANGUAGES CXX)
 
-set(BINARY_NAME "prmt_business")
+set(BINARY_NAME "prmt_admin")
 
 cmake_policy(SET CMP0063 NEW)
 
