@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_admin/screens/dashboard/main_screen.dart';
 import '/screens/contact/contact_screen.dart';
 
 class CustomRouter {
@@ -9,6 +10,9 @@ class CustomRouter {
         return MaterialPageRoute(
             settings: const RouteSettings(name: '/'),
             builder: (_) => const Scaffold());
+
+      case MainScreen.routeName:
+        return MainScreen.route();
 
       case ContactScreen.routeName:
         return ContactScreen.route();

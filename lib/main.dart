@@ -2,10 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:prmt_admin/screens/dashboard/main_screen.dart';
 import '/repositories/services/firebase_services.dart';
 import '/screens/contact/cubit/contact_cubit.dart';
 import '/config/custom_router.dart';
 
+import 'constants/constants.dart';
 import 'screens/contact/contact_screen.dart';
 
 void main() async {
@@ -46,9 +49,16 @@ class AdminApp extends StatelessWidget {
             ),
           )
         ],
-        child: const MaterialApp(
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: ContactScreen.routeName,
+          title: 'PRMT Admin',
+          theme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: bgColor,
+            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+                .apply(bodyColor: Colors.white),
+            canvasColor: secondaryColor,
+          ),
+          initialRoute: MainScreen.routeName,
           onGenerateRoute: CustomRouter.onGenerateRoute,
         ),
       ),
