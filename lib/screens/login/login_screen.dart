@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_svg/svg.dart';
+import '/widgets/show_snackbar.dart';
+import '/config/responsive.dart';
+import '/widgets/custom_text_field.dart';
 import '/repositories/auth/auth_repository.dart';
-
 import '/widgets/error_dialog.dart';
-
 import '/widgets/loading_indicator.dart';
 import '/constants/constants.dart';
 import 'cubit/login_cubit.dart';
@@ -36,56 +36,70 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.black54,
-        //statusBarColor: Color.fromRGBO(25, 23, 37, 1),
-        // statusBarColor: Color(0XFF00286E),
-        //  statusBarColor: Color.fromRGBO(0, 141, 82, 1),
-        statusBarIconBrightness: Brightness.light,
-      ),
-    );
+    final _canvas = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: BlocConsumer<LoginCubit, LoginState>(
-          listener: (context, state) {
-            if (state.status == LoginStatus.error) {
-              showDialog(
-                context: context,
-                builder: (context) => ErrorDialog(
-                  content: state.failure.message,
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            return Scaffold(
-              backgroundColor: Colors.black54,
-              //   backgroundColor: Color.fromRGBO(29, 38, 40, 1),
-              body: state.status == LoginStatus.submitting
-                  ? const Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: LoadingIndicator(),
-                    )
-                  : Form(
-                      key: _formKey,
-                      child: ListView(
-                        children: <Widget>[
-                          SizedBox(height: height < 750 ? 15.0 : 12.0),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 22.0, left: 20.0, right: 20.0),
+        child: Scaffold(
+          backgroundColor: bgColor,
+          body: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state.status == LoginStatus.error) {
+                showDialog(
+                  context: context,
+                  builder: (context) => ErrorDialog(
+                    content: state.failure.message,
+                  ),
+                );
+              } else if (state.status == LoginStatus.succuss) {
+                ShowSnackbar.succussMessage(context,
+                    title: 'Login Succussfull');
+              }
+            },
+            builder: (context, state) {
+              if (state.status == LoginStatus.submitting) {
+                return const LoadingIndicator();
+              }
+
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: Responsive.isMobile(context) ||
+                              Responsive.isTablet(context)
+                          ? _canvas.width - 25.0
+                          : _canvas.width * 0.5,
+                      child: Card(
+                        color: Colors.white,
+                        child: Form(
+                          key: _formKey,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 25.0,
+                              vertical: 25.0,
+                            ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                TextFormField(
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 16.0),
-                                  keyboardType: TextInputType.emailAddress,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/admin.svg',
+                                  height: 60.0,
+                                  width: 60.0,
+                                  //  color: Colors.blue,
+                                ),
+                                const SizedBox(height: 10.0),
+                                const Text(
+                                  'PRMT',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                CustomTextField(
+                                  textInputType: TextInputType.emailAddress,
                                   onChanged: (value) => context
                                       .read<LoginCubit>()
                                       .emailChanged(value),
@@ -93,51 +107,19 @@ class LoginScreen extends StatelessWidget {
                                       !(value!.contains('@prmt.com'))
                                           ? 'Invalid Email'
                                           : null,
-                                  decoration: const InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    prefixIcon: Icon(
-                                      Icons.mail,
-                                      color: Colors.white,
-                                    ),
-                                    labelText: 'EMAIL',
-                                    labelStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                    hintText: 'Enter Your Email',
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    border: OutlineInputBorder(),
-                                  ),
+                                  hintText: 'Email',
+                                  prefixIcon: Icons.mail,
                                 ),
-                                const SizedBox(height: 25.0),
-                                TextFormField(
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 16.0),
-                                  obscureText: !state.showPassword,
+                                CustomTextField(
+                                  textInputType: TextInputType.visiblePassword,
+                                  isPassowrdField: !state.showPassword,
                                   onChanged: (value) => context
                                       .read<LoginCubit>()
                                       .passwordChanged(value),
                                   validator: (value) => value!.length < 6
                                       ? 'Password too short'
                                       : null,
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    labelStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Montserrat'),
-                                    prefixIcon: const Icon(Icons.lock,
-                                        color: Colors.white),
-                                    suffixIcon: IconButton(
+                                  suffixIcon: IconButton(
                                       color: Colors.white,
                                       icon: Icon(
                                         state.showPassword
@@ -148,30 +130,23 @@ class LoginScreen extends StatelessWidget {
                                         context
                                             .read<LoginCubit>()
                                             .showPassword(state.showPassword);
-                                      },
-                                    ),
-                                    hintStyle:
-                                        const TextStyle(color: Colors.white),
-                                    labelText: 'PASSWORD',
-                                    hintText: 'Enter Your Password',
-                                    border: const OutlineInputBorder(),
-                                  ),
+                                      }),
+                                  prefixIcon: Icons.lock,
+                                  hintText: 'Password',
                                 ),
-                                const SizedBox(height: 5.0),
-                                const SizedBox(height: 40.0),
+                                const SizedBox(height: 30.0),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: primaryColor,
-                                  ),
+                                      primary: primaryColor),
                                   onPressed: () => _submitForm(context,
                                       state.status == LoginStatus.submitting),
                                   child: const Padding(
                                     padding: EdgeInsets.all(11.5),
                                     child: Text(
-                                      'Sign In',
+                                      'Login',
                                       style: TextStyle(
                                         fontSize: 17.5,
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: 'Montserrat',
@@ -182,12 +157,14 @@ class LoginScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 25.0),
-                        ],
+                        ),
                       ),
                     ),
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

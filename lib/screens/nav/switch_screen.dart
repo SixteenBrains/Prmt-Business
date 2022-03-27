@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
+import '/screens/dashboard/dashboard_screen.dart';
 import '/enums/enums.dart';
 import '/screens/ads/ads_screen.dart';
-import '/screens/dashboard/dashbboard.dart';
 import '/screens/payments/payments_screen.dart';
 import '/screens/users/users_screen.dart';
 
@@ -15,7 +14,7 @@ class SwitchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (navItem) {
       case NavItem.dashboard:
-        return const DashBoard();
+        return const DashBoardScreen();
 
       case NavItem.ads:
         return const AdsScreen();

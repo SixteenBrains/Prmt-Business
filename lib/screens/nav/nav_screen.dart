@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_admin/config/responsive.dart';
+
+import '/config/responsive.dart';
 
 import '/screens/dashboard/widgets/side_menu.dart';
 import '/blocs/nav/nav_bloc.dart';
@@ -15,7 +16,7 @@ class NavScreen extends StatelessWidget {
     return MaterialPageRoute(
       builder: (_) => BlocProvider<NavBloc>(
         create: (context) => NavBloc(),
-        child: const NavScreen(),
+        child: NavScreen(),
       ),
     );
 
@@ -28,7 +29,9 @@ class NavScreen extends StatelessWidget {
     // );
   }
 
-  const NavScreen({Key? key}) : super(key: key);
+  NavScreen({Key? key}) : super(key: key);
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,10 @@ class NavScreen extends StatelessWidget {
       child: BlocBuilder<NavBloc, NavItem>(
         builder: (context, activeNavItem) {
           return Scaffold(
+            //key: context.read<MenuCubit>().state.scaffoldKey,
+            //  key: scaffoldKey,
             drawer: const SideMenu(),
-            // floatingActionButton: FloatingActionButton(onPressed: () async {
-            //   await context.read<MentorRepository>().getMentors(user: null);
-            // }),
-            //backgroundColor: Colors.black45,
-            //  backgroundColor: Color.fromRGBO(25, 23, 37, 1),
+
             body: SafeArea(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,20 +58,10 @@ class NavScreen extends StatelessWidget {
                   Expanded(
                       // It takes 5/6 part of the screen
                       flex: 5,
-                      child: SwitchScreen(navItem: activeNavItem)
-
-                      //  DashBoard(),
-                      ),
+                      child: SwitchScreen(navItem: activeNavItem)),
                 ],
               ),
             ),
-
-            //SwitchScreen(navItem: activeNavItem),
-            // bottomNavigationBar: BottomNavBar(
-            //   navItem: activeNavItem,
-            //   onitemSelected: (item) => BlocProvider.of<NavBloc>(context)
-            //       .add(UpdateNavItem(item: item)),
-            // ),
           );
         },
       ),

@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '/repositories/auth/auth_repository.dart';
-
 import '/models/failure.dart';
-
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {

@@ -60,7 +60,7 @@ class AdminApp extends StatelessWidget {
           ),
           BlocProvider<NavBloc>(
             create: (_) => NavBloc(),
-          )
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

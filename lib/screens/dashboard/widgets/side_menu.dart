@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:prmt_admin/blocs/nav/nav_bloc.dart';
-import 'package:prmt_admin/enums/enums.dart';
+import '/blocs/nav/nav_bloc.dart';
+import '/enums/enums.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -15,57 +15,23 @@ class SideMenu extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          DrawerHeader(
-            child: Image.asset('assets/images/logo.png'),
+          const DrawerHeader(
+            child: Text(
+              'PRMT',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            // child: Image.asset('assets/images/logo.png'),
           ),
-
           for (var item in NavItem.values)
             DrawerListTile(
               press: () => _navBloc.add(UpdateNavItem(item: item)),
               title: _label(item),
               svgSrc: _iconPath(item),
             )
-
-          // DrawerListTile(
-          //   title: 'Dashboard',
-          //   svgSrc: 'assets/icons/menu_dashbord.svg',
-          //   press: () => _navBloc.add(const UpdateNavItem(item: NavItem.dashboard))
-          // ),
-          // DrawerListTile(
-          //   title: 'Transaction',
-          //   svgSrc: 'assets/icons/menu_tran.svg',
-          //   press: () =>_navBloc.add(const UpdateNavItem(item: NavItem.payment))
-          // ),
-          // DrawerListTile(
-          //   title: 'Task',
-          //   svgSrc: 'assets/icons/menu_task.svg',
-          //   press: () {},
-          // ),
-          // DrawerListTile(
-          //   title: 'Documents',
-          //   svgSrc: 'assets/icons/menu_doc.svg',
-          //   press: () {},
-          // ),
-          // DrawerListTile(
-          //   title: 'Store',
-          //   svgSrc: 'assets/icons/menu_store.svg',
-          //   press: () {},
-          // ),
-          // DrawerListTile(
-          //   title: 'Notification',
-          //   svgSrc: 'assets/icons/menu_notification.svg',
-          //   press: () {},
-          // ),
-          // DrawerListTile(
-          //   title: 'Profile',
-          //   svgSrc: 'assets/icons/menu_profile.svg',
-          //   press: () {},
-          // ),
-          // DrawerListTile(
-          //   title: 'Settings',
-          //   svgSrc: 'assets/icons/menu_setting.svg',
-          //   press: () {},
-          // ),
         ],
       ),
     );

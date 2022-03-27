@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '/config/responsive.dart';
 import '/constants/constants.dart';
 
@@ -18,17 +19,18 @@ class Header extends StatelessWidget {
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
+
             // onPressed: context.read<MenuController>().controlMenu,
           ),
-        if (!Responsive.isMobile(context))
-          Text(
-            'Dashboard',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),
-        const ProfileCard()
+        // if (!Responsive.isMobile(context))
+        //   Text(
+        //     'Dashboard',
+        //     style: Theme.of(context).textTheme.headline6,
+        //   ),
+        // if (!Responsive.isMobile(context))
+        //   Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+        // const Expanded(child: SearchField()),
+        // const ProfileCard()
       ],
     );
   }
