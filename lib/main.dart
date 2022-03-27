@@ -3,24 +3,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prmt_admin/screens/dashboard/main_screen.dart';
+import '/repositories/auth/auth_wrapper.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/blocs/nav/nav_bloc.dart';
+import '/repositories/auth/auth_repository.dart';
 import '/repositories/services/firebase_services.dart';
 import '/screens/contact/cubit/contact_cubit.dart';
 import '/config/custom_router.dart';
 
 import 'constants/constants.dart';
-import 'screens/contact/contact_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyD2FKUw4RTVPVihT30a3DCPZ71eLV_W9a0',
-        appId: '1:192154253963:web:aba27a9b8521873c81328e',
-        messagingSenderId: '192154253963',
-        projectId: 'prmt-97b51',
-        storageBucket: 'prmt-97b51.appspot.com',
+        apiKey: 'AIzaSyDNSISVIlT_CQttZeymbqSmnDWk5sTRfR8',
+        appId: '1:316229040452:web:69e9cbebf0be9c015cbf11',
+        messagingSenderId: '316229040452',
+        projectId: 'prmt-business',
+        storageBucket: 'prmt-business.appspot.com',
       ),
     );
   } else {
@@ -32,21 +34,32 @@ void main() async {
 
 class AdminApp extends StatelessWidget {
   const AdminApp({Key? key}) : super(key: key);
-
+//#PrmtB2021
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
           create: (_) => FirebaseServices(),
+        ),
+        RepositoryProvider<AuthRepository>(
+          create: (_) => AuthRepository(),
         )
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
           BlocProvider(
             create: (_) => ContactCubit(
               firebaseServices: context.read<FirebaseServices>(),
             ),
+          ),
+          BlocProvider<NavBloc>(
+            create: (_) => NavBloc(),
           )
         ],
         child: MaterialApp(
@@ -58,7 +71,7 @@ class AdminApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: secondaryColor,
           ),
-          initialRoute: MainScreen.routeName,
+          initialRoute: AuthWrapper.routeName,
           onGenerateRoute: CustomRouter.onGenerateRoute,
         ),
       ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class UsersScreen extends StatelessWidget {
-  const UsersScreen({Key? key}) : super(key: key);
+class PaymentsScreen extends StatelessWidget {
+  const PaymentsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          'Users',
+          'Payments',
           style: TextStyle(
             fontSize: 25.0,
             color: Colors.white,

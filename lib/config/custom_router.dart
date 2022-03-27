@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_admin/screens/dashboard/main_screen.dart';
+import '/repositories/auth/auth_wrapper.dart';
+import '/screens/dashboard/main_screen.dart';
+import '/screens/login/login_screen.dart';
+import '/screens/nav/nav_screen.dart';
 import '/screens/contact/contact_screen.dart';
 
 class CustomRouter {
@@ -11,8 +14,17 @@ class CustomRouter {
             settings: const RouteSettings(name: '/'),
             builder: (_) => const Scaffold());
 
+      case AuthWrapper.routeName:
+        return AuthWrapper.route();
+
       case MainScreen.routeName:
         return MainScreen.route();
+
+      case LoginScreen.routeName:
+        return LoginScreen.route();
+
+      case NavScreen.routeName:
+        return NavScreen.route();
 
       case ContactScreen.routeName:
         return ContactScreen.route();

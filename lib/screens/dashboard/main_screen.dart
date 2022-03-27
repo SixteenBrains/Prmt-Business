@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '/screens/dashboard/dashbboard.dart';
 import '/config/responsive.dart';
-import '/controllers/menu_controller.dart';
-import 'package:provider/provider.dart';
+
 import 'widgets/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
