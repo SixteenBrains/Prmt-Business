@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/repositories/registraion/registration_repository.dart';
 import '/screens/splash/splash_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import 'blocs/simple_bloc_observer.dart';
@@ -56,6 +57,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
+        RepositoryProvider<RegistrationRepository>(
+          create: (_) => RegistrationRepository(),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -69,7 +73,10 @@ class MyApp extends StatelessWidget {
           // )
         ],
         child: MaterialApp(
-          theme: ThemeData(fontFamily: 'Helvetica'),
+          theme: ThemeData(
+            fontFamily: 'Helvetica',
+            scaffoldBackgroundColor: Colors.white,
+          ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: CustomRouter.onGenerateRoute,
           initialRoute: SplashScreen.routeName,

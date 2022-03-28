@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/create-account/create_account.dart';
-import 'package:prmt_business/screens/onboarding/onboarding_screen.dart';
-import 'package:prmt_business/screens/signup/otp_screen.dart';
-import 'package:prmt_business/screens/signup/signup_screen.dart';
-import 'package:prmt_business/screens/splash/splash_screen.dart';
+import 'package:prmt_business/screens/registration/screens/profile_completed.dart';
+import '/screens/onboarding/onboarding_screen.dart';
+import '/screens/registration/screens/registration_screen.dart';
+import '/screens/signup/otp_screen.dart';
+import '/screens/signup/signup_screen.dart';
+import '/screens/splash/splash_screen.dart';
 import 'auth_wrapper.dart';
 
 class CustomRouter {
@@ -27,11 +28,17 @@ class CustomRouter {
       case SignUpScreen.routeName:
         return SignUpScreen.route();
 
+      case ProfileCompleted.routeName:
+        return ProfileCompleted.route();
+
       case OtpScreen.routeName:
         return OtpScreen.route(args: settings.arguments as OtpScreenArgs);
 
-      case CreateAccount.routeName:
-        return CreateAccount.route();
+      case RegistrationScreen.routeName:
+        return RegistrationScreen.route();
+
+      // case CreateAccount.routeName:
+      //   return CreateAccount.route();
 
       default:
         return _errorRoute();

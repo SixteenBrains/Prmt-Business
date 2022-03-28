@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '/screens/registration/screens/registration_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
-import '/screens/create-account/create_account.dart';
 import '/screens/signup/signup_screen.dart';
 import '/widgets/loading_indicator.dart';
 
@@ -26,7 +26,7 @@ class AuthWrapper extends StatelessWidget {
         } else if (state.status == AuthStatus.authenticated) {
           print('Auth State user - ${state.user?.uid}');
 
-          Navigator.of(context).pushNamed(CreateAccount.routeName);
+          Navigator.of(context).pushNamed(RegistrationScreen.routeName);
         }
       },
       child: const Scaffold(

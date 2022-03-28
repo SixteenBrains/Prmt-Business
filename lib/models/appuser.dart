@@ -7,15 +7,14 @@ class AppUser extends Equatable {
   final String? email;
   final String? name;
   final String? uid;
-  final String? profilePic;
-
   final DateTime? createdAt;
+  final String? businessName;
 
   const AppUser({
     this.email,
     this.name,
     this.uid,
-    this.profilePic,
+    this.businessName,
     this.createdAt,
   });
 
@@ -23,15 +22,15 @@ class AppUser extends Equatable {
     String? email,
     String? name,
     String? uid,
-    String? profilePic,
+    String? businessName,
     DateTime? createdAt,
   }) {
     return AppUser(
       email: email ?? this.email,
       name: name ?? this.name,
       uid: uid ?? this.uid,
-      profilePic: profilePic ?? this.profilePic,
       createdAt: createdAt ?? this.createdAt,
+      businessName: businessName ?? this.businessName,
     );
   }
 
@@ -39,8 +38,7 @@ class AppUser extends Equatable {
     return {
       'email': email,
       'name': name,
-      'uid': uid,
-      'profilePic': profilePic,
+      'businessName': businessName,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
     };
   }
@@ -50,7 +48,6 @@ class AppUser extends Equatable {
       email: map['email'],
       name: map['name'],
       uid: map['uid'],
-      profilePic: map['profilePic'],
       createdAt: map['createdAt'] != null
           ? (map['createdAt'] as Timestamp).toDate()
           : null,
@@ -61,7 +58,6 @@ class AppUser extends Equatable {
     email: '',
     name: '',
     uid: '',
-    profilePic: '',
     createdAt: null,
   );
 
@@ -72,21 +68,12 @@ class AppUser extends Equatable {
     return AppUser(
       email: data?['email'],
       name: data?['name'],
-      uid: data?['uid'],
-      profilePic: data?['profilePic'],
+      uid: doc?.id,
       createdAt: data?['createdAt'] != null
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
     );
   }
-
-  static const emptyUser = AppUser(
-    uid: '',
-    name: '',
-    profilePic: '',
-    email: '',
-    createdAt: null,
-  );
 
   String toJson() => json.encode(toMap());
 
@@ -95,7 +82,7 @@ class AppUser extends Equatable {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, profilePic: $profilePic, createdAt: $createdAt)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt)';
   }
 
   @override
@@ -103,7 +90,7 @@ class AppUser extends Equatable {
         email,
         name,
         uid,
-        profilePic,
         createdAt,
+        businessName,
       ];
 }

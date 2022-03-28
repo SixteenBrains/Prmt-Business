@@ -26,7 +26,7 @@ class BottomNavButton extends StatelessWidget {
       //height: double.infinity,
       width: double.infinity,
       child: GestureDetector(
-        onTap: onTap,
+        onTap: isEnabled ? onTap : null,
         child: Container(
           height: 54.0,
           width: 100.0,
