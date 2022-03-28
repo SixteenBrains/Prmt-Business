@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/screens/signup/cubit/signup_cubit.dart';
-import 'blocs/bloc/auth_bloc.dart';
-import 'config/auth_wrapper.dart';
+import '/screens/splash/splash_screen.dart';
+import '/blocs/auth/auth_bloc.dart';
+import 'blocs/simple_bloc_observer.dart';
 import 'config/custom_router.dart';
+import 'config/shared_prefs.dart';
 import 'repositories/auth/auth_repository.dart';
 
 Future<void> main() async {
@@ -26,7 +27,10 @@ Future<void> main() async {
     await Firebase.initializeApp();
   }
 
+  await SharedPrefs().init();
   EquatableConfig.stringify = kDebugMode;
+  // Bloc.observer = SimpleBlocObserver();
+  BlocOverrides.runZoned(() {}, blocObserver: SimpleBlocObserver());
 
   runApp(const MyApp());
 }
@@ -68,7 +72,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(fontFamily: 'Helvetica'),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: CustomRouter.onGenerateRoute,
-          initialRoute: AuthWrapper.routeName,
+          initialRoute: SplashScreen.routeName,
+
           // debugShowCheckedModeBanner: false,
           // title: 'Flutter Demo',
           // theme: ThemeData(

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '/widgets/show_snackbar.dart';
 import '/widgets/loading_indicator.dart';
 import '/screens/signup/cubit/signup_cubit.dart';
 import '/widgets/bottom_nav_button.dart';
-
-// TODO: add error otp thing
-// and resend timer
 
 class OtpScreenArgs {
   final String verificationId;
@@ -38,7 +36,7 @@ class OtpScreen extends StatefulWidget {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
-        create: (context) => SignUpCubit(),
+        create: (context) => SignUpCubit()..initTimer(),
         child: OtpScreen(
           verificationId: args.verificationId,
           phonNo: args.phoNo,
@@ -53,55 +51,6 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  String _code = '';
-  bool _resendCode = false;
-  int _countDown = 30;
-
-  late Timer _timer;
-  //StreamController<ErrorAnimationType>? errorController;
-
-  @override
-  void initState() {
-    //errorController = StreamController<ErrorAnimationType>();
-    startTimer();
-    // listenCode();
-    super.initState();
-  }
-
-  void listenCode() async {
-    // await SmsAutoFill().listenForCode;
-  }
-
-  //final sms = SmsAutoFill();
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    // errorController!.close();
-    // SmsAutoFill().unregisterListener();
-
-    super.dispose();
-  }
-
-  void startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_countDown == 0) {
-          setState(() {
-            timer.cancel();
-            _resendCode = true;
-          });
-        } else {
-          setState(() {
-            _countDown--;
-          });
-        }
-      },
-    );
-  }
-
   void _submitOtp(BuildContext context) {
     FocusScope.of(context).unfocus();
 
@@ -109,17 +58,35 @@ class _OtpScreenState extends State<OtpScreen> {
       final _signupCubit = context.read<SignUpCubit>();
       if (_signupCubit.state.otpIsEmpty) {
         _signupCubit.verifyOtp(verificationId: widget.verificationId);
+      } else {
+        ShowSnackBar.showSnackBar(context,
+            title: 'Please enter otp to continue');
       }
     }
   }
 
   final _formKey = GlobalKey<FormState>();
 
+  // ignore: close_sinks
+  StreamController<ErrorAnimationType>? _errorController;
+
+  @override
+  void initState() {
+    _errorController = StreamController<ErrorAnimationType>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _errorController!.close();
+    context.read<SignUpCubit>().close();
+    _formKey.currentState?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final timeLeft = 30 - _timer.tick;
-    print('Sms code $_code');
-    print(_resendCode);
     return WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop(true);
@@ -129,10 +96,9 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: Colors.white,
         body: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
-            if (state.errorOtp) {
-              // errorController!.add(ErrorAnimationType.shake);
-            }
-            // context.read<SignUpCubit>().verificationIdChanged();
+            // if (state.status == SignUpStatus.otpVerified) {
+            //   ShowSnackBar.showSnackBar(context, title: 'Login succussfull');
+            // }
             // if (state.status == SignUpStatus.error) {
             //   //ShowSnackBar.showSnackBar(context, title: state.failure?.message);
             //   showDialog(
@@ -140,6 +106,8 @@ class _OtpScreenState extends State<OtpScreen> {
             //       builder: (context) {
             //         return ErrorDialog(content: state.failure?.message);
             //       });
+            // } else if (state.status == SignUpStatus.succuss) {
+            //   ShowSnackBar.showSnackBar(context, title: 'Login succussfull');
             // }
           },
           builder: (context, state) {
@@ -190,7 +158,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                     const SizedBox(height: 20.0),
                     PinCodeTextField(
-                      //   errorAnimationController: errorController,
+                      errorAnimationController: _errorController,
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.underline,
                         errorBorderColor: Colors.red,
@@ -206,6 +174,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       keyboardType: TextInputType.number,
                       validator: (v) {
                         if (state.errorOtp) {
+                          _errorController!.add(ErrorAnimationType.shake);
                           return 'Invalid OTP';
                         } else {
                           return null;
@@ -216,39 +185,14 @@ class _OtpScreenState extends State<OtpScreen> {
                       onChanged: (value) =>
                           context.read<SignUpCubit>().otpChanged(value),
                     ),
-                    // PinFieldAutoFill(
-                    //   codeLength: 6,
-                    //   decoration: UnderlineDecoration(
-                    //     errorText: state.errorOtp ? 'Invalid OTP' : '',
-                    //     textStyle:
-                    //         const TextStyle(fontSize: 20, color: Colors.black),
-                    //     colorBuilder: PinListenColorBuilder(
-                    //       Colors.blue,
-                    //       Colors.grey.shade400,
-                    //     ),
-                    //     lineHeight: 1.5,
-                    //   ),
-                    //   currentCode: _code,
-                    //   onCodeSubmitted: (code) async =>
-                    //       context.read<SignUpCubit>().otpChanged(code),
-                    //   onCodeChanged: (code) {},
-
-                    //   //   if (code!.length == 6) {
-                    //   //     FocusScope.of(context).requestFocus(FocusNode());
-
-                    //   //     _code = code;
-
-                    //   //   }
-                    //   // },
-                    // ),
                     const SizedBox(height: 22.0),
-                    if (!_resendCode)
+                    if (!state.otpSent)
                       Row(
                         children: [
                           const Icon(Icons.timer, color: Colors.blue),
                           const SizedBox(width: 7.0),
                           Text(
-                            'Resend OTP in ${_countDown}s',
+                            'Resend OTP in ${state.countDown}s',
                             style: const TextStyle(
                               color: Color(0xff666666),
                               fontSize: 16.0,
@@ -256,7 +200,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           )
                         ],
                       ),
-                    if (_resendCode)
+                    if (state.otpSent)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -284,6 +228,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                         .verifyPhoneNumber(
                                           phNo: widget.phonNo,
                                           resendToken: widget.resendToken,
+                                          startTimer: true,
                                         ),
                                     child: const Text(
                                       'Resend OTP',
@@ -316,7 +261,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     BottomNavButton(
                       onTap: () => _submitOtp(context),
                       label: 'CONTINUE',
-                      isEnabled: true,
+                      isEnabled: state.otp.length == 6,
                     ),
                   ],
                 ),

@@ -128,11 +128,14 @@ class SignUpScreen extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       Row(
                         children: [
-                          const Text(
-                            '+91',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 20.0),
+                            child: Text(
+                              '+91',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.0,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10.0),

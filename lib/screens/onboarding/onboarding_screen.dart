@@ -3,11 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import '/screens/signup/signup_screen.dart';
+import 'package:prmt_business/config/auth_wrapper.dart';
+import 'package:prmt_business/config/shared_prefs.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
+  static const String routeName = '/onboarding';
   const OnBoardingScreen({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const OnBoardingScreen(),
+    );
+  }
 
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
@@ -158,8 +167,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               BottomNavButton(
                 isEnabled: true,
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => SignUpScreen())),
+                onTap: () async {
+                  await SharedPrefs().setFirstTime(false);
+                  Navigator.of(context).pushNamed(AuthWrapper.routeName);
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (_) => SignUpScreen()));
+                },
                 label: 'LOG IN OR SIGN UP',
               ),
             ],

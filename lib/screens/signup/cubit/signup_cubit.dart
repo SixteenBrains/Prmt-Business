@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,11 +7,50 @@ part 'signup_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   final _auth = FirebaseAuth.instance;
+  late Timer _timer;
   SignUpCubit() : super(SignUpState.initial());
 
   @override
   Future<void> close() {
+    _timer.cancel();
     return super.close();
+  }
+
+  // void startTimer() {
+  //   const oneSec = Duration(seconds: 1);
+  //   _timer = Timer.periodic(
+  //     oneSec,
+  //     (Timer timer) {
+  //       if (_countDown == 0) {
+  //         setState(() {
+  //           timer.cancel();
+  //           _resendCode = true;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           _countDown--;
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
+
+  void initTimer() async {
+    emit(state.copyWith(countDown: 30, otpSent: false));
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      print('Timer tick cubit -- ${timer.tick}');
+      if (state.countDown == 0) {
+        // print('Count down is 0');
+        _timer.cancel();
+        // _resendCode = true;
+        emit(state.copyWith(otpSent: true));
+      } else {
+        // print('Count down ${state.countDown}');
+        emit(state.copyWith(countDown: state.countDown - 1));
+      }
+    });
+    emit(state.copyWith(
+        timer: Timer.periodic(const Duration(seconds: 1), (timer) {})));
   }
 
   void phoneNoChanged(String phNo) {
@@ -31,9 +71,14 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
   }
 
-  void verifyPhoneNumber({String? phNo, int? resendToken}) async {
+  void verifyPhoneNumber({
+    String? phNo,
+    int? resendToken,
+    bool startTimer = false,
+  }) async {
     try {
       emit(state.copyWith(status: SignUpStatus.submitting));
+
       await _auth.verifyPhoneNumber(
         phoneNumber: '+91 ${phNo ?? state.phNo}',
         timeout: const Duration(seconds: 60),
@@ -53,6 +98,9 @@ class SignUpCubit extends Cubit<SignUpState> {
               resendToken: resendToken,
             ),
           );
+          if (startTimer) {
+            initTimer();
+          }
         },
         forceResendingToken: resendToken ?? state.resendToken,
         verificationFailed: (error) {
@@ -75,6 +123,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   void verifyOtp({required String verificationId}) async {
     try {
       if (state.otpIsEmpty) {
+        // emit(state.copyWith(status: SignUpStatus.submitting));
         // Create a PhoneAuthCredential with the code
         PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId,
@@ -84,13 +133,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         print('Otp send --- ${credential.smsCode}');
         print('Otp entered by user ${state.otp}');
         await _auth.signInWithCredential(credential);
-
-        // if (credential.smsCode != state.otp) {
-        //   emit(state.copyWith(errorOtp: true));
-        // } else {
-        //   // Sign the user in (or link) with the credential
-
-        // }
+        emit(state.copyWith(status: SignUpStatus.otpVerified));
       }
     } catch (error) {
       print('Error in verify otp ${error.toString()}');

@@ -1,6 +1,6 @@
 part of 'signup_cubit.dart';
 
-enum SignUpStatus { initial, submitting, succuss, error }
+enum SignUpStatus { initial, submitting, succuss, error, otpVerified }
 
 class SignUpState extends Equatable {
   final String phNo;
@@ -11,6 +11,8 @@ class SignUpState extends Equatable {
   final bool errorOtp;
   final bool otpSent;
   final int? resendToken;
+  final Timer? timer;
+  final int countDown;
 
   const SignUpState({
     required this.phNo,
@@ -21,6 +23,8 @@ class SignUpState extends Equatable {
     this.otpSent = false,
     this.errorOtp = false,
     this.resendToken,
+    this.timer,
+    this.countDown = 30,
   });
 
   factory SignUpState.initial() =>
@@ -39,7 +43,9 @@ class SignUpState extends Equatable {
         verificationId,
         errorOtp,
         otpSent,
-        resendToken
+        resendToken,
+        timer,
+        countDown,
       ];
 
   SignUpState copyWith({
@@ -51,6 +57,8 @@ class SignUpState extends Equatable {
     bool? errorOtp,
     bool? otpSent,
     int? resendToken,
+    Timer? timer,
+    int? countDown,
   }) {
     return SignUpState(
       phNo: phNo ?? this.phNo,
@@ -61,6 +69,8 @@ class SignUpState extends Equatable {
       errorOtp: errorOtp ?? this.errorOtp,
       otpSent: otpSent ?? this.otpSent,
       resendToken: resendToken ?? this.resendToken,
+      timer: timer ?? this.timer,
+      countDown: countDown ?? this.countDown,
     );
   }
 }

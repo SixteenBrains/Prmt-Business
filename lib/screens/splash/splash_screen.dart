@@ -1,12 +1,21 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '/config/auth_wrapper.dart';
+import '/config/shared_prefs.dart';
 import '/screens/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const String routeName = '/splash';
   const SplashScreen({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const SplashScreen(),
+    );
+  }
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -29,12 +38,18 @@ class _SplashScreenState extends State<SplashScreen> {
         //   _timer.cancel();
       } else if (_timer.tick == 9) {
         _timer.cancel();
-        Navigator.of(context, rootNavigator: true).push(
-          CupertinoPageRoute<bool>(
-            //fullscreenDialog: true,
-            builder: (BuildContext context) => const OnBoardingScreen(),
-          ),
-        );
+        final routeName = SharedPrefs().isFirstTime
+            ? OnBoardingScreen.routeName
+            : AuthWrapper.routeName;
+
+        Navigator.of(context).pushNamed(routeName);
+
+        // Navigator.of(context, rootNavigator: true).push(
+        //   CupertinoPageRoute<bool>(
+        //     //fullscreenDialog: true,
+        //     builder: (BuildContext context) => const OnBoardingScreen(),
+        //   ),
+        // );
       }
     });
   }

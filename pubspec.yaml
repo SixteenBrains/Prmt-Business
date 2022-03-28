@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.17.0
   introduction_screen: ^3.0.0
   pin_code_fields: ^7.3.0
+  shared_preferences: ^2.0.13
   sms_autofill: ^2.2.0
   syncfusion_flutter_sliders: ^19.4.56
   timeago: ^3.2.2

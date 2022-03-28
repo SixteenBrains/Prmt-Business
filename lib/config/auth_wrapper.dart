@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/screens/create-account/create_account.dart';
-import 'package:prmt_business/screens/signup/signup_screen.dart';
-import '/blocs/bloc/auth_bloc.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/screens/create-account/create_account.dart';
+import '/screens/signup/signup_screen.dart';
 import '/widgets/loading_indicator.dart';
 
 class AuthWrapper extends StatelessWidget {

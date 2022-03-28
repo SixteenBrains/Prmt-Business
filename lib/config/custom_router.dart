@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prmt_business/screens/create-account/create_account.dart';
+import 'package:prmt_business/screens/onboarding/onboarding_screen.dart';
 import 'package:prmt_business/screens/signup/otp_screen.dart';
 import 'package:prmt_business/screens/signup/signup_screen.dart';
+import 'package:prmt_business/screens/splash/splash_screen.dart';
 import 'auth_wrapper.dart';
 
 class CustomRouter {
@@ -12,6 +14,12 @@ class CustomRouter {
         return MaterialPageRoute(
             settings: const RouteSettings(name: '/'),
             builder: (_) => const Scaffold());
+
+      case SplashScreen.routeName:
+        return SplashScreen.route();
+
+      case OnBoardingScreen.routeName:
+        return OnBoardingScreen.route();
 
       case AuthWrapper.routeName:
         return AuthWrapper.route();
