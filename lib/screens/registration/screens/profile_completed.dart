@@ -3,15 +3,15 @@ import 'package:prmt_business/screens/create-ad/ad_name.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class ProfileCompleted extends StatelessWidget {
-  static const String routeName = '/profileCompleted';
+  //static const String routeName = '/profileCompleted';
   const ProfileCompleted({Key? key}) : super(key: key);
 
-  static Route route() {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) => const ProfileCompleted(),
-    );
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //     settings: const RouteSettings(name: routeName),
+  //     builder: (_) => const ProfileCompleted(),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

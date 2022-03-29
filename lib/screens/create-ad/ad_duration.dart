@@ -263,7 +263,7 @@ class _AdDurationState extends State<AdDuration> {
                   )
                 ],
               ),
-              // TODO: added custom choosen text field as in
+              // Todo: added custom choosen text field as in
               //https://xd.adobe.com/view/4e4866b6-cc1b-44cb-aa8d-6498dcc1e92f-1b1b/screen/1fbbdc10-238d-4d5b-bf68-e75d2a377fa7/specs/
               //  const Spacer(),
               SizedBox(height: _canvas.height * 0.15),

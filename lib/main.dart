@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/repositories/registraion/registration_repository.dart';
+import '/repositories/registraion/registration_repository.dart';
 import '/screens/splash/splash_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import 'blocs/simple_bloc_observer.dart';

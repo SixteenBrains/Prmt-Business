@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:prmt_business/blocs/auth/auth_bloc.dart';
 import 'package:prmt_business/models/appuser.dart';
+import 'package:prmt_business/models/business_type.dart';
 import 'package:prmt_business/repositories/registraion/registration_repository.dart';
 import '/models/failure.dart';
 
@@ -8,9 +10,13 @@ part 'registration_state.dart';
 
 class RegistrationCubit extends Cubit<RegistrationState> {
   final RegistrationRepository _registrationRepository;
+  final AuthBloc _authBloc;
 
-  RegistrationCubit({required RegistrationRepository registrationRepository})
-      : _registrationRepository = registrationRepository,
+  RegistrationCubit({
+    required RegistrationRepository registrationRepository,
+    required AuthBloc authBloc,
+  })  : _registrationRepository = registrationRepository,
+        _authBloc = authBloc,
         super(RegistrationState.initial());
 
   void fNameChanged(String value) {
@@ -30,6 +36,37 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(state.copyWith(currentPage: page, status: RegistrationStatus.initial));
   }
 
+  void getCurrentUser() async {
+    try {
+      emit(state.copyWith(status: RegistrationStatus.submitting));
+      final user = await _registrationRepository.getCurrentUser(
+          uid: _authBloc.state.user?.uid);
+      if (user != null) {
+        emit(state.copyWith(
+            currentUser: user, status: RegistrationStatus.succuss));
+      } else {
+        emit(state.copyWith(status: RegistrationStatus.initial));
+      }
+    } on Failure catch (error) {
+      emit(state.copyWith(status: RegistrationStatus.error, failure: error));
+    }
+  }
+
+  void getBusinessTypes() async {
+    try {
+      emit(state.copyWith(status: RegistrationStatus.loading));
+      final types = await _registrationRepository.getBusinessType();
+      emit(state.copyWith(status: RegistrationStatus.initial, types: types));
+    } on Failure catch (error) {
+      print('Error in getting business types ${error.toString()}');
+      emit(state.copyWith(status: RegistrationStatus.error, failure: error));
+    }
+  }
+
+  void chooseBusinessType(BusinessType type) async {
+    emit(state.copyWith(businessType: type));
+  }
+
   void registerUser() async {
     try {
       emit(state.copyWith(status: RegistrationStatus.submitting));
@@ -39,6 +76,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           businessName: state.businessName,
           email: state.email,
           createdAt: DateTime.now(),
+          uid: _authBloc.state.user?.uid,
+          businessType: state.businessType?.type,
         ),
       );
 

@@ -9,6 +9,7 @@ class AppUser extends Equatable {
   final String? uid;
   final DateTime? createdAt;
   final String? businessName;
+  final String? businessType;
 
   const AppUser({
     this.email,
@@ -16,6 +17,7 @@ class AppUser extends Equatable {
     this.uid,
     this.businessName,
     this.createdAt,
+    this.businessType,
   });
 
   AppUser copyWith({
@@ -24,6 +26,7 @@ class AppUser extends Equatable {
     String? uid,
     String? businessName,
     DateTime? createdAt,
+    String? businessType,
   }) {
     return AppUser(
       email: email ?? this.email,
@@ -31,6 +34,7 @@ class AppUser extends Equatable {
       uid: uid ?? this.uid,
       createdAt: createdAt ?? this.createdAt,
       businessName: businessName ?? this.businessName,
+      businessType: businessType ?? this.businessType,
     );
   }
 
@@ -40,6 +44,7 @@ class AppUser extends Equatable {
       'name': name,
       'businessName': businessName,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'businessType': businessType,
     };
   }
 
@@ -51,6 +56,7 @@ class AppUser extends Equatable {
       createdAt: map['createdAt'] != null
           ? (map['createdAt'] as Timestamp).toDate()
           : null,
+      businessType: map['businessType'],
     );
   }
 
@@ -59,6 +65,7 @@ class AppUser extends Equatable {
     name: '',
     uid: '',
     createdAt: null,
+    businessType: '',
   );
 
   factory AppUser.fromDocument(DocumentSnapshot? doc) {
@@ -72,6 +79,7 @@ class AppUser extends Equatable {
       createdAt: data?['createdAt'] != null
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
+      businessType: data?['businessType'],
     );
   }
 
@@ -82,7 +90,7 @@ class AppUser extends Equatable {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType)';
   }
 
   @override
@@ -92,5 +100,6 @@ class AppUser extends Equatable {
         uid,
         createdAt,
         businessName,
+        businessType,
       ];
 }

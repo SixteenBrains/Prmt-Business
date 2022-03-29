@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/registration/screens/profile_completed.dart';
 import '/screens/onboarding/onboarding_screen.dart';
 import '/screens/registration/screens/registration_screen.dart';
 import '/screens/signup/otp_screen.dart';
@@ -28,8 +27,8 @@ class CustomRouter {
       case SignUpScreen.routeName:
         return SignUpScreen.route();
 
-      case ProfileCompleted.routeName:
-        return ProfileCompleted.route();
+      // case ProfileCompleted.routeName:
+      //   return ProfileCompleted.route();
 
       case OtpScreen.routeName:
         return OtpScreen.route(args: settings.arguments as OtpScreenArgs);

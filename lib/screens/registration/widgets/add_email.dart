@@ -41,6 +41,7 @@ class _AddEmailState extends State<AddEmail> {
               ),
               const SizedBox(height: 20.0),
               CustomTextField(
+                initialValue: state.email,
                 hintText: 'Eg - abc@gmail.com',
                 onchanged: (value) =>
                     context.read<RegistrationCubit>().emailChanged(value),

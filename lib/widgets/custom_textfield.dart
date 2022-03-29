@@ -5,18 +5,21 @@ class CustomTextField extends StatelessWidget {
   final Function(String value) onchanged;
   final String? Function(String? value) validator;
   final int? maxLenght;
+  final String? initialValue;
 
-  const CustomTextField(
-      {Key? key,
-      required this.hintText,
-      required this.onchanged,
-      required this.validator,
-      this.maxLenght})
-      : super(key: key);
+  const CustomTextField({
+    Key? key,
+    required this.hintText,
+    required this.onchanged,
+    required this.validator,
+    this.initialValue,
+    this.maxLenght,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       maxLength: maxLenght,
       style: const TextStyle(fontSize: 20.0),
       onChanged: onchanged,

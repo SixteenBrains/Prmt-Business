@@ -41,6 +41,7 @@ class _AddBusinessNameState extends State<AddBusinessName> {
               ),
               const SizedBox(height: 20.0),
               CustomTextField(
+                initialValue: state.businessName,
                 hintText: 'Your business name',
                 onchanged: (value) => context
                     .read<RegistrationCubit>()
@@ -57,7 +58,11 @@ class _AddBusinessNameState extends State<AddBusinessName> {
               BottomNavButton(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<RegistrationCubit>().registerUser();
+                    context
+                        .read<RegistrationCubit>()
+                        .changePage(CurrentPage.businessType);
+                    // context.read<RegistrationCubit>().registerUser();
+
                   }
                 },
                 label: 'CONTINUE',

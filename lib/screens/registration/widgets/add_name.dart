@@ -50,6 +50,7 @@ class _AddNameState extends State<AddName> {
               ),
               const SizedBox(height: 20.0),
               CustomTextField(
+                initialValue: state.fName,
                 onchanged: (value) =>
                     context.read<RegistrationCubit>().fNameChanged(value),
                 hintText: 'Eg -John Doe',
