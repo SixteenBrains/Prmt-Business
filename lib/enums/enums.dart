@@ -1,4 +1,4 @@
-enum NavItem { dashboard, ads, users, payment }
+enum NavItem { dashboard, ads, users, payment, logout }
 // navitem can be
 /*
 DashBoard

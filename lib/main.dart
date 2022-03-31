@@ -10,7 +10,6 @@ import '/repositories/auth/auth_repository.dart';
 import '/repositories/services/firebase_services.dart';
 import '/screens/contact/cubit/contact_cubit.dart';
 import '/config/custom_router.dart';
-
 import 'constants/constants.dart';
 
 void main() async {

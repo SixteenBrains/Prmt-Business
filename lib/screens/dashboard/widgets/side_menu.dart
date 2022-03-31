@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:prmt_admin/blocs/auth/auth_bloc.dart';
 import '/blocs/nav/nav_bloc.dart';
 import '/enums/enums.dart';
 
@@ -31,7 +32,12 @@ class SideMenu extends StatelessWidget {
               press: () => _navBloc.add(UpdateNavItem(item: item)),
               title: _label(item),
               svgSrc: _iconPath(item),
-            )
+            ),
+          DrawerListTile(
+            press: () => context.read<AuthBloc>().add(AuthLogoutRequested()),
+            title: 'Logout',
+            svgSrc: 'assets/icons/logout.svg',
+          )
         ],
       ),
     );
@@ -44,9 +50,9 @@ String _iconPath(NavItem item) {
   } else if (item == NavItem.payment) {
     return 'assets/icons/menu_tran.svg';
   } else if (item == NavItem.users) {
-    return 'assets/icons/menu_setting.svg';
+    return 'assets/icons/users.svg';
   } else if (item == NavItem.ads) {
-    return 'assets/icons/menu_setting.svg';
+    return 'assets/icons/ads.svg';
   }
 
   return '';

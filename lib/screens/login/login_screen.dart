@@ -67,8 +67,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: Responsive.isMobile(context) ||
-                              Responsive.isTablet(context)
+                      width: Responsive.isMobile(context)
                           ? _canvas.width - 25.0
                           : _canvas.width * 0.5,
                       child: Card(

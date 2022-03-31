@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '/enums/enums.dart';
-
 part 'nav_event.dart';
 
 class NavBloc extends Bloc<NavEvent, NavItem> {
