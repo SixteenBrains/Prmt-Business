@@ -73,11 +73,22 @@ class MyApp extends StatelessWidget {
           // )
         ],
         child: MaterialApp(
+          //showPerformanceOverlay: true,
           theme: ThemeData(
             fontFamily: 'Helvetica',
             scaffoldBackgroundColor: Colors.white,
           ),
           debugShowCheckedModeBanner: false,
+          //  home: const SplashScreen3(),
+
+          //  const ShowUp(
+          //   child: Scaffold(
+          //     body: Center(
+          //       child: Text('I am good'),
+          //     ),
+          //   ),
+          //   delay: 10,
+          // ),
           onGenerateRoute: CustomRouter.onGenerateRoute,
           initialRoute: SplashScreen.routeName,
 

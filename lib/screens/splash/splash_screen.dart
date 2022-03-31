@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import '/config/auth_wrapper.dart';
 import '/config/shared_prefs.dart';
@@ -27,29 +26,26 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 1), (time) {
-      print('Time -- ${_timer.tick}');
-      print(_timer.tick);
+      // print('Time -- ${_timer.tick}');
+      // print(_timer.tick);
 
-      if (_timer.tick == 5) {
+      setState(() {
+        selected = true;
+      });
+
+      if (_timer.tick == 2) {
         setState(() {
           animated = true;
         });
 
         //   _timer.cancel();
-      } else if (_timer.tick == 9) {
+      } else if (_timer.tick == 3) {
         _timer.cancel();
         final routeName = SharedPrefs().isFirstTime
             ? OnBoardingScreen.routeName
             : AuthWrapper.routeName;
 
         Navigator.of(context).pushNamed(routeName);
-
-        // Navigator.of(context, rootNavigator: true).push(
-        //   CupertinoPageRoute<bool>(
-        //     //fullscreenDialog: true,
-        //     builder: (BuildContext context) => const OnBoardingScreen(),
-        //   ),
-        // );
       }
     });
   }
@@ -62,127 +58,278 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   bool animated = false;
+  bool selected = false;
+
   @override
   Widget build(BuildContext context) {
+    print('Moving --- ${_timer.tick < 5}');
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xff4243E6),
-                Color(0xff1A1091),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            color: Colors.purple,
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xff4243E6),
+              Color(0xff1A1091),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: animated ? const Prmt() : const YourBusiness(),
-          //  child: animated ? const YourBusiness() : const Prmt(),
+          color: Colors.purple,
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      // 'PROM   TE',
+                      animated ? 'PRMT' : 'PROM   TE',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -7.0,
+                      ),
+                    ),
+                    Text(
+                      'YOUR BUSSINESS',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28.0,
+                        letterSpacing: animated ? -0.0 : 8.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (!animated)
+                AnimatedPositioned(
+                  top: selected ? -50 : 350.0,
+                  //top: animated ? -50 : 350.0,
+                  right: 130.0,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.easeInOutBack,
+                  child: const Text(
+                    'O',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 60.0,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -7.0,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class YourBusiness extends StatelessWidget {
-  const YourBusiness({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedTextKit(
-            animatedTexts: [
-              ScaleAnimatedText(
-                'PROMOTE',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 68.0,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -8.0,
-                ),
-                duration: const Duration(seconds: 8),
-                scalingFactor: 0.2,
-              ),
-            ],
-            totalRepeatCount: 0,
-            isRepeatingAnimation: false,
-            repeatForever: false,
-          ),
-          AnimatedTextKit(
-            animatedTexts: [
-              ScaleAnimatedText(
-                'YOUR BUSINESS',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 28.0,
-                  letterSpacing: 5.7,
-                ),
-                duration: const Duration(seconds: 8),
-                scalingFactor: 0.2,
-              ),
-            ],
-            totalRepeatCount: 0,
-            repeatForever: false,
-            isRepeatingAnimation: false,
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class Prmt extends StatelessWidget {
-  const Prmt({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedTextKit(
-            animatedTexts: [
-              ScaleAnimatedText(
-                'PRMT',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 68.0,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -8.0,
-                ),
-                duration: const Duration(seconds: 9),
-                scalingFactor: 0.2,
-              ),
-            ],
-            totalRepeatCount: 0,
-            isRepeatingAnimation: false,
-            repeatForever: false,
-          ),
-          AnimatedTextKit(
-            animatedTexts: [
-              ScaleAnimatedText(
-                'YOUR BUSINESS',
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 28.0,
-                  letterSpacing: 1.0,
-                ),
-                duration: const Duration(seconds: 9),
-                scalingFactor: 0.2,
-              ),
-            ],
-            totalRepeatCount: 0,
-            repeatForever: false,
-            isRepeatingAnimation: false,
-          ),
-        ],
-      ),
-    );
-  }
-}
+
+
+
+
+
+
+
+
+
+
+// import 'dart:async';
+
+// import 'package:animated_text_kit/animated_text_kit.dart';
+// import 'package:flutter/material.dart';
+// import '/config/auth_wrapper.dart';
+// import '/config/shared_prefs.dart';
+// import '/screens/onboarding/onboarding_screen.dart';
+
+// class SplashScreen extends StatefulWidget {
+//   static const String routeName = '/splash';
+//   const SplashScreen({Key? key}) : super(key: key);
+
+//   static Route route() {
+//     return MaterialPageRoute(
+//       settings: const RouteSettings(name: routeName),
+//       builder: (_) => const SplashScreen(),
+//     );
+//   }
+
+//   @override
+//   State<SplashScreen> createState() => _SplashScreenState();
+// }
+
+// class _SplashScreenState extends State<SplashScreen> {
+//   late Timer _timer;
+//   @override
+//   void initState() {
+//     super.initState();
+//     _timer = Timer.periodic(const Duration(seconds: 1), (time) {
+//       print('Time -- ${_timer.tick}');
+//       print(_timer.tick);
+
+//       if (_timer.tick == 5) {
+//         setState(() {
+//           animated = true;
+//         });
+
+//         //   _timer.cancel();
+//       } else if (_timer.tick == 9) {
+//         _timer.cancel();
+//         final routeName = SharedPrefs().isFirstTime
+//             ? OnBoardingScreen.routeName
+//             : AuthWrapper.routeName;
+
+//         Navigator.of(context).pushNamed(routeName);
+
+//         // Navigator.of(context, rootNavigator: true).push(
+//         //   CupertinoPageRoute<bool>(
+//         //     //fullscreenDialog: true,
+//         //     builder: (BuildContext context) => const OnBoardingScreen(),
+//         //   ),
+//         // );
+//       }
+//     });
+//   }
+
+//   @override
+//   void dispose() {
+//     _timer.cancel();
+//     print('Dispose is called');
+//     super.dispose();
+//   }
+
+//   bool animated = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     return WillPopScope(
+//       onWillPop: () async => false,
+//       child: Scaffold(
+//         body: Container(
+//           decoration: const BoxDecoration(
+//             gradient: LinearGradient(
+//               colors: [
+//                 Color(0xff4243E6),
+//                 Color(0xff1A1091),
+//               ],
+//               begin: Alignment.topLeft,
+//               end: Alignment.bottomRight,
+//             ),
+//             color: Colors.purple,
+//           ),
+//           child: animated ? const Prmt() : const YourBusiness(),
+//           //  child: animated ? const YourBusiness() : const Prmt(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class YourBusiness extends StatelessWidget {
+//   const YourBusiness({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           AnimatedTextKit(
+//             animatedTexts: [
+//               ScaleAnimatedText(
+//                 'PROMOTE',
+//                 textStyle: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 68.0,
+//                   fontWeight: FontWeight.w700,
+//                   letterSpacing: -8.0,
+//                 ),
+//                 duration: const Duration(seconds: 8),
+//                 scalingFactor: 0.2,
+//               ),
+//             ],
+//             totalRepeatCount: 0,
+//             isRepeatingAnimation: false,
+//             repeatForever: false,
+//           ),
+//           AnimatedTextKit(
+//             animatedTexts: [
+//               ScaleAnimatedText(
+//                 'YOUR BUSINESS',
+//                 textStyle: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 28.0,
+//                   letterSpacing: 5.7,
+//                 ),
+//                 duration: const Duration(seconds: 8),
+//                 scalingFactor: 0.2,
+//               ),
+//             ],
+//             totalRepeatCount: 0,
+//             repeatForever: false,
+//             isRepeatingAnimation: false,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class Prmt extends StatelessWidget {
+//   const Prmt({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           AnimatedTextKit(
+//             animatedTexts: [
+//               ScaleAnimatedText(
+//                 'PRMT',
+//                 textStyle: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 68.0,
+//                   fontWeight: FontWeight.w700,
+//                   letterSpacing: -8.0,
+//                 ),
+//                 duration: const Duration(seconds: 9),
+//                 scalingFactor: 0.2,
+//               ),
+//             ],
+//             totalRepeatCount: 0,
+//             isRepeatingAnimation: false,
+//             repeatForever: false,
+//           ),
+//           AnimatedTextKit(
+//             animatedTexts: [
+//               ScaleAnimatedText(
+//                 'YOUR BUSINESS',
+//                 textStyle: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 28.0,
+//                   letterSpacing: 1.0,
+//                 ),
+//                 duration: const Duration(seconds: 9),
+//                 scalingFactor: 0.2,
+//               ),
+//             ],
+//             totalRepeatCount: 0,
+//             repeatForever: false,
+//             isRepeatingAnimation: false,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

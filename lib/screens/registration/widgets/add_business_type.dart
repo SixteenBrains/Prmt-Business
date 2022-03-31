@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
+import '/widgets/bottom_nav_button.dart';
 import '/widgets/loading_indicator.dart';
 import '/screens/registration/cubit/registration_cubit.dart';
 
