@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '/config/auth_wrapper.dart';
 import '/config/shared_prefs.dart';
 import '/screens/onboarding/onboarding_screen.dart';
@@ -62,14 +63,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+
+          /// systemNavigationBarColor: Colors.blue, // navigation bar color
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark // status bar color
+          ),
+    );
     print('Moving --- ${_timer.tick < 5}');
+    final _canvas = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xff4243E6),
+              Color(0xFF4243E6),
               Color(0xff1A1091),
             ],
             begin: Alignment.topLeft,
@@ -88,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: [
                     Text(
                       // 'PROM   TE',
-                      animated ? 'PRMT' : 'PROM   TE',
+                      animated ? 'PRMT' : 'PROM    TE',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 60.0,
@@ -109,10 +119,12 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               if (!animated)
                 AnimatedPositioned(
-                  top: selected ? -50 : 350.0,
-                  //top: animated ? -50 : 350.0,
-                  right: 130.0,
-                  duration: const Duration(milliseconds: 800),
+                  top: selected ? -50 : _canvas.height * 0.436,
+                  //  right: 130.0,
+                  right: _canvas.width * 0.339,
+                  // top: selected ? -50 : 350.0,
+                  // right: 130.0,
+                  duration: const Duration(milliseconds: 1000),
                   curve: Curves.easeInOutBack,
                   child: const Text(
                     'O',
