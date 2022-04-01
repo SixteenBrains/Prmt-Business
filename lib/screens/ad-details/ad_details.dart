@@ -8,7 +8,7 @@ import '/widgets/display_image.dart';
 import 'widgets/social_metirics.dart';
 
 class AdDetails extends StatelessWidget {
-  final Ad? ad;
+  final AdModel? ad;
 
   const AdDetails({Key? key, required this.ad}) : super(key: key);
 
@@ -57,7 +57,7 @@ class AdDetails extends StatelessWidget {
                     children: [
                       const SizedBox(height: 10.0),
                       Text(
-                        ad?.productName ?? '',
+                        ad?.adName ?? '',
                         style: const TextStyle(
                           fontSize: 20.0,
                         ),

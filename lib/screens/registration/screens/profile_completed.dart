@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prmt_business/screens/create-ad/ad_name.dart';
+import 'package:prmt_business/screens/create-ad/screens/create_ad_sceen.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class ProfileCompleted extends StatelessWidget {
@@ -57,11 +58,8 @@ class ProfileCompleted extends StatelessWidget {
               ),
               const Spacer(),
               BottomNavButton(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const AdName(),
-                  ),
-                ),
+                onTap: () =>
+                    Navigator.of(context).pushNamed(CreateAdScreen.routeName),
                 label: 'CONTINUE',
                 isEnabled: true,
               ),

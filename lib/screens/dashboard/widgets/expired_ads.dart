@@ -77,7 +77,7 @@ class ExpiredAds extends StatelessWidget {
 }
 
 class ExpiredCard extends StatelessWidget {
-  final Ad? ad;
+  final AdModel? ad;
 
   const ExpiredCard({Key? key, this.ad}) : super(key: key);
   @override
@@ -122,7 +122,7 @@ class ExpiredCard extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        text: ad?.productName ?? 'N/A',
+                        text: ad?.adName ?? 'N/A',
                       ),
                       const TextSpan(
                         text: ' (Expired)',

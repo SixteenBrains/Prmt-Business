@@ -77,7 +77,7 @@ class LiveAds extends StatelessWidget {
 }
 
 class LiveAdCard extends StatelessWidget {
-  final Ad? ad;
+  final AdModel? ad;
 
   const LiveAdCard({Key? key, this.ad}) : super(key: key);
   @override
@@ -123,7 +123,7 @@ class LiveAdCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ad?.productName ?? 'N/A',
+                    ad?.adName ?? 'N/A',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

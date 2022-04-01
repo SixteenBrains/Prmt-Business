@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 
 import '/models/chart_data.dart';
 
-class Ad extends Equatable {
-  final String? productName;
+class AdModel extends Equatable {
+  final String? adName;
   final String? imageUrl;
   final int? budget;
   final int? availableBalance;
@@ -15,8 +15,8 @@ class Ad extends Equatable {
   final List<ChartData> convertsMetrics;
   final List<ChartData> spentsMetrics;
   final bool isNegative;
-  const Ad({
-    this.productName,
+  const AdModel({
+    this.adName,
     this.imageUrl,
     this.budget,
     this.availableBalance,
@@ -27,7 +27,7 @@ class Ad extends Equatable {
     this.isNegative = false,
   });
 
-  Ad copyWith({
+  AdModel copyWith({
     String? productName,
     String? imageUrl,
     int? budget,
@@ -38,8 +38,8 @@ class Ad extends Equatable {
     List<ChartData>? spentsMetrics,
     bool? isNegative,
   }) {
-    return Ad(
-      productName: productName ?? this.productName,
+    return AdModel(
+      adName: productName ?? this.adName,
       imageUrl: imageUrl ?? this.imageUrl,
       budget: budget ?? this.budget,
       availableBalance: availableBalance ?? this.availableBalance,
@@ -53,7 +53,7 @@ class Ad extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'productName': productName,
+      'productName': adName,
       'imageUrl': imageUrl,
       'budget': budget,
       'availableBalance': availableBalance,
@@ -65,9 +65,9 @@ class Ad extends Equatable {
     };
   }
 
-  factory Ad.fromMap(Map<String, dynamic> map) {
-    return Ad(
-      productName: map['productName'],
+  factory AdModel.fromMap(Map<String, dynamic> map) {
+    return AdModel(
+      adName: map['productName'],
       imageUrl: map['imageUrl'],
       budget: map['budget']?.toInt(),
       availableBalance: map['availableBalance']?.toInt(),
@@ -84,17 +84,18 @@ class Ad extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory Ad.fromJson(String source) => Ad.fromMap(json.decode(source));
+  factory AdModel.fromJson(String source) =>
+      AdModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Ad(productName: $productName, imageUrl: $imageUrl, budget: $budget, availableBalance: $availableBalance, timeRemaining: $timeRemaining,  clicksMetrics: $clicksMetrics, convertsMetrics: $convertsMetrics, spentsMetrics: $spentsMetrics, isNegative: $isNegative)';
+    return 'Ad(productName: $adName, imageUrl: $imageUrl, budget: $budget, availableBalance: $availableBalance, timeRemaining: $timeRemaining,  clicksMetrics: $clicksMetrics, convertsMetrics: $convertsMetrics, spentsMetrics: $spentsMetrics, isNegative: $isNegative)';
   }
 
   @override
   List<Object?> get props {
     return [
-      productName,
+      adName,
       imageUrl,
       budget,
       availableBalance,

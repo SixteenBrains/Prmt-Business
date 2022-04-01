@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '/models/ad_model.dart';
 import '/models/chart_data.dart';
 
-const List<Ad> liveAds = [
-  Ad(
-    productName: 'Himalaya Ashvagandha',
+const List<AdModel> liveAds = [
+  AdModel(
+    adName: 'Himalaya Ashvagandha',
     imageUrl: 'https://m.media-amazon.com/images/I/81HHLzHnF0L._SL1500_.jpg',
     budget: 1500,
     availableBalance: 1170,
@@ -40,9 +40,9 @@ const List<Ad> liveAds = [
       ),
     ],
   ),
-  Ad(
+  AdModel(
     isNegative: true,
-    productName: 'Nivea Mens',
+    adName: 'Nivea Mens',
     imageUrl:
         'https://images-us.nivea.com/-/media/local/in/boday_page/3_banner_3080x806.png?rx=1304&ry=0&rw=1452&rh=805',
     budget: 900,

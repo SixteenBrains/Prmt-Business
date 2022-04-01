@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:prmt_business/blocs/auth/auth_bloc.dart';
-import 'package:prmt_business/models/appuser.dart';
-import 'package:prmt_business/models/business_type.dart';
-import 'package:prmt_business/repositories/registraion/registration_repository.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/models/appuser.dart';
+import '/models/business_type.dart';
+import '/repositories/registraion/registration_repository.dart';
 import '/models/failure.dart';
 
 part 'registration_state.dart';
