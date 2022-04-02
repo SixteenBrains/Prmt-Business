@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prmt_business/constants/expired_ads_consts.dart';
 
-import '/models/ad_model.dart';
+import '../../../models/ad.dart';
 import '/widgets/display_image.dart';
 
 import 'show_pie_chart.dart';
@@ -77,7 +77,7 @@ class ExpiredAds extends StatelessWidget {
 }
 
 class ExpiredCard extends StatelessWidget {
-  final AdModel? ad;
+  final Ad? ad;
 
   const ExpiredCard({Key? key, this.ad}) : super(key: key);
   @override
@@ -122,7 +122,7 @@ class ExpiredCard extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        text: ad?.adName ?? 'N/A',
+                        text: ad?.productName ?? 'N/A',
                       ),
                       const TextSpan(
                         text: ' (Expired)',

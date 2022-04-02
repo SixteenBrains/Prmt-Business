@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/screens/create-ad/cubit/create_ad_cubit.dart';
-import '/screens/create-ad/ad_type.dart';
+import 'package:prmt_business/widgets/custom_textfield.dart';
+import '/screens/create-ad/cubit/create_ad_cubit.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'progress_container.dart';
 
@@ -10,12 +10,11 @@ class AdName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _canvas = MediaQuery.of(context).size;
+    //   final _canvas = MediaQuery.of(context).size;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20.0),
         const ProgressContainer(progress: 1),
         const SizedBox(height: 20.0),
         Text(
@@ -35,32 +34,20 @@ class AdName extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        TextField(
+
+        CustomTextField(
           minLines: 2,
           maxLines: 2,
-          maxLength: 60,
-          keyboardType: TextInputType.name,
-          style: const TextStyle(fontSize: 20.0),
-
-          // onChanged: (value) =>
-          //     context.read<SignUpCubit>().phoneNoChanged(value),
-          decoration: InputDecoration(
-            hintText:
-                'A name you can remember, e.g. the product name or dicount rate',
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-            hintStyle: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 20.0,
-            ),
-          ),
+          maxLenght: 150,
+          hintText:
+              'Write what your audience will see, make it so attractive that anyone who reads it, clicks it',
+          onchanged: (value) {},
+          validator: (value) {},
+          inputType: TextInputType.name,
         ),
-        //  const Spacer(),
-        SizedBox(height: _canvas.height * 0.5),
+
+        const Spacer(),
+
         BottomNavButton(
           onTap: () =>
               context.read<CreateAdCubit>().changePage(CurrentPage.adType),

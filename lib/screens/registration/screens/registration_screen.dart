@@ -45,15 +45,15 @@ class RegistrationScreen extends StatelessWidget {
             return const ProfileCompleted();
           }
 
-          return SafeArea(
-            child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Scaffold(
-                body: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20.0,
-                    horizontal: 20.0,
-                  ),
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 20.0,
+                ),
+                child: SafeArea(
                   child: Column(
                     children: [
                       Align(

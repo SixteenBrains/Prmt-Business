@@ -60,6 +60,7 @@ class _AddNameState extends State<AddName> {
                   }
                   return null;
                 },
+                inputType: TextInputType.name,
               ),
               const Spacer(),
               BottomNavButton(

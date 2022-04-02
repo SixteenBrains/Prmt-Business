@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prmt_business/screens/ad-details/ad_details.dart';
 import '/constants/constants.dart';
-import '/models/ad_model.dart';
+import '../../../models/ad.dart';
 import '/widgets/display_image.dart';
 
 import 'show_pie_chart.dart';
@@ -77,7 +77,7 @@ class LiveAds extends StatelessWidget {
 }
 
 class LiveAdCard extends StatelessWidget {
-  final AdModel? ad;
+  final Ad? ad;
 
   const LiveAdCard({Key? key, this.ad}) : super(key: key);
   @override
@@ -123,7 +123,7 @@ class LiveAdCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ad?.adName ?? 'N/A',
+                    ad?.productName ?? 'N/A',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '/models/chart_data.dart';
-import '/models/ad_model.dart';
+import '../models/ad.dart';
 
-const List<AdModel> expiredAds = [
-  AdModel(
-    adName: 'Nivea Mens',
+const List<Ad> expiredAds = [
+  Ad(
+    productName: 'Nivea Mens',
     imageUrl:
         'https://images-us.nivea.com/-/media/local/in/boday_page/3_banner_3080x806.png?rx=1304&ry=0&rw=1452&rh=805',
     budget: 900,

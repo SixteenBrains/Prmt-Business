@@ -54,6 +54,7 @@ class _AddEmailState extends State<AddEmail> {
                   }
                   return null;
                 },
+                inputType: TextInputType.emailAddress,
               ),
               const Spacer(),
               BottomNavButton(

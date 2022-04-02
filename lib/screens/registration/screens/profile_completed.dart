@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/create-ad/ad_name.dart';
-import 'package:prmt_business/screens/create-ad/screens/create_ad_sceen.dart';
+import '/screens/create-ad/screens/create_ad_sceen.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class ProfileCompleted extends StatelessWidget {

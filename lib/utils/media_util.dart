@@ -5,17 +5,23 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prmt_business/models/failure.dart';
 import 'package:uuid/uuid.dart';
 
-class ImageUtil {
+class MediaUtil {
   static Future<File?> pickVideo({required String title}) async {
-    final pickedFile = await ImagePicker().pickVideo(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      return File(pickedFile.path);
+    try {
+      final pickedFile = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+      );
+      if (pickedFile != null) {
+        return File(pickedFile.path);
+      }
+      return null;
+    } catch (error) {
+      print('Error in picking image  ${error.toString()}');
+      throw const Failure(message: 'Error in picking video');
     }
-    return null;
   }
 
   static Future<File?> pickImageFromGallery({

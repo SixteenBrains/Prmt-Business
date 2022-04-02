@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/screens/create-ad/preview_ad.dart';
 import '/screens/create-ad/screens/create_ad_sceen.dart';
 import '/screens/onboarding/onboarding_screen.dart';
 import '/screens/registration/screens/registration_screen.dart';
@@ -40,8 +41,8 @@ class CustomRouter {
       case CreateAdScreen.routeName:
         return CreateAdScreen.route();
 
-      // case CreateAccount.routeName:
-      //   return CreateAccount.route();
+      case PreviewAd.routeName:
+        return PreviewAd.route();
 
       default:
         return _errorRoute();

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/screens/create-ad/ad_name.dart';
-import 'package:prmt_business/screens/create-ad/ad_type.dart';
-import 'package:prmt_business/screens/create-ad/progress_container.dart';
-import 'package:prmt_business/widgets/bottom_nav_button.dart';
+import 'package:prmt_business/screens/create-ad/ad_content.dart';
+import 'package:prmt_business/screens/create-ad/ad_created.dart';
+import 'package:prmt_business/screens/create-ad/ad_duration.dart';
+import 'package:prmt_business/screens/create-ad/demographics.dart';
+import 'package:prmt_business/screens/create-ad/preview_ad.dart';
+import 'package:prmt_business/screens/create-ad/target_link.dart';
+import '/screens/create-ad/ad_name.dart';
+import '/screens/create-ad/ad_type.dart';
 import '/screens/create-ad/cubit/create_ad_cubit.dart';
 
 class CreateAdScreen extends StatelessWidget {
@@ -25,18 +29,17 @@ class CreateAdScreen extends StatelessWidget {
     return BlocConsumer<CreateAdCubit, CreateAdState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Scaffold(
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20.0,
-                  horizontal: 20.0,
-                ),
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 20.0,
+              ),
+              child: SafeArea(
                 child: Column(
                   children: [
-                    // AdName(),
                     Row(
                       children: [
                         GestureDetector(
@@ -52,8 +55,10 @@ class CreateAdScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-
-                    CreateAdContents(currentPage: state.currentPage),
+                    const SizedBox(height: 20.0),
+                    Expanded(
+                      child: CreateAdContents(currentPage: state.currentPage),
+                    ),
                   ],
                 ),
               ),
@@ -80,6 +85,24 @@ class CreateAdContents extends StatelessWidget {
 
       case CurrentPage.adType:
         return const ChooseAdType();
+
+      case CurrentPage.adContent:
+        return const AdContent();
+
+      case CurrentPage.adTargetLink:
+        return const AdTargetLink();
+
+      case CurrentPage.awesome:
+        return const AdCreated();
+
+      case CurrentPage.date:
+        return const AdDuration();
+
+      case CurrentPage.demographics:
+        return const DemoGraphics();
+
+      case CurrentPage.previewAd:
+        return const PreviewAd();
 
       default:
         return const Scaffold(

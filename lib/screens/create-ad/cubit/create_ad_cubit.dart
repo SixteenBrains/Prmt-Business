@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:image_picker/image_picker.dart';
-import '/models/ad_model.dart';
+import '../../../models/ad.dart';
 import '/models/failure.dart';
 part 'create_ad_state.dart';
 
@@ -17,12 +17,15 @@ class CreateAdCubit extends Cubit<CreateAdState> {
     emit(state.copyWith(currentPage: page, status: CreateAdStatus.initial));
   }
 
-  void pickImage(Uint8List pickedImage) async {
+  void imagePicked(Uint8List pickedImage) async {
     emit(state.copyWith(adImage: pickedImage, status: CreateAdStatus.initial));
   }
 
-  void pickVideo(XFile pickedVideo) async {
-    emit(state.copyWith(adVideo: pickedVideo, status: CreateAdStatus.initial));
+  void videoPicked(File pickedVideo, Uint8List? thumbnail) async {
+    emit(state.copyWith(
+        adVideo: pickedVideo,
+        adVideoThumbnail: thumbnail,
+        status: CreateAdStatus.initial));
   }
 
   void contentTextChanged(String value) {

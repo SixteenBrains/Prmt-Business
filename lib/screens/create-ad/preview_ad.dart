@@ -7,7 +7,13 @@ import 'widgets/facebook_preview.dart';
 import 'widgets/instagram_preview.dart';
 
 class PreviewAd extends StatelessWidget {
+  static const String routeName = '/preview-ad';
   const PreviewAd({Key? key}) : super(key: key);
+
+  static Route route() => MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => const PreviewAd(),
+      );
 
   @override
   Widget build(BuildContext context) {

@@ -17,10 +17,10 @@ enum CurrentPage {
 enum AdType { image, video, none }
 
 class CreateAdState extends Equatable {
-  final AdModel? adModel;
+  final Ad? adModel;
   final String adName;
   final AdType adType;
-  final String contentText;
+  final String adContentText;
   final CreateAdStatus status;
   final Failure failure;
   final CurrentPage currentPage;
@@ -34,13 +34,14 @@ class CreateAdState extends Equatable {
   final List<String> city;
   final String adTargetLink;
   final Uint8List? adImage;
-  final XFile? adVideo;
+  final File? adVideo;
+  final Uint8List? adVideoThumbnail;
 
   const CreateAdState({
     required this.adModel,
     required this.adName,
     required this.adType,
-    required this.contentText,
+    required this.adContentText,
     required this.status,
     required this.failure,
     required this.currentPage,
@@ -55,13 +56,14 @@ class CreateAdState extends Equatable {
     required this.adTargetLink,
     required this.adImage,
     required this.adVideo,
+    required this.adVideoThumbnail,
   });
 
   factory CreateAdState.initial() => const CreateAdState(
         adModel: null,
         adName: '',
         adType: AdType.none,
-        contentText: '',
+        adContentText: '',
         status: CreateAdStatus.initial,
         failure: Failure(),
         currentPage: CurrentPage.adName,
@@ -76,10 +78,11 @@ class CreateAdState extends Equatable {
         adTargetLink: '',
         adImage: null,
         adVideo: null,
+        adVideoThumbnail: null,
       );
 
   CreateAdState copyWith({
-    AdModel? adModel,
+    Ad? adModel,
     String? adName,
     AdType? adType,
     String? adContentText,
@@ -96,13 +99,14 @@ class CreateAdState extends Equatable {
     List<String>? city,
     String? adTargetLink,
     Uint8List? adImage,
-    XFile? adVideo,
+    File? adVideo,
+    Uint8List? adVideoThumbnail,
   }) {
     return CreateAdState(
       adModel: adModel ?? this.adModel,
       adName: adName ?? this.adName,
       adType: adType ?? this.adType,
-      contentText: adContentText ?? this.contentText,
+      adContentText: adContentText ?? this.adContentText,
       status: status ?? this.status,
       failure: failure ?? this.failure,
       currentPage: currentPage ?? this.currentPage,
@@ -117,6 +121,7 @@ class CreateAdState extends Equatable {
       adTargetLink: adTargetLink ?? this.adTargetLink,
       adImage: adImage ?? this.adImage,
       adVideo: adVideo ?? this.adVideo,
+      adVideoThumbnail: adVideoThumbnail ?? this.adVideoThumbnail,
     );
   }
 
@@ -125,7 +130,7 @@ class CreateAdState extends Equatable {
         adModel,
         adName,
         adType,
-        contentText,
+        adContentText,
         status,
         failure,
         currentPage,
@@ -140,5 +145,6 @@ class CreateAdState extends Equatable {
         adTargetLink,
         adImage,
         adVideo,
+        adVideoThumbnail,
       ];
 }

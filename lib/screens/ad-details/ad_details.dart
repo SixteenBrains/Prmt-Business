@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '/screens/payment/widgets/top_up.dart';
 import '/widgets/bottom_nav_button.dart';
-import '/models/ad_model.dart';
+import '../../models/ad.dart';
 import '/screens/dashboard/widgets/show_pie_chart.dart';
 import '/widgets/display_image.dart';
 import 'widgets/social_metirics.dart';
 
 class AdDetails extends StatelessWidget {
-  final AdModel? ad;
+  final Ad? ad;
 
   const AdDetails({Key? key, required this.ad}) : super(key: key);
 
@@ -57,7 +57,7 @@ class AdDetails extends StatelessWidget {
                     children: [
                       const SizedBox(height: 10.0),
                       Text(
-                        ad?.adName ?? '',
+                        ad?.productName ?? '',
                         style: const TextStyle(
                           fontSize: 20.0,
                         ),

@@ -53,6 +53,7 @@ class _AddBusinessNameState extends State<AddBusinessName> {
                   return null;
                 },
                 maxLenght: 60,
+                inputType: TextInputType.name,
               ),
               const Spacer(),
               BottomNavButton(
