@@ -61,7 +61,7 @@ class _AddBusinessNameState extends State<AddBusinessName> {
                   if (_formKey.currentState!.validate()) {
                     context
                         .read<RegistrationCubit>()
-                        .changePage(CurrentPage.businessType);
+                        .changePage(RegistrationCurrentPage.businessType);
                     // context.read<RegistrationCubit>().registerUser();
 
                   }

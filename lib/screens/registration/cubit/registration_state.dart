@@ -2,7 +2,7 @@ part of 'registration_cubit.dart';
 
 enum RegistrationStatus { initial, loading, submitting, succuss, error }
 
-enum CurrentPage { fName, email, businessName, businessType }
+enum RegistrationCurrentPage { fName, email, businessName, businessType }
 
 class RegistrationState extends Equatable {
   final String fName;
@@ -10,7 +10,7 @@ class RegistrationState extends Equatable {
   final String businessName;
   final RegistrationStatus status;
   final Failure failure;
-  final CurrentPage currentPage;
+  final RegistrationCurrentPage currentPage;
   final List<BusinessType?> types;
   final AppUser? currentUser;
   final BusinessType? businessType;
@@ -33,7 +33,7 @@ class RegistrationState extends Equatable {
         businessName: '',
         status: RegistrationStatus.initial,
         failure: Failure(),
-        currentPage: CurrentPage.fName,
+        currentPage: RegistrationCurrentPage.fName,
         types: [],
         currentUser: null,
         businessType: null,
@@ -60,7 +60,7 @@ class RegistrationState extends Equatable {
     String? businessName,
     RegistrationStatus? status,
     Failure? failure,
-    CurrentPage? currentPage,
+    RegistrationCurrentPage? currentPage,
     List<BusinessType?>? types,
     AppUser? currentUser,
     BusinessType? businessType,

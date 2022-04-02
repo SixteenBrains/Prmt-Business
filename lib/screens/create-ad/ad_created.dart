@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/screens/create-ad/cubit/create_ad_cubit.dart';
-import '/screens/create-ad/target_group.dart';
-
+import '/screens/create-ad/cubit/create_ad_cubit.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class AdCreated extends StatelessWidget {
@@ -36,7 +34,7 @@ class AdCreated extends StatelessWidget {
         BottomNavButton(
           onTap: () => context
               .read<CreateAdCubit>()
-              .changePage(CurrentPage.demographics),
+              .changePage(AdCurrentPage.targetGroup),
           label: 'CONTINUE',
           isEnabled: true,
         ),

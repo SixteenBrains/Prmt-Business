@@ -57,6 +57,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   shared_preferences: ^2.0.13
   sms_autofill: ^2.2.0
+  string_validator: ^0.3.0
   syncfusion_flutter_sliders: ^19.4.56
   timeago: ^3.2.2
   universal_platform: ^1.0.0+1

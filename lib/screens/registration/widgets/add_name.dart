@@ -68,7 +68,7 @@ class _AddNameState extends State<AddName> {
                   if (_formKey.currentState!.validate()) {
                     context
                         .read<RegistrationCubit>()
-                        .changePage(CurrentPage.email);
+                        .changePage(RegistrationCurrentPage.email);
                   }
                 },
                 label: 'CONTINUE',

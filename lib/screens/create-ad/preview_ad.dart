@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:prmt_business/models/ad_model.dart';
 import '/screens/payment/payment_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 import '/screens/create-ad/widgets/whatsapp_preview.dart';
 import 'widgets/facebook_preview.dart';
 import 'widgets/instagram_preview.dart';
 
+class PreviewAdArgs {
+  final AdModel? adModel;
+
+  PreviewAdArgs({required this.adModel});
+}
+
 class PreviewAd extends StatelessWidget {
   static const String routeName = '/preview-ad';
-  const PreviewAd({Key? key}) : super(key: key);
+  final AdModel? adModel;
+  const PreviewAd({
+    Key? key,
+    required this.adModel,
+  }) : super(key: key);
 
-  static Route route() => MaterialPageRoute(
+  static Route route({required PreviewAdArgs args}) => MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => const PreviewAd(),
+        builder: (_) => PreviewAd(adModel: args.adModel),
       );
 
   @override
   Widget build(BuildContext context) {
+    print('Ad Mode - $adModel');
     return DefaultTabController(
       length: 3,
       child: Scaffold(

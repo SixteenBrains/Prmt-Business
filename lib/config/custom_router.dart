@@ -42,7 +42,7 @@ class CustomRouter {
         return CreateAdScreen.route();
 
       case PreviewAd.routeName:
-        return PreviewAd.route();
+        return PreviewAd.route(args: settings.arguments as PreviewAdArgs);
 
       default:
         return _errorRoute();

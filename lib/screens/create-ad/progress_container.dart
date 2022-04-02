@@ -12,7 +12,7 @@ class ProgressContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
     print('Sizes --- ${(_canvas.width - 25) / 11} ');
-    final _progressSize = (_canvas.width - 25) / 11;
+    final _progressSize = (_canvas.width - 40) / 12;
     return Container(
       height: 18.0,
       width: double.infinity,

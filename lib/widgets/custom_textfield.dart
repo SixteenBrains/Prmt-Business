@@ -36,10 +36,10 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+          borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+          borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
         hintStyle: TextStyle(
           color: Colors.grey.shade400,

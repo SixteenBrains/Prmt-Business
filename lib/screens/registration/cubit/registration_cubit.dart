@@ -32,7 +32,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         businessName: value, status: RegistrationStatus.initial));
   }
 
-  void changePage(CurrentPage page) {
+  void changePage(RegistrationCurrentPage page) {
     emit(state.copyWith(currentPage: page, status: RegistrationStatus.initial));
   }
 

@@ -2,7 +2,7 @@ part of 'create_ad_cubit.dart';
 
 enum CreateAdStatus { initial, loading, submitting, succuss, error }
 
-enum CurrentPage {
+enum AdCurrentPage {
   adName,
   adType,
   adContent,
@@ -11,7 +11,8 @@ enum CurrentPage {
   awesome,
   demographics,
   previewAd,
-  stateAndCity
+  stateAndCity,
+  targetGroup,
 }
 
 enum AdType { image, video, none }
@@ -23,19 +24,21 @@ class CreateAdState extends Equatable {
   final String adContentText;
   final CreateAdStatus status;
   final Failure failure;
-  final CurrentPage currentPage;
+  final AdCurrentPage currentPage;
   final DateTime? startDate;
   final DateTime? endDate;
-  final int? budget;
+  final String? budget;
   final List<String> ageGroup;
   final List<String> incomeRange;
   final List<String> interests;
   final String state;
-  final List<String> city;
+  final String city;
   final String adTargetLink;
   final Uint8List? adImage;
   final File? adVideo;
   final Uint8List? adVideoThumbnail;
+  // TODO: work on the progressbar
+  final int progress;
 
   const CreateAdState({
     required this.adModel,
@@ -57,6 +60,7 @@ class CreateAdState extends Equatable {
     required this.adImage,
     required this.adVideo,
     required this.adVideoThumbnail,
+    required this.progress,
   });
 
   factory CreateAdState.initial() => const CreateAdState(
@@ -66,7 +70,7 @@ class CreateAdState extends Equatable {
         adContentText: '',
         status: CreateAdStatus.initial,
         failure: Failure(),
-        currentPage: CurrentPage.adName,
+        currentPage: AdCurrentPage.adName,
         startDate: null,
         endDate: null,
         budget: null,
@@ -74,11 +78,12 @@ class CreateAdState extends Equatable {
         incomeRange: [],
         interests: [],
         state: '',
-        city: [],
+        city: '',
         adTargetLink: '',
         adImage: null,
         adVideo: null,
         adVideoThumbnail: null,
+        progress: 0,
       );
 
   CreateAdState copyWith({
@@ -88,19 +93,20 @@ class CreateAdState extends Equatable {
     String? adContentText,
     CreateAdStatus? status,
     Failure? failure,
-    CurrentPage? currentPage,
+    AdCurrentPage? currentPage,
     DateTime? startDate,
     DateTime? endDate,
-    int? budget,
+    String? budget,
     List<String>? ageGroup,
     List<String>? incomeRange,
     List<String>? interests,
     String? state,
-    List<String>? city,
+    String? city,
     String? adTargetLink,
     Uint8List? adImage,
     File? adVideo,
     Uint8List? adVideoThumbnail,
+    int? progress,
   }) {
     return CreateAdState(
       adModel: adModel ?? this.adModel,
@@ -122,6 +128,7 @@ class CreateAdState extends Equatable {
       adImage: adImage ?? this.adImage,
       adVideo: adVideo ?? this.adVideo,
       adVideoThumbnail: adVideoThumbnail ?? this.adVideoThumbnail,
+      progress: progress ?? this.progress,
     );
   }
 
@@ -146,5 +153,6 @@ class CreateAdState extends Equatable {
         adImage,
         adVideo,
         adVideoThumbnail,
+        progress,
       ];
 }

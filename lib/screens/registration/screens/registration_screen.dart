@@ -60,30 +60,32 @@ class RegistrationScreen extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: GestureDetector(
                           onTap: () {
-                            if (state.currentPage == CurrentPage.businessName) {
+                            if (state.currentPage ==
+                                RegistrationCurrentPage.businessName) {
                               context
                                   .read<RegistrationCubit>()
-                                  .changePage(CurrentPage.email);
-                            } else if (state.currentPage == CurrentPage.email) {
-                              context
-                                  .read<RegistrationCubit>()
-                                  .changePage(CurrentPage.fName);
+                                  .changePage(RegistrationCurrentPage.email);
                             } else if (state.currentPage ==
-                                CurrentPage.businessType) {
+                                RegistrationCurrentPage.email) {
                               context
                                   .read<RegistrationCubit>()
-                                  .changePage(CurrentPage.businessName);
+                                  .changePage(RegistrationCurrentPage.fName);
+                            } else if (state.currentPage ==
+                                RegistrationCurrentPage.businessType) {
+                              context.read<RegistrationCubit>().changePage(
+                                  RegistrationCurrentPage.businessName);
                             }
                           },
                           child: CircleAvatar(
-                            backgroundColor:
-                                state.currentPage == CurrentPage.fName
-                                    ? Colors.white
-                                    : const Color(0xffF4F4F9),
+                            backgroundColor: state.currentPage ==
+                                    RegistrationCurrentPage.fName
+                                ? Colors.white
+                                : const Color(0xffF4F4F9),
                             radius: 25.0,
                             child: Icon(
                               Icons.arrow_back,
-                              color: state.currentPage == CurrentPage.fName
+                              color: state.currentPage ==
+                                      RegistrationCurrentPage.fName
                                   ? Colors.white
                                   : const Color(0xff999999),
                             ),
@@ -110,16 +112,16 @@ class RegistrationScreen extends StatelessWidget {
 
   Widget _screens(RegistrationState state) {
     switch (state.currentPage) {
-      case CurrentPage.fName:
+      case RegistrationCurrentPage.fName:
         return const AddName();
 
-      case CurrentPage.email:
+      case RegistrationCurrentPage.email:
         return const AddEmail();
 
-      case CurrentPage.businessName:
+      case RegistrationCurrentPage.businessName:
         return const AddBusinessName();
 
-      case CurrentPage.businessType:
+      case RegistrationCurrentPage.businessType:
         return const AddBusinessType();
 
       default:

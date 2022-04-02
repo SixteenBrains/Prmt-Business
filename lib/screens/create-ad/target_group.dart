@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '/screens/create-ad/demographics.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '/widgets/show_snackbar.dart';
+import '/screens/create-ad/cubit/create_ad_cubit.dart';
 import '/screens/create-ad/widgets/custom_chip.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'progress_container.dart';
@@ -39,61 +41,32 @@ const List<String> interests = [
 class TargetGroup extends StatelessWidget {
   const TargetGroup({Key? key}) : super(key: key);
 
+  void _submit(BuildContext context, CreateAdState state) {
+    if (state.ageGroup.isEmpty) {
+      ShowSnackBar.showSnackBar(context,
+          title: 'Please select age group', backgroundColor: Colors.deepOrange);
+    } else if (state.incomeRange.isEmpty) {
+      ShowSnackBar.showSnackBar(context,
+          title: 'Please select income range',
+          backgroundColor: Colors.deepOrange);
+    } else if (state.interests.isEmpty) {
+      ShowSnackBar.showSnackBar(context,
+          title: 'Please select interest', backgroundColor: Colors.deepOrange);
+    } else {
+      context.read<CreateAdCubit>().changePage(AdCurrentPage.demographics);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //final _canvas = MediaQuery.of(context).size;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20.0,
-          horizontal: 25.0,
-        ),
-        child: SingleChildScrollView(
+    return BlocBuilder<CreateAdCubit, CreateAdState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 25.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const CircleAvatar(
-                      backgroundColor: Color(0xffF4F4F9),
-                      radius: 25.0,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Color(0xff999999),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 40.0,
-                      width: 150.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Preview Ad',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              const ProgressContainer(progress: 6),
+              ProgressContainer(progress: state.progress),
               const SizedBox(height: 20.0),
               Text(
                 'Age',
@@ -117,8 +90,22 @@ class TargetGroup extends StatelessWidget {
                 runAlignment: WrapAlignment.center,
                 runSpacing: 18.0,
                 spacing: 16.0,
-                children:
-                    ageGroup.map((age) => CustomChip(label: age)).toList(),
+                children: ageGroup.map(
+                  (age) {
+                    final isSelected = state.ageGroup.contains(age);
+                    return CustomChip(
+                      onTap: () {
+                        if (isSelected) {
+                          context.read<CreateAdCubit>().removeAgeGroup(age);
+                        } else {
+                          context.read<CreateAdCubit>().addAgeGroup(age);
+                        }
+                      },
+                      label: age,
+                      isSelected: isSelected,
+                    );
+                  },
+                ).toList(),
               ),
               const SizedBox(height: 20.0),
               Text(
@@ -139,13 +126,26 @@ class TargetGroup extends StatelessWidget {
               ),
               const SizedBox(height: 20.0),
               Wrap(
-                // alignment: WrapAlignment.center,
-                //runAlignment: WrapAlignment.center,
                 runSpacing: 18.0,
                 spacing: 16.0,
-                children: incomeRange
-                    .map((income) => CustomChip(label: income))
-                    .toList(),
+                children: incomeRange.map(
+                  (income) {
+                    bool isSelected = state.incomeRange.contains(income);
+                    return CustomChip(
+                      onTap: () {
+                        if (isSelected) {
+                          context
+                              .read<CreateAdCubit>()
+                              .removeIncomeRange(income);
+                        } else {
+                          context.read<CreateAdCubit>().addIncomeRange(income);
+                        }
+                      },
+                      label: income,
+                      isSelected: isSelected,
+                    );
+                  },
+                ).toList(),
               ),
               const SizedBox(height: 20.0),
               Text(
@@ -170,26 +170,37 @@ class TargetGroup extends StatelessWidget {
                 runAlignment: WrapAlignment.center,
                 runSpacing: 18.0,
                 spacing: 16.0,
-                children: interests
-                    .map((interest) => CustomChip(label: interest))
-                    .toList(),
+                children: interests.map(
+                  (interest) {
+                    bool isSelected = state.interests.contains(interest);
+                    return CustomChip(
+                      onTap: () {
+                        if (isSelected) {
+                          context
+                              .read<CreateAdCubit>()
+                              .removeInterest(interest);
+                        } else {
+                          context.read<CreateAdCubit>().addInterest(interest);
+                        }
+                      },
+                      label: interest,
+                      isSelected: isSelected,
+                    );
+                  },
+                ).toList(),
               ),
               //   SizedBox(height: _canvas.height * 0.51),
               const SizedBox(height: 25.0),
               BottomNavButton(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const DemoGraphics(),
-                  ),
-                ),
+                onTap: () => _submit(context, state),
                 label: 'CONTINUE',
                 isEnabled: true,
               ),
-              //const SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
