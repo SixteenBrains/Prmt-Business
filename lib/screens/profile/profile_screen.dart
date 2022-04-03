@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:prmt_business/blocs/auth/auth_bloc.dart';
 import '/screens/my-ads/my_ads.dart';
 import '/screens/notifications/my_notifications.dart';
 import '/screens/profile/edit_profile.dart';
@@ -25,19 +27,26 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 25.0),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: const Align(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.clear,
-                          color: Colors.black,
-                          size: 20.0,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.clear,
+                            color: Colors.black,
+                            size: 20.0,
+                          ),
                         ),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: () =>
+                            context.read<AuthBloc>().add(AuthLogoutRequested()),
+                        icon: const Icon(Icons.logout),
+                      )
+                    ],
                   ),
                   Stack(
                     alignment: Alignment.bottomRight,
@@ -259,7 +268,13 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     )
                   ],
-                )
+                ),
+                //const Spacer(),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Logout'),
+                ),
+                const SizedBox(height: 20.0),
               ],
             ),
           )

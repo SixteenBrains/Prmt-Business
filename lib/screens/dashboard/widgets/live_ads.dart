@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:prmt_business/screens/ad-details/ad_details.dart';
+import '/models/ad.dart';
+import '/screens/ad-details/ad_details.dart';
 import '/constants/constants.dart';
-import '../../../models/ad.dart';
 import '/widgets/display_image.dart';
-
 import 'show_pie_chart.dart';
 
 class LiveAds extends StatelessWidget {
@@ -103,14 +102,11 @@ class LiveAdCard extends StatelessWidget {
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
-              child: Hero(
-                tag: 'ad?.imageUrl',
-                child: DisplayImage(
-                  imageUrl: ad?.imageUrl,
-                  height: _canvas.width * 0.5,
-                  width: double.infinity,
-                  fit: BoxFit.fitHeight,
-                ),
+              child: DisplayImage(
+                imageUrl: ad?.imageUrl,
+                height: _canvas.width * 0.5,
+                width: double.infinity,
+                fit: BoxFit.fitHeight,
               ),
             ),
             const SizedBox(height: 20.0),

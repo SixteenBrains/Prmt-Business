@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prmt_business/repositories/ad/ad_repository.dart';
+import 'package:prmt_business/repositories/profile/profile_repo.dart';
 import '/repositories/registraion/registration_repository.dart';
 import '/screens/splash/splash_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -58,19 +59,22 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
+        RepositoryProvider<ProfileRepository>(
+          create: (_) => ProfileRepository(),
+        ),
         RepositoryProvider<RegistrationRepository>(
           create: (_) => RegistrationRepository(),
         ),
         RepositoryProvider<AdRepository>(
           create: (_) => AdRepository(),
-        )
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-              authRepository: context.read<AuthRepository>(),
-            ),
+                authRepository: context.read<AuthRepository>(),
+                profileRepository: context.read<ProfileRepository>()),
           ),
           // BlocProvider(
           //   create: (context) => SignUpCubit(),

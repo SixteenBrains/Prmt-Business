@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/screens/create-ad/screens/create_ad_sceen.dart';
 import '/widgets/bottom_nav_button.dart';
 
@@ -57,8 +58,13 @@ class ProfileCompleted extends StatelessWidget {
               ),
               const Spacer(),
               BottomNavButton(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(CreateAdScreen.routeName),
+                onTap: () {
+                  // final _regisCubit = context.read<RegistrationCubit>();
+                  // _regisCubit.setFirstAdCreated();
+                  // print(
+                  //     'First ad  ${_regisCubit.state.currentUser?.firstAdCreated}');
+                  Navigator.of(context).pushNamed(CreateAdScreen.routeName);
+                },
                 label: 'CONTINUE',
                 isEnabled: true,
               ),

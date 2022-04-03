@@ -35,7 +35,7 @@ class RegistrationScreen extends StatelessWidget {
         listener: (context, state) {
           if (state.status == RegistrationStatus.succuss) {
             print('User -- ${state.currentUser}');
-            // Navigator.of(context).pushNamed(ProfileCompleted.routeName);
+            //Navigator.of(context).pushNamed(DashBoard.routeName);
           }
         },
         builder: (context, state) {

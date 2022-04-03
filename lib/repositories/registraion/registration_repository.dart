@@ -37,6 +37,22 @@ class RegistrationRepository extends BaseRegistrationRepo {
     }
   }
 
+  Future<void> setFirstAdCreated({required String? userId}) async {
+    try {
+      print('User id $userId');
+      if (userId != null) {
+        return;
+      }
+
+      await _firestore
+          .collection(Paths.users)
+          .doc(userId)
+          .set({'firstAdCreated': true});
+    } catch (error) {
+      print('Error in first ad created ${error.toString()}');
+    }
+  }
+
   Future<List<BusinessType?>> getBusinessType() async {
     try {
       final typeSnaps = await _firestore.collection(Paths.businessTypes).get();

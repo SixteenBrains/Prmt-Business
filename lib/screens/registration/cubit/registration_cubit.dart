@@ -23,6 +23,11 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(state.copyWith(fName: value, status: RegistrationStatus.initial));
   }
 
+  void setFirstAdCreated() async {
+    await _registrationRepository.setFirstAdCreated(
+        userId: _authBloc.state.user?.uid);
+  }
+
   void emailChanged(String value) {
     emit(state.copyWith(email: value, status: RegistrationStatus.initial));
   }

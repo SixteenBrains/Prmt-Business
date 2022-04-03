@@ -10,6 +10,7 @@ class AppUser extends Equatable {
   final DateTime? createdAt;
   final String? businessName;
   final String? businessType;
+  final bool firstAdCreated;
 
   const AppUser({
     this.email,
@@ -18,6 +19,7 @@ class AppUser extends Equatable {
     this.businessName,
     this.createdAt,
     this.businessType,
+    this.firstAdCreated = false,
   });
 
   AppUser copyWith({
@@ -27,6 +29,7 @@ class AppUser extends Equatable {
     String? businessName,
     DateTime? createdAt,
     String? businessType,
+    bool? firstAdCreated,
   }) {
     return AppUser(
       email: email ?? this.email,
@@ -35,6 +38,7 @@ class AppUser extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       businessName: businessName ?? this.businessName,
       businessType: businessType ?? this.businessType,
+      firstAdCreated: firstAdCreated ?? this.firstAdCreated,
     );
   }
 
@@ -45,6 +49,7 @@ class AppUser extends Equatable {
       'businessName': businessName,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'businessType': businessType,
+      'firstAdCreated': firstAdCreated,
     };
   }
 
@@ -57,6 +62,7 @@ class AppUser extends Equatable {
           ? (map['createdAt'] as Timestamp).toDate()
           : null,
       businessType: map['businessType'],
+      firstAdCreated: map['firstAdCreated'] ?? false,
     );
   }
 
@@ -80,6 +86,7 @@ class AppUser extends Equatable {
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
       businessType: data?['businessType'],
+      firstAdCreated: data?['firstAdCreated'] ?? false,
     );
   }
 
@@ -90,7 +97,7 @@ class AppUser extends Equatable {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType, firstAdCreated: $firstAdCreated)';
   }
 
   @override
