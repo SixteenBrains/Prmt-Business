@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/ads/ads_repository.dart';
+import '/screens/ads/cubit/ads_cubit.dart';
 import '/screens/dashboard/dashboard_screen.dart';
 import '/enums/enums.dart';
 import '/screens/ads/ads_screen.dart';
@@ -17,7 +21,13 @@ class SwitchScreen extends StatelessWidget {
         return const DashBoardScreen();
 
       case NavItem.ads:
-        return const AdsScreen();
+        return BlocProvider(
+          create: (context) => AdsCubit(
+              adsRepository: context.read<AdsRepository>(),
+              authBloc: context.read<AuthBloc>())
+            ..loadAds(),
+          child: const AdsScreen(),
+        );
 
       case NavItem.users:
         return const UsersScreen();

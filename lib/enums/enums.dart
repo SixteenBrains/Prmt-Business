@@ -1,4 +1,7 @@
+export 'media_type.dart';
+
 enum NavItem { dashboard, ads, users, payment, logout }
+
 // navitem can be
 /*
 DashBoard

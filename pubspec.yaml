@@ -30,6 +30,7 @@ dependencies:
   cloud_firestore: ^3.1.10
   cupertino_icons: ^1.0.2
   data_table_2: ^2.2.1
+  enum_to_string: ^2.0.1
   equatable: ^2.0.3
   firebase_auth: ^3.3.11
   firebase_core: ^1.13.1

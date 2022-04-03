@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prmt_admin/repositories/ads/ads_repository.dart';
 import '/repositories/auth/auth_wrapper.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/blocs/nav/nav_bloc.dart';
@@ -43,6 +44,9 @@ class AdminApp extends StatelessWidget {
         ),
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
+        ),
+        RepositoryProvider<AdsRepository>(
+          create: (_) => AdsRepository(),
         )
       ],
       child: MultiBlocProvider(
