@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prmt_business/models/ad_model.dart';
 import '/screens/create-ad/cubit/create_ad_cubit.dart';
 import '/widgets/custom_textfield.dart';
-import '/screens/create-ad/preview_ad.dart';
+import '../preview-ad/preview_ad.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'progress_container.dart';
 
@@ -195,11 +195,11 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                 SizedBox(height: _canvas.height * 0.37),
 
                 BottomNavButton(
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-                      Navigator.of(context).pushNamed(
-                        PreviewAd.routeName,
+                      final result = await Navigator.of(context).pushNamed(
+                        PreviewAdScreen.routeName,
                         arguments: PreviewAdArgs(
                           adModel: AdModel(
                             adName: state.adName,
@@ -218,10 +218,16 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                           ),
                         ),
                       );
+                      print('Result $result');
+                      if (result == true) {
+                        context
+                            .read<CreateAdCubit>()
+                            .changePage(AdCurrentPage.adName);
+                      }
                     }
                   },
                   label: 'CONTINUE',
-                  isEnabled: true,
+                  isEnabled: state.state.isNotEmpty && state.city.isNotEmpty,
                 ),
               ],
             ),

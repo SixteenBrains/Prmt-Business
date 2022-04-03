@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
-
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '/utils/media_util.dart';
 import '/models/failure.dart';

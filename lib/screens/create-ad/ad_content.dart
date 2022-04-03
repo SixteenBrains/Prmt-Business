@@ -85,6 +85,7 @@ class _AdContentState extends State<AdContent> {
                 const SizedBox(height: 20.0),
 
                 CustomTextField(
+                  initialValue: state.adContentText,
                   minLines: 3,
                   maxLines: 3,
                   maxLenght: 150,

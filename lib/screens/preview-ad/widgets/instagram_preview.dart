@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '/models/ad_model.dart';
 
 class InstagramPreview extends StatelessWidget {
-  const InstagramPreview({Key? key}) : super(key: key);
+  final AdModel? ad;
+  const InstagramPreview({Key? key, required this.ad}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,30 +19,45 @@ class InstagramPreview extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Image.network(
-                  'https://m.media-amazon.com/images/I/81HHLzHnF0L._SL1500_.jpg',
-                  height: 240.0,
-                  width: 240.0,
-                ),
+                ad?.adImage != null
+                    ? Image.memory(
+                        ad!.adImage!,
+                        // height: 240.0,
+                        // width: 240.0,
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        'assets/images/error-image.png',
+                        // height: 240.0,
+                        // width: 240.0,
+                        fit: BoxFit.contain,
+                      ),
+                // Image.network(
+                //   'https://m.media-amazon.com/images/I/81HHLzHnF0L._SL1500_.jpg',
+                //   height: 240.0,
+                //   width: 240.0,
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6.0,
                     vertical: 8.0,
                   ),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
+                    text: TextSpan(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 17.0,
                         color: Colors.black,
                       ),
                       children: [
+                        TextSpan(text: ad?.adContent ?? 'N/A'),
+                        // 'Get 20% Off on Himalaya Ashvagandha on Amazon, Click to BUY from, offer valid till stock lasts. Hurry! '),
+                        const TextSpan(text: ' '),
                         TextSpan(
-                            text:
-                                'Get 20% Off on Himalaya Ashvagandha on Amazon, Click to BUY from, offer valid till stock lasts. Hurry! '),
-                        TextSpan(
-                            text: 'https://prmt.com/YXz1365x',
-                            style: TextStyle(color: Colors.blue))
+                          text: ad?.adTargetLink ?? 'N/A',
+                          //  text: 'https://prmt.com/YXz1365x',
+                          style: const TextStyle(color: Colors.blue),
+                        )
                       ],
                     ),
                   ),
