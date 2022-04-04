@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/payment/payment_screen.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/screens/preview-ad/preview_ad.dart';
 import '/screens/create-ad/screens/create_ad_sceen.dart';
@@ -47,6 +48,10 @@ class CustomRouter {
 
       case DashBoard.routeName:
         return DashBoard.route();
+
+      case PaymentScreen.routeName:
+        return PaymentScreen.route(
+            args: settings.arguments as PaymentScreenArgs);
 
       default:
         return _errorRoute();

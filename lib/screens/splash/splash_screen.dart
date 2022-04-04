@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: [
                     Text(
                       // 'PROM   TE',
-                      animated ? 'PRMT' : 'PROM    TE',
+                      animated ? 'PRMT' : 'PROM      TE',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 60.0,
@@ -119,9 +119,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               if (!animated)
                 AnimatedPositioned(
-                  top: selected ? -50 : _canvas.height * 0.436,
+                  top: selected ? -50 : _canvas.height * 0.432,
                   //  right: 130.0,
-                  right: _canvas.width * 0.339,
+                  right: _canvas.width * 0.32,
                   // top: selected ? -50 : 350.0,
                   // right: 130.0,
                   duration: const Duration(milliseconds: 1000),

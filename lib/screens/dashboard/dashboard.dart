@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/blocs/auth/auth_bloc.dart';
-import '/screens/create-ad/ad_name.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/screens/create-ad/screens/create_ad_sceen.dart';
 import '/screens/profile/profile_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/draft_ads.dart';
@@ -142,7 +142,7 @@ class DashBoard extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              SizedBox(width: _canvas.width * 0.3),
+                              SizedBox(width: _canvas.width * 0.35),
                               const Text(
                                 '4',
                                 style: TextStyle(
@@ -207,22 +207,14 @@ class DashBoard extends StatelessWidget {
                           ],
                         ),
                         Positioned(
-                          left: 10.0,
-                          right: 10.0,
-                          bottom: -0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, right: 10.0, bottom: 20.0),
-                            child: BottomNavButton(
+                          left: 20.0,
+                          right: 20.0,
+                          bottom: 20.0,
+                          child: BottomNavButton(
                               label: 'CREATE NEW AD',
                               isEnabled: true,
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const AdName(),
-                                ),
-                              ),
-                            ),
-                          ),
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed(CreateAdScreen.routeName)),
                         ),
                       ],
                     ),

@@ -35,6 +35,7 @@ dependencies:
   cloud_firestore: ^3.1.10
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
+  dio: ^4.0.6
   enum_to_string: ^2.0.1
   equatable: ^2.0.3
   firebase_auth: ^3.3.10
@@ -50,6 +51,7 @@ dependencies:
   flutter_svg: ^1.0.3
   font_awesome_flutter: ^9.2.0
   google_fonts: ^2.3.1
+  http: ^0.13.4
   image_cropper: ^1.5.0
   image_picker: ^0.8.4+11
   intl: ^0.17.0

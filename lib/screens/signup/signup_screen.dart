@@ -47,6 +47,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _canvas = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -93,89 +94,94 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: 25.0),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () => Navigator.of(context).pop(),
-                            child: const CircleAvatar(
-                              backgroundColor: Color(0xffF4F4F9),
-                              radius: 25.0,
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: Color(0xff999999),
-                              ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 25.0),
+                          // Align(
+                          //   alignment: Alignment.topLeft,
+                          //   child: GestureDetector(
+                          //     onTap: () => Navigator.of(context).pop(),
+                          //     child: const CircleAvatar(
+                          //       backgroundColor: Color(0xffF4F4F9),
+                          //       radius: 25.0,
+                          //       child: Icon(
+                          //         Icons.arrow_back,
+                          //         color: Color(0xff999999),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            'Your Mobile Number',
+                            style: GoogleFonts.openSans(
+                              color: Colors.grey.shade800,
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Text(
-                          'Your Mobile Number',
-                          style: GoogleFonts.openSans(
-                            color: Colors.grey.shade800,
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 12.0),
-                        Text(
-                          'To start the app, we need your mobile number linked',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 20.0),
-                              child: Text(
-                                '+91',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                ),
-                              ),
+                          const SizedBox(height: 12.0),
+                          Text(
+                            'To start the app, we need your mobile number linked',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 16.0,
                             ),
-                            const SizedBox(width: 10.0),
-                            Expanded(
-                              child: TextFormField(
-                                initialValue: state.phNo,
-                                maxLength: 10,
-                                style: const TextStyle(fontSize: 20.0),
-                                keyboardType: TextInputType.phone,
-                                onChanged: (value) => context
-                                    .read<SignUpCubit>()
-                                    .phoneNoChanged(value),
-                                decoration: InputDecoration(
-                                  hintText: 'Eg - 1234567890',
-                                  enabledBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
-                                  ),
-                                  focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blue),
-                                  ),
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey.shade400,
+                          ),
+                          const SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 20.0),
+                                child: Text(
+                                  '+91',
+                                  style: TextStyle(
+                                    color: Colors.black,
                                     fontSize: 20.0,
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        BottomNavButton(
-                          onTap: () => _submitForm(
-                              context, state.status == SignUpStatus.submitting),
-                          label: 'CONTINUE',
-                          isEnabled: state.phNoIsEmpty,
-                        ),
-                      ],
+                              const SizedBox(width: 10.0),
+                              Expanded(
+                                child: TextFormField(
+                                  initialValue: state.phNo,
+                                  maxLength: 10,
+                                  style: const TextStyle(fontSize: 20.0),
+                                  keyboardType: TextInputType.phone,
+                                  onChanged: (value) => context
+                                      .read<SignUpCubit>()
+                                      .phoneNoChanged(value),
+                                  decoration: InputDecoration(
+                                    hintText: 'Eg - 1234567890',
+                                    enabledBorder: const UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.blue),
+                                    ),
+                                    focusedBorder: const UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.blue),
+                                    ),
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // const Spacer(),
+                          SizedBox(height: _canvas.height * 0.61),
+                          BottomNavButton(
+                            onTap: () => _submitForm(context,
+                                state.status == SignUpStatus.submitting),
+                            label: 'CONTINUE',
+                            isEnabled: state.phNoIsEmpty,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

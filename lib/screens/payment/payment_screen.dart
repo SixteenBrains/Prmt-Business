@@ -1,13 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/ad/ad_repository.dart';
+import '/screens/payment/cubit/payment_cubit.dart';
+import '/models/ad_model.dart';
 import '/widgets/bottom_nav_button.dart';
-
 import 'payment_succuss.dart';
 import 'widgets/add_icon.dart';
 
+class PaymentScreenArgs {
+  final AdModel? ad;
+
+  PaymentScreenArgs({required this.ad});
+}
+
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  static const String routeName = '/payment';
+
+  final AdModel? ad;
+  const PaymentScreen({
+    Key? key,
+    required this.ad,
+  }) : super(key: key);
+
+  static Route route({required PaymentScreenArgs args}) {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => BlocProvider(
+        create: (context) => PaymentCubit(
+          ad: args.ad,
+          adRepository: context.read<AdRepository>(),
+          authBloc: context.read<AuthBloc>(),
+        ),
+        child: PaymentScreen(ad: args.ad),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -319,11 +349,19 @@ class PaymentScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: BottomNavButton(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const PaymentSuccussfull(),
-                  ),
-                ),
+                onTap: () async {
+                  // context
+                  //     .read<AdRepository>()
+                  //     .publishAd(ad: ad, userId: ad?.author?.uid);
+
+                  context.read<PaymentCubit>().publishAd();
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const PaymentSuccussfull(),
+                    ),
+                  );
+                },
                 label: 'CONTINUE',
                 isEnabled: true,
               ),

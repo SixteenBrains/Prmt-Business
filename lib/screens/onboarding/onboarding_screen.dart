@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:prmt_business/config/auth_wrapper.dart';
-import 'package:prmt_business/config/shared_prefs.dart';
+import '/config/auth_wrapper.dart';
+import '/config/shared_prefs.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -90,19 +90,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             ],
                           ),
                           const SizedBox(height: 15.0),
-                          Text(
+                          const Text(
                             'of the real users',
-                            style: GoogleFonts.openSans(
-                              color: const Color(0xff4A4980),
+                            style: TextStyle(
+                              // style: GoogleFonts.openSans(
+                              color: Color(0xff4A4980),
                               fontSize: 25.0,
                               fontWeight: FontWeight.w600,
                             ),
                           )
                         ],
                       ),
-                      decoration: PageDecoration(
-                        titleTextStyle: GoogleFonts.openSans(
-                          color: const Color(0xff4A4980),
+                      decoration: const PageDecoration(
+                        titleTextStyle: TextStyle(
+                          color: Color(0xff4A4980),
                           fontSize: 25.0,
                           fontWeight: FontWeight.w600,
                         ),

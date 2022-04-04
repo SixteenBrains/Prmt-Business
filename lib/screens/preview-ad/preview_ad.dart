@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:prmt_business/models/ad_model.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/screens/preview-ad/cubit/preview_ad_cubit.dart';
 import '/widgets/error_dialog.dart';
-import '/models/ad_model.dart';
 import '/screens/payment/payment_screen.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/facebook_preview.dart';
@@ -111,9 +111,18 @@ class PreviewAdScreen extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        WhatsAppPreview(ad: state.ad),
-                        FacebookPreview(ad: state.ad),
-                        InstagramPreview(ad: state.ad),
+                        WhatsAppPreview(
+                          ad: state.ad,
+                          previewImg: state.previewImage,
+                        ),
+                        FacebookPreview(
+                          ad: state.ad,
+                          previewImg: state.previewImage,
+                        ),
+                        InstagramPreview(
+                          ad: state.ad,
+                          previewImg: state.previewImage,
+                        ),
                       ],
                     ),
                   ),
@@ -166,10 +175,9 @@ class PreviewAdScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 25.0),
                   BottomNavButton(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const PaymentScreen(),
-                      ),
+                    onTap: () => Navigator.of(context).pushNamed(
+                      PaymentScreen.routeName,
+                      arguments: PaymentScreenArgs(ad: state.ad),
                     ),
                     label: 'PROCEED TO PAYMENT',
                     isEnabled: true,

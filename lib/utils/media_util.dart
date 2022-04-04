@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:prmt_business/models/failure.dart';
+import '/models/failure.dart';
 import 'package:uuid/uuid.dart';
 
 class MediaUtil {
@@ -50,6 +50,29 @@ class MediaUtil {
       return croppedFile;
     }
     return null;
+  }
+
+  static Future<String> uploadAdMedia({
+    required String childName,
+    required File file,
+    bool isVideo = false,
+    required String uid,
+  }) async {
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+    // creating location to our firebase storage
+
+    Reference ref = _storage.ref().child(childName).child(uid);
+    if (isVideo) {
+      String id = const Uuid().v1();
+      ref = ref.child(id);
+    }
+
+    // putting in uint8list format -> Upload task like a future but not future
+    UploadTask uploadTask = ref.putFile(file);
+
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 
   static Future<String> uploadProfileImageToStorage(

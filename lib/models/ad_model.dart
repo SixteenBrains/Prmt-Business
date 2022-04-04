@@ -1,145 +1,153 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
+import '/enums/enums.dart';
+import '/config/paths.dart';
+import '/models/appuser.dart';
 
 class AdModel extends Equatable {
-  final String? adName;
+  final String? name;
   final String? adId;
-  final String? adContent;
+  final String? description;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? budget;
-  final List<String> ageGroup;
-  final List<String> incomeRange;
-  final List<String> interests;
   final String? state;
-  final String? city;
-  final String? adTargetLink;
-  final Uint8List? adImage;
-  final File? adVideo;
+  final List<String?> cities;
+  final String? targetLink;
+  final File? mediaFile;
+  final MediaType? adType;
+  final AppUser? author;
+  final String? mediaUrl;
 
   const AdModel({
+    this.name,
     this.adId,
-    this.adName,
-    required this.adContent,
+    this.description,
     this.startDate,
     this.endDate,
     this.budget,
-    required this.ageGroup,
-    required this.incomeRange,
-    required this.interests,
-    required this.state,
-    required this.city,
-    required this.adTargetLink,
-    this.adImage,
-    this.adVideo,
+    this.state,
+    this.cities = const [],
+    this.targetLink,
+    this.mediaFile,
+    required this.adType,
+    this.author,
+    this.mediaUrl,
   });
 
   AdModel copyWith({
-    String? adName,
-    String? adContent,
+    String? name,
+    String? adId,
+    String? description,
     DateTime? startDate,
     DateTime? endDate,
     String? budget,
-    List<String>? ageGroup,
-    List<String>? incomeRange,
-    List<String>? interests,
     String? state,
-    String? city,
-    String? adTargetLink,
-    Uint8List? adImage,
-    File? adVideo,
-    String? adId,
+    List<String?>? cities,
+    String? targetLink,
+    File? mediaFile,
+    MediaType? adType,
+    AppUser? author,
+    String? mediaUrl,
   }) {
     return AdModel(
+      name: name ?? this.name,
       adId: adId ?? this.adId,
-      adName: adName ?? this.adName,
-      adContent: adContent ?? this.adContent,
+      description: description ?? this.description,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       budget: budget ?? this.budget,
-      ageGroup: ageGroup ?? this.ageGroup,
-      incomeRange: incomeRange ?? this.incomeRange,
-      interests: interests ?? this.interests,
       state: state ?? this.state,
-      city: city ?? this.city,
-      adTargetLink: adTargetLink ?? this.adTargetLink,
-      adImage: adImage ?? this.adImage,
-      adVideo: adVideo ?? this.adVideo,
+      cities: cities ?? this.cities,
+      targetLink: targetLink ?? this.targetLink,
+      mediaFile: mediaFile ?? this.mediaFile,
+      adType: adType ?? this.adType,
+      author: author ?? this.author,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'adId': adId,
-      'adName': adName,
-      'adContent': adContent,
-      'startDate': startDate?.millisecondsSinceEpoch,
-      'endDate': endDate?.millisecondsSinceEpoch,
+      'name': name,
+      // 'adId': adId,
+      'description': description,
+      'startDate': startDate != null ? Timestamp.fromDate(startDate!) : null,
+      'endDate': endDate != null ? Timestamp.fromDate(endDate!) : null,
       'budget': budget,
-      'ageGroup': ageGroup,
-      'incomeRange': incomeRange,
-      'interests': interests,
       'state': state,
-      'city': city,
-      'adTargetLink': adTargetLink,
-      // 'adImage': adImage?.toMap(),
-      // 'adVideo': adVideo?.toMap(),
+      'cities': cities,
+      'targetLink': targetLink,
+      //'mediaFile': mediaFile?.toMap(),
+      'adType': EnumToString.convertToString(adType),
+      'author':
+          FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid),
+      'mediaUrl': mediaUrl,
     };
   }
 
-  factory AdModel.fromMap(Map<String, dynamic> map) {
-    return AdModel(
-      adId: map['adId'],
-      adName: map['adName'],
-      adContent: map['adContent'] ?? '',
-      startDate: map['startDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['startDate'])
-          : null,
-      endDate: map['endDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['endDate'])
-          : null,
-      budget: map['budget'],
-      ageGroup: List<String>.from(map['ageGroup']),
-      incomeRange: List<String>.from(map['incomeRange']),
-      interests: List<String>.from(map['interests']),
-      state: map['state'] ?? '',
-      city: map['city'] ?? '',
-      adTargetLink: map['adTargetLink'] ?? '',
-      // adImage: map['adImage'] != null ? Uint8List.fromMap(map['adImage']) : null,
-      // adVideo: map['adVideo'] != null ? File.fromMap(map['adVideo']) : null,
-    );
+  static Future<AdModel?> fromDocument(DocumentSnapshot? doc) async {
+    final data = doc?.data() as Map?;
+    print('Ad data $data');
+    if (data != null) {
+      final userRef = data['author'] as DocumentReference?;
+      final userSnap = await userRef?.get();
+
+      return AdModel(
+        adId: doc?.id,
+        description: data['description'],
+        // ageGroup:
+        //     data['ageGroup'] != null ? List<String>.from(data['ageGroup']) : [],
+        // incomeRange: data['incomeRange'] != null
+        //     ? List<String>.from(data['incomeRange'])
+        //     : [],
+        // interests: data['interests'] != null
+        //     ? List<String>.from(data['interests'])
+        //     : [],
+        state: data['state'],
+        cities: data['cities'] != null ? List<String>.from(data['cities']) : [],
+        startDate: data['startDate'] != null
+            ? (data['startDate'] as Timestamp).toDate()
+            : null,
+        endDate: data['endDate'] != null
+            ? (data['endDate'] as Timestamp).toDate()
+            : null,
+        targetLink: data['targetLink'],
+        author: userSnap != null ? AppUser.fromDocument(userSnap) : null,
+        mediaUrl: data['mediaUrl'],
+        adType: EnumToString.fromString(
+          MediaType.values,
+          data['adType'],
+        ),
+      );
+    }
+    return null;
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory AdModel.fromJson(String source) =>
-      AdModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'AdModel(adName: $adName, adContent: $adContent, startDate: $startDate, endDate: $endDate, budget: $budget, ageGroup: $ageGroup, incomeRange: $incomeRange, interests: $interests, state: $state, city: $city, adTargetLink: $adTargetLink, adImage: $adImage, adVideo: $adVideo)';
+    return 'AdMo(name: $name, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl)';
   }
 
   @override
   List<Object?> get props {
     return [
+      name,
       adId,
-      adName,
-      adContent,
+      description,
       startDate,
       endDate,
       budget,
-      ageGroup,
-      incomeRange,
-      interests,
       state,
-      city,
-      adTargetLink,
-      adImage,
-      adVideo,
+      cities,
+      targetLink,
+      mediaFile,
+      adType,
+      author,
+      mediaUrl,
     ];
   }
 }

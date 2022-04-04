@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/repositories/ad/ad_repository.dart';
-import 'package:prmt_business/repositories/profile/profile_repo.dart';
+import '/repositories/ad/ad_repository.dart';
+import '/repositories/profile/profile_repo.dart';
 import '/repositories/registraion/registration_repository.dart';
 import '/screens/splash/splash_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           //showPerformanceOverlay: true,
           theme: ThemeData(
-            fontFamily: 'Helvetica',
+            fontFamily: 'GoogleSans',
             scaffoldBackgroundColor: Colors.white,
           ),
           debugShowCheckedModeBanner: false,

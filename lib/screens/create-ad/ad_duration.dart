@@ -57,188 +57,193 @@ class _AdDurationState extends State<AdDuration> {
 
   @override
   Widget build(BuildContext context) {
-    final _canvas = MediaQuery.of(context).size;
-
     return BlocBuilder<CreateAdCubit, CreateAdState>(
       builder: (context, state) {
-        return Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ProgressContainer(progress: state.progress),
-                const SizedBox(height: 20.0),
-                Text(
-                  'Start Date',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 12.0),
-                Text(
-                  'Select your start date for the ad',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 16.0,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                Row(
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: TextFormField(
-                        enabled: false,
-                        controller: _startDateController,
-                        keyboardType: TextInputType.name,
-                        style: const TextStyle(fontSize: 20.0),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Start date can\'t be empty';
-                          } else {}
-                          return null;
-                        },
-                        decoration: dateFieldDecoration,
+                    ProgressContainer(progress: state.progress),
+                    const SizedBox(height: 20.0),
+                    Text(
+                      'Start Date',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () async {
-                        final startDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2023),
-                        );
-                        if (startDate != null) {
-                          //  progress = 5;
-                          context
-                              .read<CreateAdCubit>()
-                              .startDateChanged(startDate);
-                          setState(() {
-                            _startDateController.text =
-                                DateFormat('dd/MM/yyyy').format(startDate);
-                          });
-                        }
-                      },
-                      icon: const Icon(Icons.date_range),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      'Select your start date for the ad',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            enabled: false,
+                            controller: _startDateController,
+                            keyboardType: TextInputType.name,
+                            style: const TextStyle(fontSize: 20.0),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Start date can\'t be empty';
+                              } else {}
+                              return null;
+                            },
+                            decoration: dateFieldDecoration,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            final startDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2023),
+                            );
+                            if (startDate != null) {
+                              //  progress = 5;
+                              context
+                                  .read<CreateAdCubit>()
+                                  .startDateChanged(startDate);
+                              setState(() {
+                                _startDateController.text =
+                                    DateFormat('dd/MM/yyyy').format(startDate);
+                              });
+                            }
+                          },
+                          icon: const Icon(Icons.date_range),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 35.0),
+                    Text(
+                      'End Date',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      'Select your end date for the ad',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            enabled: false,
+                            controller: _endDateController,
+                            keyboardType: TextInputType.name,
+                            style: const TextStyle(fontSize: 20.0),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'End date can\'t be empty';
+                              }
+                              return null;
+                            },
+                            decoration: dateFieldDecoration,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            if (state.startDate != null) {
+                              final endDate = await showDatePicker(
+                                context: context,
+                                initialDate: state.startDate!,
+                                firstDate: state.startDate!,
+                                lastDate: DateTime(2023),
+                              );
+                              if (endDate != null) {
+                                context
+                                    .read<CreateAdCubit>()
+                                    .endDateChanged(endDate);
+                                _endDateController.text =
+                                    DateFormat('dd/MM/yyyy').format(endDate);
+                                // progress = 6;
+                              }
+                            } else {
+                              ShowSnackBar.showSnackBar(context,
+                                  title: 'Please select start date first',
+                                  backgroundColor: Colors.deepOrange);
+                            }
+                          },
+                          icon: const Icon(Icons.date_range),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    if (state.startDate != null && state.endDate != null)
+                      Text(
+                        'Your ad will be valid for ${state.endDate?.difference(state.startDate!).inDays} days',
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    const SizedBox(height: 35.0),
+                    Text(
+                      'Daily Budget',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    Text(
+                      'Select your daily budget',
+                      style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    if (state.budget != '' && state.budget != null)
+                      Text(
+                        '₹ ${state.budget}',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    BlocProvider(
+                      create: (context) => BudgetCubit(
+                        createAdCubit: context.read<CreateAdCubit>(),
+                      ),
+                      child: const BudgetWidget(),
                     ),
                   ],
                 ),
-                const SizedBox(height: 35.0),
-                Text(
-                  'End Date',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 12.0),
-                Text(
-                  'Select your end date for the ad',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 16.0,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        enabled: false,
-                        controller: _endDateController,
-                        keyboardType: TextInputType.name,
-                        style: const TextStyle(fontSize: 20.0),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'End date can\'t be empty';
-                          }
-                          return null;
-                        },
-                        decoration: dateFieldDecoration,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        if (state.startDate != null) {
-                          final endDate = await showDatePicker(
-                            context: context,
-                            initialDate: state.startDate!,
-                            firstDate: state.startDate!,
-                            lastDate: DateTime(2023),
-                          );
-                          if (endDate != null) {
-                            context
-                                .read<CreateAdCubit>()
-                                .endDateChanged(endDate);
-                            _endDateController.text =
-                                DateFormat('dd/MM/yyyy').format(endDate);
-                            // progress = 6;
-                          }
-                        } else {
-                          ShowSnackBar.showSnackBar(context,
-                              title: 'Please select start date first',
-                              backgroundColor: Colors.deepOrange);
-                        }
-                      },
-                      icon: const Icon(Icons.date_range),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                if (state.startDate != null && state.endDate != null)
-                  Text(
-                    'Your ad will be valid for ${state.endDate?.difference(state.startDate!).inDays} days',
-                    style: const TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.blue,
-                    ),
-                  ),
-                const SizedBox(height: 35.0),
-                Text(
-                  'Daily Budget',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 12.0),
-                Text(
-                  'Select your daily budget',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontSize: 16.0,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                if (state.budget != '' && state.budget != null)
-                  Text(
-                    '₹ ${state.budget}',
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                const SizedBox(height: 7.0),
-                BlocProvider(
-                  create: (context) => BudgetCubit(
-                    createAdCubit: context.read<CreateAdCubit>(),
-                  ),
-                  child: const BudgetWidget(),
-                ),
-                SizedBox(height: _canvas.height * 0.098),
-                BottomNavButton(
-                  onTap: () => _submit(state),
-                  label: 'CONTINUE',
-                  isEnabled: true,
-                ),
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              bottom: 2.0,
+              right: 2.0,
+              left: 2.0,
+              child: BottomNavButton(
+                onTap: () => _submit(state),
+                label: 'CONTINUE',
+                isEnabled: true,
+              ),
+            ),
+          ],
         );
       },
     );

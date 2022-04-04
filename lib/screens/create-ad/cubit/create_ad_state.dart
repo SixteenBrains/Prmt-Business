@@ -1,7 +1,6 @@
 part of 'create_ad_cubit.dart';
 
 enum CreateAdStatus { initial, loading, submitting, succuss, error }
-
 enum AdCurrentPage {
   adName,
   adType,
@@ -10,18 +9,15 @@ enum AdCurrentPage {
   date,
   awesome,
   demographics,
-  previewAd,
-  stateAndCity,
   targetGroup,
 }
 
-enum AdType { image, video, none }
+// enum AdType { image, video, none }
 
 class CreateAdState extends Equatable {
-  final Ad? adModel;
   final String adName;
-  final AdType adType;
-  final String adContentText;
+  final MediaType mediaType;
+  final String description;
   final CreateAdStatus status;
   final Failure failure;
   final AdCurrentPage currentPage;
@@ -32,19 +28,17 @@ class CreateAdState extends Equatable {
   final List<String> incomeRange;
   final List<String> interests;
   final String state;
-  final String city;
-  final String adTargetLink;
-  final Uint8List? adImage;
-  final File? adVideo;
-  final Uint8List? adVideoThumbnail;
-  // TODO: work on the progressbar
+  final List<String> stateCities;
+  final List<String> selectedCities;
+  final String targetLink;
   final int progress;
+  final File? adMedia;
+  final Uint8List? videoThumbnail;
 
   const CreateAdState({
-    required this.adModel,
     required this.adName,
-    required this.adType,
-    required this.adContentText,
+    required this.mediaType,
+    required this.description,
     required this.status,
     required this.failure,
     required this.currentPage,
@@ -55,19 +49,18 @@ class CreateAdState extends Equatable {
     required this.incomeRange,
     required this.interests,
     required this.state,
-    required this.city,
-    required this.adTargetLink,
-    required this.adImage,
-    required this.adVideo,
-    required this.adVideoThumbnail,
+    required this.stateCities,
+    required this.targetLink,
     required this.progress,
+    required this.adMedia,
+    required this.selectedCities,
+    this.videoThumbnail,
   });
 
   factory CreateAdState.initial() => const CreateAdState(
-        adModel: null,
         adName: '',
-        adType: AdType.none,
-        adContentText: '',
+        mediaType: MediaType.none,
+        description: '',
         status: CreateAdStatus.initial,
         failure: Failure(),
         currentPage: AdCurrentPage.adName,
@@ -77,20 +70,19 @@ class CreateAdState extends Equatable {
         ageGroup: [],
         incomeRange: [],
         interests: [],
-        state: '',
-        city: '',
-        adTargetLink: '',
-        adImage: null,
-        adVideo: null,
-        adVideoThumbnail: null,
+        state: 'Maharashtra',
+        stateCities: [],
+        targetLink: '',
+        adMedia: null,
         progress: 0,
+        videoThumbnail: null,
+        selectedCities: [],
       );
 
   CreateAdState copyWith({
-    Ad? adModel,
     String? adName,
-    AdType? adType,
-    String? adContentText,
+    MediaType? mediaType,
+    String? description,
     CreateAdStatus? status,
     Failure? failure,
     AdCurrentPage? currentPage,
@@ -101,18 +93,17 @@ class CreateAdState extends Equatable {
     List<String>? incomeRange,
     List<String>? interests,
     String? state,
-    String? city,
-    String? adTargetLink,
-    Uint8List? adImage,
-    File? adVideo,
-    Uint8List? adVideoThumbnail,
+    List<String>? stateCities,
+    String? targetLink,
     int? progress,
+    File? adMedia,
+    Uint8List? videoThumbnail,
+    List<String>? selectedCities,
   }) {
     return CreateAdState(
-      adModel: adModel ?? this.adModel,
       adName: adName ?? this.adName,
-      adType: adType ?? this.adType,
-      adContentText: adContentText ?? this.adContentText,
+      mediaType: mediaType ?? this.mediaType,
+      description: description ?? this.description,
       status: status ?? this.status,
       failure: failure ?? this.failure,
       currentPage: currentPage ?? this.currentPage,
@@ -123,21 +114,20 @@ class CreateAdState extends Equatable {
       incomeRange: incomeRange ?? this.incomeRange,
       interests: interests ?? this.interests,
       state: state ?? this.state,
-      city: city ?? this.city,
-      adTargetLink: adTargetLink ?? this.adTargetLink,
-      adImage: adImage ?? this.adImage,
-      adVideo: adVideo ?? this.adVideo,
-      adVideoThumbnail: adVideoThumbnail ?? this.adVideoThumbnail,
+      stateCities: stateCities ?? this.stateCities,
+      targetLink: targetLink ?? this.targetLink,
       progress: progress ?? this.progress,
+      adMedia: adMedia ?? this.adMedia,
+      videoThumbnail: videoThumbnail ?? this.videoThumbnail,
+      selectedCities: selectedCities ?? this.selectedCities,
     );
   }
 
   @override
   List<Object?> get props => [
-        adModel,
         adName,
-        adType,
-        adContentText,
+        mediaType,
+        description,
         status,
         failure,
         currentPage,
@@ -148,11 +138,11 @@ class CreateAdState extends Equatable {
         incomeRange,
         interests,
         state,
-        city,
-        adTargetLink,
-        adImage,
-        adVideo,
-        adVideoThumbnail,
+        stateCities,
+        targetLink,
+        adMedia,
         progress,
+        videoThumbnail,
+        selectedCities,
       ];
 }

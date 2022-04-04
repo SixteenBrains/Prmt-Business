@@ -14,11 +14,13 @@ class CustomChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Label lenht ${label.length}');
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 40.0,
-        width: 100.0,
+        //width: 100.0,
+        width: label.length < 5 ? 65 : label.length * 12,
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue : const Color(0xffF4F4F9),
           //color: const Color(0xffF4F4F9),

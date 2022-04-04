@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/repositories/ad/ad_repository.dart';
 import '/screens/create-ad/ad_media.dart';
 import '/screens/create-ad/ad_content.dart';
 import '/screens/create-ad/ad_created.dart';
@@ -18,7 +19,8 @@ class CreateAdScreen extends StatelessWidget {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
-        create: (context) => CreateAdCubit(),
+        create: (context) =>
+            CreateAdCubit(adRepository: context.read<AdRepository>()),
         child: const CreateAdScreen(),
       ),
     );
@@ -27,7 +29,11 @@ class CreateAdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CreateAdCubit, CreateAdState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        // if (state.currentPage == AdCurrentPage.demographics) {
+        //   context.read<CreateAdCubit>().loadCites();
+        // }
+      },
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
