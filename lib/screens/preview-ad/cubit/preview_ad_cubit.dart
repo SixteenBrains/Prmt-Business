@@ -62,7 +62,7 @@ class PreviewAdCubit extends Cubit<PreviewAdState> {
       String? mediaUrl;
       if (_authBloc.state.user?.uid != null && _ad?.mediaFile != null) {
         mediaUrl = await MediaUtil.uploadAdMedia(
-          childName: 'media',
+          childName: _ad?.adType == MediaType.image ? 'images' : 'videos',
           file: _ad!.mediaFile!,
           uid: _authBloc.state.user!.uid!,
         );

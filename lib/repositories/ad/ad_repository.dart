@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '/models/ad_stats.dart';
 import '/models/ad_model.dart';
 import '/config/paths.dart';
 import '/models/failure.dart';
@@ -12,6 +12,64 @@ class AdRepository extends BaseAdRepository {
 
   AdRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance;
+
+  // Get
+
+  Future<List<Future<AdModel?>>> getLiveAds({required String? userId}) async {
+    try {
+      final today = Timestamp.fromDate(DateTime.now());
+
+      final adsSnaps = await _firestore
+          .collection(Paths.ads)
+          .where('endDate', isGreaterThanOrEqualTo: today)
+          .get();
+
+      return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
+    } catch (error) {
+      print('Error getting live ads ${error.toString()}');
+      throw const Failure(message: 'Error getting live ads');
+    }
+  }
+
+  Future<List<Future<AdModel?>>> getExpiredAds(
+      {required String? userId}) async {
+    try {
+      final today = Timestamp.fromDate(DateTime.now());
+
+      final adsSnaps = await _firestore
+          .collection(Paths.ads)
+          .where('endDate', isLessThan: today)
+          .get();
+
+      return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
+    } catch (error) {
+      print('Error getting live ads ${error.toString()}');
+      throw const Failure(message: 'Error getting live ads');
+    }
+  }
+
+  Future<List<Future<AdModel?>>> getUserDraftAds({
+    required String? userID,
+  }) async {
+    try {
+      if (userID == null) {
+        return [];
+      }
+
+      final adSnaps = await _firestore
+          .collection(Paths.drafts)
+          .doc(userID)
+          .collection(Paths.draftAds)
+          .get();
+
+      return adSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
+    } catch (error) {
+      print('Error in getting draft ads');
+      throw const Failure(message: 'Error in getting draft ads');
+    }
+  }
+
+  // Post
 
   Future<void> dratAd({
     required AdModel? ad,
@@ -42,7 +100,12 @@ class AdRepository extends BaseAdRepository {
         return;
       }
 
-      await _firestore.collection(Paths.ads).add(ad.toMap());
+      final docRef = await _firestore.collection(Paths.ads).add(ad.toMap());
+
+      await _firestore
+          .collection(Paths.stats)
+          .doc(docRef.id)
+          .set(AdStats.emptyStats().toMap());
     } catch (error) {
       print('Error in draft ad ${error.toString()}');
       throw const Failure(message: 'Something went wrong, try again');

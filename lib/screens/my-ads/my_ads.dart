@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prmt_business/screens/dashboard/widgets/draft_ads.dart';
 import 'package:prmt_business/screens/dashboard/widgets/expired_ads.dart';
-import 'package:prmt_business/screens/dashboard/widgets/live_ads.dart';
+import 'package:prmt_business/screens/dashboard/widgets/live_ads_tab.dart';
 
 class MyAds extends StatelessWidget {
   const MyAds({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@ class MyAds extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            LiveAds(),
+            LiveAdsTab(),
             DrafAds(),
             ExpiredAds(),
           ],

@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '/models/chart_data.dart';
+
+import '/models/ad_model.dart';
 import '/screens/payment/widgets/top_up.dart';
 import '/widgets/bottom_nav_button.dart';
-import '../../models/ad.dart';
 import '/screens/dashboard/widgets/show_pie_chart.dart';
 import '/widgets/display_image.dart';
 import 'widgets/social_metirics.dart';
 
-class AdDetails extends StatelessWidget {
-  final Ad? ad;
+class AdDetailsArgs {
+  final AdModel? adModel;
 
-  const AdDetails({Key? key, required this.ad}) : super(key: key);
+  AdDetailsArgs({required this.adModel});
+}
+
+class AdDetails extends StatelessWidget {
+  static const String routeName = '/ad-details';
+
+  final AdModel? adModel;
+
+  static Route route({required AdDetailsArgs args}) {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => AdDetails(
+        adModel: args.adModel,
+      ),
+    );
+  }
+
+  const AdDetails({
+    Key? key,
+    required this.adModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +42,16 @@ class AdDetails extends StatelessWidget {
       symbol: '₹ ',
       decimalDigits: 0,
     );
+    final today = DateTime.now();
+    final remainingDays = adModel?.endDate?.difference(today).inDays;
+    // final int? budget =
+    //     adModel?.budget != null ? int.tryParse(adModel!.budget!) : null;
+
+    int available = 2500;
+    final int? budget =
+        adModel?.budget != null ? int.tryParse(adModel!.budget!) : null;
+
+    final _dateFormate = DateFormat('dd MMM yyyy');
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -41,10 +73,11 @@ class AdDetails extends StatelessWidget {
                 Hero(
                   tag: 'ad?.imageUrl',
                   child: DisplayImage(
-                    imageUrl: ad?.imageUrl,
-                    height: _canvas.width * 0.6,
+                    imageUrl: adModel?.mediaUrl,
+                    height: _canvas.height * 0.3,
                     width: double.infinity,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.cover,
+                    //fit: BoxFit.fitHeight,
                   ),
                 ),
                 Padding(
@@ -57,28 +90,34 @@ class AdDetails extends StatelessWidget {
                     children: [
                       const SizedBox(height: 10.0),
                       Text(
-                        ad?.productName ?? '',
+                        adModel?.name ?? 'N/A',
                         style: const TextStyle(
                           fontSize: 20.0,
                         ),
                       ),
+                      const SizedBox(height: 5.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.alarm,
-                            color: ad!.isNegative
-                                ? const Color(0xffFD6F66)
-                                : Colors.blue,
+                            color: remainingDays != null
+                                ? remainingDays < 2
+                                    ? const Color(0xffFD6F66)
+                                    : Colors.blue
+                                : Colors.grey,
                             size: 20.0,
                           ),
                           const SizedBox(width: 5.0),
                           Text(
-                            ad?.timeRemaining ?? '',
+                            '${remainingDays ?? 'N/A'} Days Remaining',
                             style: TextStyle(
-                                color: ad!.isNegative
-                                    ? const Color(0xffFD6F66)
-                                    : Colors.blue),
+                              color: remainingDays != null
+                                  ? remainingDays < 2
+                                      ? const Color(0xffFD6F66)
+                                      : Colors.blue
+                                  : Colors.grey,
+                            ),
                           )
                         ],
                       ),
@@ -91,16 +130,36 @@ class AdDetails extends StatelessWidget {
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            SizedBox(width: 20.0),
-                            Icon(Icons.calendar_month),
-                            SizedBox(width: 10.0),
-                            Text(
-                              '24 Aug 2021 - 26 Aug 2021',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
+                          children: [
+                            const SizedBox(width: 20.0),
+                            const Icon(Icons.calendar_month),
+                            const SizedBox(width: 10.0),
+                            Row(
+                              children: [
+                                Text(
+                                  adModel?.startDate != null
+                                      ? _dateFormate.format(adModel!.startDate!)
+                                      : 'N/A',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const Text(
+                                  ' - ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  adModel?.startDate != null
+                                      ? _dateFormate.format(adModel!.endDate!)
+                                      : 'N/A',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -120,7 +179,7 @@ class AdDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  numFormate.format(ad?.budget),
+                                  numFormate.format(budget),
                                   style: const TextStyle(
                                     fontSize: 26.0,
                                     color: Colors.black,
@@ -147,9 +206,9 @@ class AdDetails extends StatelessWidget {
                               decoration: BoxDecoration(
                                 border:
                                     Border.all(color: const Color(0xffFD6F66)),
-                                color: ad!.isNegative
-                                    ? const Color(0xffFFE2E0)
-                                    : const Color(0xffF4F4F9),
+                                // color: ad!.isNegative
+                                //     ? const Color(0xffFFE2E0)
+                                //     : const Color(0xffF4F4F9),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Column(
@@ -157,7 +216,7 @@ class AdDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    numFormate.format(ad?.availableBalance),
+                                    numFormate.format(available),
                                     style: const TextStyle(
                                       fontSize: 26.0,
                                       color: Colors.black,
@@ -182,40 +241,93 @@ class AdDetails extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ShowPieChart(
-                              chartData: ad?.clicksMetrics ?? [],
+                              chartData: [
+                                ChartData(
+                                  count:
+                                      (adModel?.stats?.clicks ?? 1).toDouble(),
+                                  color: const Color(0xff19CED7),
+                                ),
+                                const ChartData(
+                                  count: 50,
+                                  color: Color(0xffC6F3F5),
+                                ),
+                              ],
+                              //  chartData: ad?.clicksMetrics ?? [],
                               label: 'Clicks',
-                              count: 103,
+                              count: adModel?.stats?.clicks ?? 0,
                             ),
                           ),
 
                           ///
                           Expanded(
                             child: ShowPieChart(
-                              chartData: ad?.convertsMetrics ?? [],
+                              chartData: [
+                                ChartData(
+                                  count: (adModel?.stats?.converts ?? 0)
+                                      .toDouble(),
+                                  color: const Color(0xff7CDA94),
+                                ),
+                                const ChartData(
+                                  count: 50,
+                                  color: Color(0xffD7F4DF),
+                                ),
+                              ],
                               label: 'Converts',
-                              count: 12,
+                              count: adModel?.stats?.converts ?? 0,
                             ),
                           ),
                           Expanded(
                             child: ShowPieChart(
-                              chartData: ad?.spentsMetrics ?? [],
+                              chartData: [
+                                ChartData(
+                                  count:
+                                      (adModel?.stats?.spent ?? 0).toDouble(),
+                                  color: const Color(0xFEDD874D),
+                                ),
+                                const ChartData(
+                                  count: 50,
+                                  color: Color(0xffFEDD87),
+                                ),
+                              ],
                               label: 'Spent',
-                              count: 600,
+                              count: adModel?.stats?.spent ?? 0,
                             ),
                           ),
+                          // Expanded(
+                          //   child: ShowPieChart(
+                          //     chartData: ad?.clicksMetrics ?? [],
+                          //     label: 'Clicks',
+                          //     count: 103,
+                          //   ),
+                          // ),
+
+                          // ///
+                          // Expanded(
+                          //   child: ShowPieChart(
+                          //     chartData: ad?.convertsMetrics ?? [],
+                          //     label: 'Converts',
+                          //     count: 12,
+                          //   ),
+                          // ),
+                          // Expanded(
+                          //   child: ShowPieChart(
+                          //     chartData: ad?.spentsMetrics ?? [],
+                          //     label: 'Spent',
+                          //     count: 600,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
                 const Divider(),
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,
                     vertical: 20.0,
                   ),
-                  child: Text(
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),
+                  child: Text(adModel?.description ?? 'N/A'),
                 ),
                 const Divider(),
                 Padding(
@@ -225,18 +337,23 @@ class AdDetails extends StatelessWidget {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Target Link',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
-                        'https://www.amazon.in/s?k=apple+watch&i= electronics&crid=3LJTY64EQ0SAJ&sprefix=apple %2Celectronics%2C621&ref=nb',
-                        style: TextStyle(
+                        adModel?.targetLink != null
+                            ? adModel!.targetLink!.length > 100
+                                ? adModel!.targetLink!.substring(0, 100) +
+                                    '  ...'
+                                : 'N/A'
+                            : 'N/A',
+                        style: const TextStyle(
                           fontSize: 15.0,
                           color: Colors.blue,
                         ),

@@ -6,7 +6,6 @@ import '/utils/media_util.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/models/failure.dart';
 import '/repositories/ad/ad_repository.dart';
-
 part 'payment_state.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {

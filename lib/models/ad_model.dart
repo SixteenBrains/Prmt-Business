@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
+import '/models/ad_stats.dart';
 import '/enums/enums.dart';
 import '/config/paths.dart';
 import '/models/appuser.dart';
 
 class AdModel extends Equatable {
-  final String? name;
+  final String? name; // TODO: change it to title
   final String? adId;
   final String? description;
   final DateTime? startDate;
@@ -21,6 +22,7 @@ class AdModel extends Equatable {
   final MediaType? adType;
   final AppUser? author;
   final String? mediaUrl;
+  final AdStats? stats;
 
   const AdModel({
     this.name,
@@ -36,6 +38,7 @@ class AdModel extends Equatable {
     required this.adType,
     this.author,
     this.mediaUrl,
+    this.stats,
   });
 
   AdModel copyWith({
@@ -52,6 +55,7 @@ class AdModel extends Equatable {
     MediaType? adType,
     AppUser? author,
     String? mediaUrl,
+    AdStats? stats,
   }) {
     return AdModel(
       name: name ?? this.name,
@@ -67,6 +71,7 @@ class AdModel extends Equatable {
       adType: adType ?? this.adType,
       author: author ?? this.author,
       mediaUrl: mediaUrl ?? this.mediaUrl,
+      stats: stats ?? this.stats,
     );
   }
 
@@ -96,9 +101,20 @@ class AdModel extends Equatable {
       final userRef = data['author'] as DocumentReference?;
       final userSnap = await userRef?.get();
 
+      final statsSnaps = await FirebaseFirestore.instance
+          .collection(Paths.stats)
+          .doc(doc?.id)
+          .get();
+
+      final statsData = statsSnaps.data();
+
+      print('Stats data --- $statsData');
+
       return AdModel(
+        name: data['name'],
         adId: doc?.id,
         description: data['description'],
+        stats: statsData != null ? AdStats.fromMap(statsData) : null,
         // ageGroup:
         //     data['ageGroup'] != null ? List<String>.from(data['ageGroup']) : [],
         // incomeRange: data['incomeRange'] != null
@@ -107,6 +123,7 @@ class AdModel extends Equatable {
         // interests: data['interests'] != null
         //     ? List<String>.from(data['interests'])
         //     : [],
+        budget: data['budget'],
         state: data['state'],
         cities: data['cities'] != null ? List<String>.from(data['cities']) : [],
         startDate: data['startDate'] != null
@@ -129,7 +146,7 @@ class AdModel extends Equatable {
 
   @override
   String toString() {
-    return 'AdMo(name: $name, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl)';
+    return 'AdMo(name: $name, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl, stats: $stats)';
   }
 
   @override
@@ -148,6 +165,7 @@ class AdModel extends Equatable {
       adType,
       author,
       mediaUrl,
+      stats,
     ];
   }
 }

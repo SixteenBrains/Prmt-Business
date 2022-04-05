@@ -3,7 +3,13 @@ import '/screens/dashboard/dashboard.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class PaymentSuccussfull extends StatelessWidget {
+  static const String routeName = '/payment-succussfull';
   const PaymentSuccussfull({Key? key}) : super(key: key);
+
+  static Route route() => MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => const PaymentSuccussfull(),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +106,7 @@ class PaymentSuccussfull extends StatelessWidget {
             ),
             const Spacer(),
             BottomNavButton(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const DashBoard(),
-                ),
-              ),
+              onTap: () => Navigator.of(context).pushNamed(DashBoard.routeName),
               label: 'GO TO MY DASHBOARD',
               isEnabled: true,
             ),

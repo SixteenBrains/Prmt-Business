@@ -7,8 +7,8 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: SpinKitDualRing(
-        lineWidth: 1.0,
+      child: SpinKitFadingCircle(
+        // lineWidth: 1.0,
         color: Colors.blue,
       ),
       // SizedBox(

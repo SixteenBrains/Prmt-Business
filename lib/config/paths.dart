@@ -8,6 +8,8 @@ class Paths {
 
   static const ads = 'ads';
 
+  static const stats = 'stats';
+
   // sub collection
 
   static const draftAds = 'draftAds';
