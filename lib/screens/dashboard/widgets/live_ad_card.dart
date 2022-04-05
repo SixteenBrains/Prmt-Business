@@ -39,12 +39,15 @@ class LiveAdCard extends StatelessWidget {
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
-              child: DisplayImage(
-                imageUrl: adModel?.mediaUrl,
-                height: _canvas.height * 0.25,
-                width: double.infinity,
-                fit: BoxFit.contain,
-                //fit: BoxFit.fitHeight,
+              child: Hero(
+                tag: adModel?.adId ?? 'AdImage',
+                child: DisplayImage(
+                  imageUrl: adModel?.mediaUrl,
+                  height: _canvas.height * 0.25,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                  //fit: BoxFit.fitHeight,
+                ),
               ),
             ),
             const SizedBox(height: 20.0),

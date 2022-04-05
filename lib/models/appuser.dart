@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 class AppUser extends Equatable {
   final String? email;
+  final String? profileImg;
   final String? name;
   final String? uid;
   final DateTime? createdAt;
@@ -13,6 +14,7 @@ class AppUser extends Equatable {
   final bool firstAdCreated;
 
   const AppUser({
+    this.profileImg,
     this.email,
     this.name,
     this.uid,
@@ -23,6 +25,7 @@ class AppUser extends Equatable {
   });
 
   AppUser copyWith({
+    String? profileImg,
     String? email,
     String? name,
     String? uid,
@@ -32,6 +35,7 @@ class AppUser extends Equatable {
     bool? firstAdCreated,
   }) {
     return AppUser(
+      profileImg: profileImg ?? this.profileImg,
       email: email ?? this.email,
       name: name ?? this.name,
       uid: uid ?? this.uid,
@@ -44,6 +48,7 @@ class AppUser extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      'profileImg': profileImg,
       'email': email,
       'name': name,
       'businessName': businessName,
@@ -55,6 +60,7 @@ class AppUser extends Equatable {
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
+      profileImg: map['profileImg'],
       email: map['email'],
       name: map['name'],
       uid: map['uid'],
@@ -79,6 +85,7 @@ class AppUser extends Equatable {
     final data = doc?.data() as Map?;
     print('App users ---- $data');
     return AppUser(
+      profileImg: data?['profileImg'],
       email: data?['email'],
       name: data?['name'],
       uid: doc?.id,
@@ -97,7 +104,7 @@ class AppUser extends Equatable {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType, firstAdCreated: $firstAdCreated)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType, firstAdCreated: $firstAdCreated, profileImg: $profileImg)';
   }
 
   @override
@@ -108,5 +115,6 @@ class AppUser extends Equatable {
         createdAt,
         businessName,
         businessType,
+        profileImg,
       ];
 }

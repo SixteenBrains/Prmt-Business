@@ -26,4 +26,19 @@ class ProfileRepository extends BaseProfileRepository {
       throw const Failure(message: 'Error getting current user profile');
     }
   }
+
+  Future<void> editProfileImage({required AppUser? user}) async {
+    try {
+      if (user == null) {
+        return;
+      }
+      await _firestore
+          .collection(Paths.users)
+          .doc(user.uid)
+          .update(user.toMap());
+    } catch (error) {
+      print('Error in editing profile image');
+      throw const Failure(message: 'Error in edit profile image');
+    }
+  }
 }

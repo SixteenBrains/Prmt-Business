@@ -1,3 +1,17 @@
+Todo 7 April
+
+1. Edit Profile
+2.Edit image
+3.Ad Custom widget to display image or video based 
+on media type on where ever ads are shown
+4. Add error logic in ever listner bloc
+
+
+
+
+
+
+
 Its better to put all the data related to target audience.. 
 while business r choosing and while promoter is registering.. 
 else how will u match the ads

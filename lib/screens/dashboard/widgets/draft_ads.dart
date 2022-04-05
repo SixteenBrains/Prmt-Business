@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prmt_business/models/ad_model.dart';
+import 'package:prmt_business/screens/ad-details/ad_details.dart';
 import '/screens/dashboard/cubit/ads_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import '/constants/drafs_ads_const.dart';
@@ -102,68 +103,75 @@ class DraftAdsCard extends StatelessWidget {
     // final int? budget =
     //     adModel?.budget != null ? int.tryParse(adModel!.budget!) : null;
     // int availableBalance = 2500;
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(4.0),
-              topRight: Radius.circular(4.0),
-            ),
-            child: DisplayImage(
-              imageUrl: adModel?.mediaUrl,
-              height: _canvas.height * 0.3,
-              width: double.infinity,
-              // fit: BoxFit.fitHeight,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15.0,
-              vertical: 15.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  adModel?.name ?? 'N/A',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(AdDetails.routeName,
+          arguments: AdDetailsArgs(adModel: adModel)),
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(4.0),
+                topRight: Radius.circular(4.0),
+              ),
+              child: Hero(
+                tag: adModel?.adId ?? 'AdImage',
+                child: DisplayImage(
+                  imageUrl: adModel?.mediaUrl,
+                  height: _canvas.height * 0.3,
+                  width: double.infinity,
+                  // fit: BoxFit.fitHeight,
+                  fit: BoxFit.contain,
                 ),
-                const SizedBox(height: 3.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.alarm,
-                      color: remainingDays != null
-                          ? remainingDays < 2
-                              ? const Color(0xffFD6F66)
-                              : Colors.blue
-                          : Colors.grey,
-                      size: 20.0,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15.0,
+                vertical: 15.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    adModel?.name ?? 'N/A',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(width: 5.0),
-                    Text(
-                      '${remainingDays ?? 'N/A'} Days Remaining',
-                      style: TextStyle(
+                  ),
+                  const SizedBox(height: 3.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.alarm,
                         color: remainingDays != null
                             ? remainingDays < 2
                                 ? const Color(0xffFD6F66)
                                 : Colors.blue
                             : Colors.grey,
+                        size: 20.0,
                       ),
-                    )
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 5.0),
+                      Text(
+                        '${remainingDays ?? 'N/A'} Days Remaining',
+                        style: TextStyle(
+                          color: remainingDays != null
+                              ? remainingDays < 2
+                                  ? const Color(0xffFD6F66)
+                                  : Colors.blue
+                              : Colors.grey,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

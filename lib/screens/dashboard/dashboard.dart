@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/widgets/display_image.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import 'cubit/ads_cubit.dart';
@@ -104,15 +105,21 @@ class _DashBoardState extends State<DashBoard>
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (_) => const ProfileScreen(),
-                                        ),
-                                      ),
-                                      child: const CircleAvatar(
+                                      onTap: () => Navigator.of(context)
+                                          .pushNamed(ProfileScreen.routeName),
+                                      child: CircleAvatar(
                                         radius: 22.0,
-                                        backgroundImage: NetworkImage(
-                                            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                                        child: ClipOval(
+                                          child: DisplayImage(
+                                            imageUrl: context
+                                                .read<AuthBloc>()
+                                                .state
+                                                .user
+                                                ?.profileImg,
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 20.0),

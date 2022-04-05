@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '/models/chart_data.dart';
-
 import '/models/ad_model.dart';
 import '/screens/payment/widgets/top_up.dart';
 import '/widgets/bottom_nav_button.dart';
@@ -70,13 +69,14 @@ class AdDetails extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 5.0),
                 Hero(
-                  tag: 'ad?.imageUrl',
+                  tag: adModel?.adId ?? 'AdImage',
                   child: DisplayImage(
                     imageUrl: adModel?.mediaUrl,
                     height: _canvas.height * 0.3,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     //fit: BoxFit.fitHeight,
                   ),
                 ),
@@ -238,23 +238,25 @@ class AdDetails extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Expanded(
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count:
-                                      (adModel?.stats?.clicks ?? 1).toDouble(),
-                                  color: const Color(0xff19CED7),
+                                  count: 30,
+                                  // count:
+                                  //     (adModel?.stats?.clicks ?? 1).toDouble(),
+                                  color: Color(0xff19CED7),
                                 ),
-                                const ChartData(
+                                ChartData(
                                   count: 50,
                                   color: Color(0xffC6F3F5),
                                 ),
                               ],
                               //  chartData: ad?.clicksMetrics ?? [],
                               label: 'Clicks',
-                              count: adModel?.stats?.clicks ?? 0,
+                              count: 30,
+                              //count: adModel?.stats?.clicks ?? 0,
                             ),
                           ),
 
@@ -263,59 +265,39 @@ class AdDetails extends StatelessWidget {
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count: (adModel?.stats?.converts ?? 0)
-                                      .toDouble(),
-                                  color: const Color(0xff7CDA94),
+                                  count: 20,
+                                  // count: (adModel?.stats?.converts ?? 0)
+                                  //  .toDouble(),
+                                  color: Color(0xff7CDA94),
                                 ),
-                                const ChartData(
+                                ChartData(
                                   count: 50,
                                   color: Color(0xffD7F4DF),
                                 ),
                               ],
                               label: 'Converts',
-                              count: adModel?.stats?.converts ?? 0,
+                              count: 20,
+                              // count: adModel?.stats?.converts ?? 0,
                             ),
                           ),
                           Expanded(
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count:
-                                      (adModel?.stats?.spent ?? 0).toDouble(),
-                                  color: const Color(0xFEDD874D),
+                                  count: 10,
+                                  // (adModel?.stats?.spent ?? 0).toDouble(),
+                                  color: Color(0xFEDD874D),
                                 ),
-                                const ChartData(
+                                ChartData(
                                   count: 50,
                                   color: Color(0xffFEDD87),
                                 ),
                               ],
                               label: 'Spent',
-                              count: adModel?.stats?.spent ?? 0,
+                              count: 10,
+                              //count: adModel?.stats?.spent ?? 0,
                             ),
                           ),
-                          // Expanded(
-                          //   child: ShowPieChart(
-                          //     chartData: ad?.clicksMetrics ?? [],
-                          //     label: 'Clicks',
-                          //     count: 103,
-                          //   ),
-                          // ),
-
-                          // ///
-                          // Expanded(
-                          //   child: ShowPieChart(
-                          //     chartData: ad?.convertsMetrics ?? [],
-                          //     label: 'Converts',
-                          //     count: 12,
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   child: ShowPieChart(
-                          //     chartData: ad?.spentsMetrics ?? [],
-                          //     label: 'Spent',
-                          //     count: 600,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],
