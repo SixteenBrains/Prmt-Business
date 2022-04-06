@@ -1,8 +1,8 @@
 Todo 7 April
 
-1. Edit Profile
+1. Edit Profile - Done
 2.Edit image
-3.Ad Custom widget to display image or video based 
+3.Ad Custom widget to display image or video based  - done
 on media type on where ever ads are shown
 4. Add error logic in ever listner bloc
 

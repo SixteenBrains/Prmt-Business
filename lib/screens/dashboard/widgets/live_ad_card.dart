@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '/enums/enums.dart';
 import '/models/ad_model.dart';
 import '/models/chart_data.dart';
 import '/screens/ad-details/ad_details.dart';
-import '/widgets/display_image.dart';
+import 'show_media.dart';
 import 'show_pie_chart.dart';
 
 class LiveAdCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class LiveAdCard extends StatelessWidget {
       decimalDigits: 0,
     );
 
-    final _canvas = MediaQuery.of(context).size;
+    //final _canvas = MediaQuery.of(context).size;
     final today = DateTime.now();
     final remainingDays = adModel?.endDate?.difference(today).inDays;
     final int? budget =
@@ -39,17 +40,28 @@ class LiveAdCard extends StatelessWidget {
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
-              child: Hero(
-                tag: adModel?.adId ?? 'AdImage',
-                child: DisplayImage(
-                  imageUrl: adModel?.mediaUrl,
-                  height: _canvas.height * 0.25,
-                  width: double.infinity,
-                  fit: BoxFit.contain,
-                  //fit: BoxFit.fitHeight,
-                ),
+              child: ShowMedia(
+                mediaType: adModel?.adType ?? MediaType.none,
+                mediaUrl: adModel?.mediaUrl,
               ),
             ),
+
+            // ClipRRect(
+            //   borderRadius: const BorderRadius.only(
+            //     topLeft: Radius.circular(4.0),
+            //     topRight: Radius.circular(4.0),
+            //   ),
+            //   child: Hero(
+            //     tag: adModel?.adId ?? 'AdImage',
+            //     child: DisplayImage(
+            //       imageUrl: adModel?.mediaUrl,
+            //       height: _canvas.height * 0.25,
+            //       width: double.infinity,
+            //       fit: BoxFit.contain,
+            //       //fit: BoxFit.fitHeight,
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 20.0),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -168,22 +180,24 @@ class LiveAdCard extends StatelessWidget {
                   const SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Expanded(
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.clicks ?? 1).toDouble(),
-                              color: const Color(0xff19CED7),
+                              count: 1,
+                              //  count: (adModel?.stats?.clicks ?? 1).toDouble(),
+                              color: Color(0xff19CED7),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffC6F3F5),
                             ),
                           ],
                           //  chartData: ad?.clicksMetrics ?? [],
                           label: 'Clicks',
-                          count: adModel?.stats?.clicks ?? 0,
+                          count: 1,
+                          // count: adModel?.stats?.clicks ?? 0,
                         ),
                       ),
 
@@ -192,32 +206,36 @@ class LiveAdCard extends StatelessWidget {
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.converts ?? 1).toDouble(),
-                              color: const Color(0xff7CDA94),
+                              count: 1,
+                              // count: (adModel?.stats?.converts ?? 1).toDouble(),
+                              color: Color(0xff7CDA94),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffD7F4DF),
                             ),
                           ],
                           label: 'Converts',
-                          count: adModel?.stats?.converts ?? 1,
+                          count: 1,
+                          //count: adModel?.stats?.converts ?? 1,
                         ),
                       ),
                       Expanded(
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.spent ?? 1).toDouble(),
-                              color: const Color(0xFEDD874D),
+                              count: 1,
+                              // count: (adModel?.stats?.spent ?? 1).toDouble(),
+                              color: Color(0xFEDD874D),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffFEDD87),
                             ),
                           ],
                           label: 'Spent',
-                          count: adModel?.stats?.spent ?? 0,
+                          count: 1,
+                          //count: adModel?.stats?.spent ?? 0,
                         ),
                       ),
                     ],

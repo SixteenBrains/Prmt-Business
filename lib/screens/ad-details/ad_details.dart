@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '/enums/enums.dart';
+import '/screens/dashboard/widgets/show_media.dart';
 import '/models/chart_data.dart';
 import '/models/ad_model.dart';
 import '/screens/payment/widgets/top_up.dart';
 import '/widgets/bottom_nav_button.dart';
 import '/screens/dashboard/widgets/show_pie_chart.dart';
-import '/widgets/display_image.dart';
 import 'widgets/social_metirics.dart';
 
 class AdDetailsArgs {
@@ -35,7 +36,7 @@ class AdDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _canvas = MediaQuery.of(context).size;
+    // final _canvas = MediaQuery.of(context).size;
     var numFormate = NumberFormat.currency(
       locale: 'HI',
       symbol: '₹ ',
@@ -51,6 +52,11 @@ class AdDetails extends StatelessWidget {
         adModel?.budget != null ? int.tryParse(adModel!.budget!) : null;
 
     final _dateFormate = DateFormat('dd MMM yyyy');
+    final adTitle = adModel?.name != null
+        ? adModel!.name!.length > 30
+            ? adModel!.name!.substring(0, 30) + '...'
+            : adModel?.name
+        : 'N/A';
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -60,7 +66,7 @@ class AdDetails extends StatelessWidget {
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
         ),
-        title: const Text('Nivea Men'),
+        title: Text(adTitle ?? ''),
         backgroundColor: Colors.white,
       ),
       body: Stack(
@@ -70,16 +76,20 @@ class AdDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 5.0),
-                Hero(
-                  tag: adModel?.adId ?? 'AdImage',
-                  child: DisplayImage(
-                    imageUrl: adModel?.mediaUrl,
-                    height: _canvas.height * 0.3,
-                    width: double.infinity,
-                    fit: BoxFit.contain,
-                    //fit: BoxFit.fitHeight,
-                  ),
+                ShowMedia(
+                  mediaUrl: adModel?.mediaUrl,
+                  mediaType: adModel?.adType ?? MediaType.none,
                 ),
+                // Hero(
+                //   tag: adModel?.adId ?? 'AdImage',
+                //   child: DisplayImage(
+                //     imageUrl: adModel?.mediaUrl,
+                //     height: _canvas.height * 0.3,
+                //     width: double.infinity,
+                //     fit: BoxFit.contain,
+                //     //fit: BoxFit.fitHeight,
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,
@@ -243,19 +253,19 @@ class AdDetails extends StatelessWidget {
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count: 30,
+                                  count: 1,
                                   // count:
                                   //     (adModel?.stats?.clicks ?? 1).toDouble(),
                                   color: Color(0xff19CED7),
                                 ),
                                 ChartData(
-                                  count: 50,
+                                  count: 1,
                                   color: Color(0xffC6F3F5),
                                 ),
                               ],
                               //  chartData: ad?.clicksMetrics ?? [],
                               label: 'Clicks',
-                              count: 30,
+                              count: 1,
                               //count: adModel?.stats?.clicks ?? 0,
                             ),
                           ),
@@ -265,7 +275,7 @@ class AdDetails extends StatelessWidget {
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count: 20,
+                                  count: 1,
                                   // count: (adModel?.stats?.converts ?? 0)
                                   //  .toDouble(),
                                   color: Color(0xff7CDA94),
@@ -276,7 +286,7 @@ class AdDetails extends StatelessWidget {
                                 ),
                               ],
                               label: 'Converts',
-                              count: 20,
+                              count: 1,
                               // count: adModel?.stats?.converts ?? 0,
                             ),
                           ),
@@ -284,7 +294,7 @@ class AdDetails extends StatelessWidget {
                             child: ShowPieChart(
                               chartData: [
                                 ChartData(
-                                  count: 10,
+                                  count: 1,
                                   // (adModel?.stats?.spent ?? 0).toDouble(),
                                   color: Color(0xFEDD874D),
                                 ),
@@ -294,7 +304,7 @@ class AdDetails extends StatelessWidget {
                                 ),
                               ],
                               label: 'Spent',
-                              count: 10,
+                              count: 1,
                               //count: adModel?.stats?.spent ?? 0,
                             ),
                           ),

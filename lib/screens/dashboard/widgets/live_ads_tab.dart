@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/ads_cubit.dart';
+import '/screens/dashboard/cubit/ads_cubit.dart';
 import '/widgets/loading_indicator.dart';
-
 import 'live_ad_card.dart';
 
 class LiveAdsTab extends StatelessWidget {
