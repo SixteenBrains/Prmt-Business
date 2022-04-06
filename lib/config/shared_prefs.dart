@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String keyTheme = 'theme';
 const String _token = 'token';
 const String _firstTime = 'firstTime';
+const String _sortType = 'sortType';
 
 class SharedPrefs {
   static SharedPreferences? _sharedPrefs;
@@ -24,9 +25,17 @@ class SharedPrefs {
 
   bool get isFirstTime => _sharedPrefs?.getBool(_firstTime) ?? true;
 
+  bool get sortType => _sharedPrefs?.getBool(_firstTime) ?? false;
+
   Future<void> setToken(String value) async {
     if (_sharedPrefs != null) {
       await _sharedPrefs?.setString(_token, value);
+    }
+  }
+
+  Future<void> setSortType(bool value) async {
+    if (_sharedPrefs != null) {
+      await _sharedPrefs?.setBool(_sortType, value);
     }
   }
 

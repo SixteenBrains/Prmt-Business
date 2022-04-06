@@ -72,7 +72,7 @@ class LiveAdCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    adModel?.name ?? 'N/A',
+                    adModel?.title ?? 'N/A',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

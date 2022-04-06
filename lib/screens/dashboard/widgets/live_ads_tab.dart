@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/widgets/sort_ads.dart';
 import '/screens/dashboard/cubit/ads_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'live_ad_card.dart';
@@ -30,33 +31,36 @@ class LiveAdsTab extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Container(
-                      height: 35.0,
-                      width: 80.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(color: Colors.blue, width: 1.5),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'Sort',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(width: 2.0),
-                          Icon(
-                            Icons.expand_more,
-                            color: Colors.blue,
-                            size: 22.0,
-                          ),
-                        ],
-                      ),
-                    )
+                    SortAds(onChanged: () {
+                      context.read<AdsCubit>().toogleRecent();
+                    }),
+                    // Container(
+                    //   height: 35.0,
+                    //   width: 80.0,
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(6.0),
+                    //     border: Border.all(color: Colors.blue, width: 1.5),
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: const [
+                    //       Text(
+                    //         'Sort',
+                    //         style: TextStyle(
+                    //           fontSize: 16.0,
+                    //           fontWeight: FontWeight.w600,
+                    //         ),
+                    //       ),
+                    //       SizedBox(width: 2.0),
+                    //       Icon(
+                    //         Icons.expand_more,
+                    //         color: Colors.blue,
+                    //         size: 22.0,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
                 const SizedBox(height: 20.0),
@@ -66,6 +70,7 @@ class LiveAdsTab extends StatelessWidget {
                       context.read<AdsCubit>().loadLiveAds();
                     },
                     child: ListView.builder(
+                      // reverse: state.showRecent,
                       itemCount: state.ads.length,
                       itemBuilder: (context, index) {
                         return LiveAdCard(

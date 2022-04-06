@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:prmt_business/screens/ad-details/ad_details.dart';
+import 'package:prmt_business/widgets/sort_ads.dart';
 import '/models/ad_model.dart';
 import '/models/chart_data.dart';
 import '/screens/dashboard/cubit/ads_cubit.dart';
@@ -33,33 +34,9 @@ class ExpiredAds extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Container(
-                    height: 35.0,
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6.0),
-                      border: Border.all(color: Colors.blue, width: 1.5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Sort',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(width: 2.0),
-                        Icon(
-                          Icons.expand_more,
-                          color: Colors.blue,
-                          size: 22.0,
-                        ),
-                      ],
-                    ),
-                  )
+                  SortAds(onChanged: () {
+                    context.read<AdsCubit>().toogleRecent();
+                  }),
                 ],
               ),
               const SizedBox(height: 20.0),
@@ -143,7 +120,7 @@ class ExpiredCard extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: adModel?.name ?? 'N/A',
+                          text: adModel?.title ?? 'N/A',
                         ),
                         const TextSpan(
                           text: ' (Expired)',
@@ -240,22 +217,24 @@ class ExpiredCard extends StatelessWidget {
                   const SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Expanded(
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.clicks ?? 1).toDouble(),
-                              color: const Color(0xff19CED7),
+                              count: 1,
+                              //count: (adModel?.stats?.clicks ?? 1).toDouble(),
+                              color: Color(0xff19CED7),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffC6F3F5),
                             ),
                           ],
                           //  chartData: ad?.clicksMetrics ?? [],
                           label: 'Clicks',
-                          count: adModel?.stats?.clicks ?? 0,
+                          count: 1,
+                          //count: adModel?.stats?.clicks ?? 0,
                         ),
                       ),
 
@@ -264,32 +243,36 @@ class ExpiredCard extends StatelessWidget {
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.converts ?? 1).toDouble(),
-                              color: const Color(0xff7CDA94),
+                              count: 1,
+                              //count: (adModel?.stats?.converts ?? 1).toDouble(),
+                              color: Color(0xff7CDA94),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffD7F4DF),
                             ),
                           ],
                           label: 'Converts',
-                          count: adModel?.stats?.converts ?? 1,
+                          count: 1,
+                          //count: adModel?.stats?.converts ?? 1,
                         ),
                       ),
                       Expanded(
                         child: ShowPieChart(
                           chartData: [
                             ChartData(
-                              count: (adModel?.stats?.spent ?? 1).toDouble(),
-                              color: const Color(0xFEDD874D),
+                              count: 1,
+                              // count: (adModel?.stats?.spent ?? 1).toDouble(),
+                              color: Color(0xFEDD874D),
                             ),
-                            const ChartData(
+                            ChartData(
                               count: 50,
                               color: Color(0xffFEDD87),
                             ),
                           ],
                           label: 'Spent',
-                          count: adModel?.stats?.spent ?? 0,
+                          count: 1,
+                          //count: adModel?.stats?.spent ?? 0,
                         ),
                       ),
                     ],

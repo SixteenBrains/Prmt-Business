@@ -84,7 +84,7 @@ class WhatsAppPreview extends StatelessWidget {
                                     width: _canvas.width * 0.48,
                                     child: Text(
                                       // 'Himalaya Ashvagandha',
-                                      ad?.name ?? 'N/A',
+                                      ad?.title ?? 'N/A',
                                       style: const TextStyle(
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w600,

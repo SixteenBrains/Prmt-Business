@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/models/ad_model.dart';
-import 'package:prmt_business/screens/ad-details/ad_details.dart';
+import '/models/ad_model.dart';
+import '/screens/ad-details/ad_details.dart';
+import '/widgets/sort_ads.dart';
 import '/screens/dashboard/cubit/ads_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import '/constants/drafs_ads_const.dart';
@@ -34,33 +35,9 @@ class DrafAds extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Container(
-                      height: 35.0,
-                      width: 80.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(color: Colors.blue, width: 1.5),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'Sort',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(width: 2.0),
-                          Icon(
-                            Icons.expand_more,
-                            color: Colors.blue,
-                            size: 22.0,
-                          ),
-                        ],
-                      ),
-                    )
+                    SortAds(onChanged: () {
+                      context.read<AdsCubit>().toogleRecent();
+                    }),
                   ],
                 ),
                 const SizedBox(height: 20.0),
@@ -135,7 +112,7 @@ class DraftAdsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    adModel?.name ?? 'N/A',
+                    adModel?.title ?? 'N/A',
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

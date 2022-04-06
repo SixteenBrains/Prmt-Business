@@ -172,7 +172,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                         adModel: AdModel(
                           adType: state.mediaType,
                           mediaFile: state.adMedia,
-                          name: state.adName,
+                          title: state.adName,
                           description: state.description,
                           targetLink: state.targetLink,
                           budget: state.budget,

@@ -7,11 +7,13 @@ class AdsState extends Equatable {
   final AdStatus status;
   final Failure failure;
   final int tabIndex;
+  final bool showRecent;
 
   const AdsState({
     required this.ads,
     required this.status,
     required this.failure,
+    this.showRecent = true,
     this.tabIndex = 0,
   });
 
@@ -20,26 +22,29 @@ class AdsState extends Equatable {
         status: AdStatus.initial,
         failure: Failure(),
         tabIndex: 0,
+        showRecent: true,
       );
 
   @override
-  List<Object> get props => [ads, status, failure, tabIndex];
+  List<Object> get props => [ads, status, failure, tabIndex, showRecent];
 
   AdsState copyWith({
     List<AdModel?>? ads,
     AdStatus? status,
     Failure? failure,
     int? tabIndex,
+    bool? showRecent,
   }) {
     return AdsState(
       ads: ads ?? this.ads,
       status: status ?? this.status,
       failure: failure ?? this.failure,
       tabIndex: tabIndex ?? this.tabIndex,
+      showRecent: showRecent ?? this.showRecent,
     );
   }
 
   @override
   String toString() =>
-      'AdState(liveAds: $ads, status: $status, failure: $failure tabIndex: &tabIndex)';
+      'AdState(liveAds: $ads, status: $status, failure: $failure tabIndex: &tabIndex,showRecent: $showRecent )';
 }

@@ -27,8 +27,8 @@ class AdsCubit extends Cubit<AdsState> {
     try {
       emit(state.copyWith(status: AdStatus.loading));
 
-      final ads =
-          await _adRepository.getLiveAds(userId: _authBloc.state.user?.uid);
+      final ads = await _adRepository.getLiveAds(
+          userId: _authBloc.state.user?.uid, showRecent: state.showRecent);
 
       emit(state.copyWith(
           ads: await Future.wait(ads), status: AdStatus.succuss));
@@ -62,5 +62,12 @@ class AdsCubit extends Cubit<AdsState> {
     } on Failure catch (failure) {
       emit(state.copyWith(failure: failure, status: AdStatus.error));
     }
+  }
+
+  void toogleRecent() async {
+    print('Normal ads - ${state.ads}');
+    final List<AdModel> ads = List<AdModel>.from(state.ads.reversed.toList());
+    emit(state.copyWith(ads: ads));
+    // loadLiveAds();
   }
 }

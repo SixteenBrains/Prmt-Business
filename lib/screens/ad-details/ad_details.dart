@@ -52,10 +52,10 @@ class AdDetails extends StatelessWidget {
         adModel?.budget != null ? int.tryParse(adModel!.budget!) : null;
 
     final _dateFormate = DateFormat('dd MMM yyyy');
-    final adTitle = adModel?.name != null
-        ? adModel!.name!.length > 30
-            ? adModel!.name!.substring(0, 30) + '...'
-            : adModel?.name
+    final adTitle = adModel?.title != null
+        ? adModel!.title!.length > 30
+            ? adModel!.title!.substring(0, 30) + '...'
+            : adModel?.title
         : 'N/A';
     return Scaffold(
       appBar: AppBar(
@@ -100,7 +100,7 @@ class AdDetails extends StatelessWidget {
                     children: [
                       const SizedBox(height: 10.0),
                       Text(
-                        adModel?.name ?? 'N/A',
+                        adModel?.title ?? 'N/A',
                         style: const TextStyle(
                           fontSize: 20.0,
                         ),

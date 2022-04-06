@@ -9,7 +9,7 @@ import '/config/paths.dart';
 import '/models/appuser.dart';
 
 class AdModel extends Equatable {
-  final String? name; // TODO: change it to title
+  final String? title;
   final String? adId;
   final String? description;
   final DateTime? startDate;
@@ -25,7 +25,7 @@ class AdModel extends Equatable {
   final AdStats? stats;
 
   const AdModel({
-    this.name,
+    this.title,
     this.adId,
     this.description,
     this.startDate,
@@ -42,7 +42,7 @@ class AdModel extends Equatable {
   });
 
   AdModel copyWith({
-    String? name,
+    String? title,
     String? adId,
     String? description,
     DateTime? startDate,
@@ -58,7 +58,7 @@ class AdModel extends Equatable {
     AdStats? stats,
   }) {
     return AdModel(
-      name: name ?? this.name,
+      title: title ?? this.title,
       adId: adId ?? this.adId,
       description: description ?? this.description,
       startDate: startDate ?? this.startDate,
@@ -77,7 +77,7 @@ class AdModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'title': title,
       // 'adId': adId,
       'description': description,
       'startDate': startDate != null ? Timestamp.fromDate(startDate!) : null,
@@ -111,7 +111,7 @@ class AdModel extends Equatable {
       print('Stats data --- $statsData');
 
       return AdModel(
-        name: data['name'],
+        title: data['title'],
         adId: doc?.id,
         description: data['description'],
         stats: statsData != null ? AdStats.fromMap(statsData) : null,
@@ -146,13 +146,13 @@ class AdModel extends Equatable {
 
   @override
   String toString() {
-    return 'AdMo(name: $name, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl, stats: $stats)';
+    return 'AdMo(title: $title, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl, stats: $stats)';
   }
 
   @override
   List<Object?> get props {
     return [
-      name,
+      title,
       adId,
       description,
       startDate,

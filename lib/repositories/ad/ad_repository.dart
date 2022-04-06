@@ -15,13 +15,18 @@ class AdRepository extends BaseAdRepository {
 
   // Get
 
-  Future<List<Future<AdModel?>>> getLiveAds({required String? userId}) async {
+  Future<List<Future<AdModel?>>> getLiveAds({
+    required String? userId,
+    required bool showRecent,
+  }) async {
     try {
       final today = Timestamp.fromDate(DateTime.now());
 
       final adsSnaps = await _firestore
           .collection(Paths.ads)
           .where('endDate', isGreaterThanOrEqualTo: today)
+          .orderBy('endDate', descending: true)
+          // .where('startDate', isGreaterThanOrEqualTo: today)
           .get();
 
       return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
@@ -39,6 +44,7 @@ class AdRepository extends BaseAdRepository {
       final adsSnaps = await _firestore
           .collection(Paths.ads)
           .where('endDate', isLessThan: today)
+          .orderBy('endDate', descending: true)
           .get();
 
       return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
@@ -60,6 +66,7 @@ class AdRepository extends BaseAdRepository {
           .collection(Paths.drafts)
           .doc(userID)
           .collection(Paths.draftAds)
+          .orderBy('startDate', descending: true)
           .get();
 
       return adSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
