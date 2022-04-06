@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/profile/profile_repo.dart';
+import '/screens/profile/cubit/profile_cubit.dart';
+import '/widgets/custom_textfield.dart';
+import '/widgets/loading_indicator.dart';
 import '/widgets/bottom_nav_button.dart';
 
 class EditProfile extends StatelessWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  static const String routeName = '/editProfile';
+  EditProfile({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => BlocProvider<ProfileCubit>(
+        create: (context) => ProfileCubit(
+          authBloc: context.read<AuthBloc>(),
+          profileRepository: context.read<ProfileRepository>(),
+        )..loadProfile(),
+        child: EditProfile(),
+      ),
+    );
+  }
+
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      context.read<ProfileCubit>().editProfile();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _canvas = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -21,158 +48,116 @@ class EditProfile extends StatelessWidget {
         ),
         title: const Text('Profile Details'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 20.0,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
+      body: BlocConsumer<ProfileCubit, ProfileState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state.status == ProfileStatus.loading) {
+            return const LoadingIndicator();
+          }
+          final _user = state.user;
+          return Stack(
+            fit: StackFit.expand,
             children: [
-              const SizedBox(height: 10.0),
-              TextFormField(
-                initialValue: '7506079111',
-
-                style: const TextStyle(fontSize: 20.0),
-                // onChanged: (value) =>
-                //     context.read<SignUpCubit>().phoneNoChanged(value),
-                decoration: InputDecoration(
-                  labelText: 'Mobile Number',
-                  hintText: 'Eg - 98282928292',
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 20.0,
-                  ),
-                  suffix: const Icon(
-                    FontAwesomeIcons.edit,
-                    color: Colors.grey,
-                    size: 18.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 20.0,
+                ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10.0),
+                        CustomTextField(
+                          initialValue: _user?.phoneNumber,
+                          enabled: false,
+                          labelText: 'Mobile Number',
+                          hintText: 'Enter your mobile number',
+                          onchanged: (value) {},
+                          validator: (value) {
+                            return null;
+                          },
+                          inputType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 25.0),
+                        CustomTextField(
+                          initialValue: _user?.email,
+                          enabled: false,
+                          labelText: 'Email ID',
+                          hintText: 'Enter your email id',
+                          onchanged: (value) {},
+                          validator: (value) {
+                            return null;
+                          },
+                          inputType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 25.0),
+                        CustomTextField(
+                          initialValue: state.user?.name,
+                          labelText: 'Full Name',
+                          hintText: 'Enter full name',
+                          onchanged: (value) =>
+                              context.read<ProfileCubit>().nameChanged(value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Name can\'t be empty';
+                            }
+                            return null;
+                          },
+                          inputType: TextInputType.name,
+                        ),
+                        const SizedBox(height: 25.0),
+                        CustomTextField(
+                          initialValue: state.user?.state,
+                          labelText: 'State',
+                          hintText: 'Enter your state',
+                          onchanged: (value) => context
+                              .read<ProfileCubit>()
+                              .stateNameChaned(value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'State name can\'t be empty';
+                            }
+                            return null;
+                          },
+                          inputType: TextInputType.name,
+                        ),
+                        const SizedBox(height: 25.0),
+                        CustomTextField(
+                          initialValue: state.user?.city,
+                          labelText: 'City',
+                          hintText: 'Enter your city name',
+                          onchanged: (value) => context
+                              .read<ProfileCubit>()
+                              .cityNameChanged(value),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'City name can\'t be empty';
+                            }
+                            return null;
+                          },
+                          inputType: TextInputType.name,
+                        ),
+                        const SizedBox(height: 120.0)
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 25.0),
-              TextFormField(
-                initialValue: 'Amalendu Hajraa',
-
-                style: const TextStyle(fontSize: 20.0),
-                // onChanged: (value) =>
-                //     context.read<SignUpCubit>().phoneNoChanged(value),
-                decoration: InputDecoration(
-                  labelText: 'Full Name',
-                  hintText: 'Enter Full Name',
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 20.0,
-                  ),
-                  // suffix: const Icon(
-                  //   FontAwesomeIcons.edit,
-                  //   color: Colors.grey,
-                  //   size: 18.0,
-                  // ),
+              Positioned(
+                bottom: 18.0,
+                right: 15.0,
+                left: 15.0,
+                child: BottomNavButton(
+                  label: 'CREATE NEW AD',
+                  isEnabled: true,
+                  onTap: () => _submit(context),
                 ),
-              ),
-              const SizedBox(height: 25.0),
-              TextFormField(
-                initialValue: 'Amalendu.h123@gmail.com',
-
-                style: const TextStyle(fontSize: 20.0),
-                // onChanged: (value) =>
-                //     context.read<SignUpCubit>().phoneNoChanged(value),
-                decoration: InputDecoration(
-                  labelText: 'Email ID',
-                  hintText: 'Enter Email',
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 20.0,
-                  ),
-                  // suffix: const Icon(
-                  //   FontAwesomeIcons.edit,
-                  //   color: Colors.grey,
-                  //   size: 18.0,
-                  // ),
-                ),
-              ),
-              const SizedBox(height: 25.0),
-              TextFormField(
-                initialValue: 'Maharashtra',
-
-                style: const TextStyle(fontSize: 20.0),
-                // onChanged: (value) =>
-                //     context.read<SignUpCubit>().phoneNoChanged(value),
-                decoration: InputDecoration(
-                  labelText: 'State',
-                  hintText: 'Enter State',
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 20.0,
-                  ),
-                  // suffix: const Icon(
-                  //   FontAwesomeIcons.edit,
-                  //   color: Colors.grey,
-                  //   size: 18.0,
-                  // ),
-                ),
-              ),
-              const SizedBox(height: 25.0),
-              TextFormField(
-                initialValue: 'Mumbai',
-
-                style: const TextStyle(fontSize: 20.0),
-                // onChanged: (value) =>
-                //     context.read<SignUpCubit>().phoneNoChanged(value),
-                decoration: InputDecoration(
-                  labelText: 'City',
-                  hintText: 'Enter City',
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 20.0,
-                  ),
-                  // suffix: const Icon(
-                  //   FontAwesomeIcons.edit,
-                  //   color: Colors.grey,
-                  //   size: 18.0,
-                  // ),
-                ),
-              ),
-              SizedBox(height: _canvas.height * 0.22),
-              BottomNavButton(
-                label: 'CREATE NEW AD',
-                isEnabled: true,
-                onTap: () {},
               ),
             ],
-          ),
-        ),
+          );
+        },
       ),
     );
   }

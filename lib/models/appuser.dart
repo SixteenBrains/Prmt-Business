@@ -7,13 +7,16 @@ class AppUser extends Equatable {
   final String? email;
   final String? profileImg;
   final String? name;
+  final String? phoneNumber;
   final String? uid;
   final DateTime? createdAt;
   final String? businessName;
   final String? businessType;
-  final bool firstAdCreated;
+  final String? state;
+  final String? city;
 
   const AppUser({
+    this.phoneNumber,
     this.profileImg,
     this.email,
     this.name,
@@ -21,7 +24,8 @@ class AppUser extends Equatable {
     this.businessName,
     this.createdAt,
     this.businessType,
-    this.firstAdCreated = false,
+    this.city,
+    this.state,
   });
 
   AppUser copyWith({
@@ -33,6 +37,9 @@ class AppUser extends Equatable {
     DateTime? createdAt,
     String? businessType,
     bool? firstAdCreated,
+    String? phoneNumber,
+    String? city,
+    String? state,
   }) {
     return AppUser(
       profileImg: profileImg ?? this.profileImg,
@@ -42,7 +49,9 @@ class AppUser extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       businessName: businessName ?? this.businessName,
       businessType: businessType ?? this.businessType,
-      firstAdCreated: firstAdCreated ?? this.firstAdCreated,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
     );
   }
 
@@ -54,12 +63,15 @@ class AppUser extends Equatable {
       'businessName': businessName,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'businessType': businessType,
-      'firstAdCreated': firstAdCreated,
+      'state': state,
+      'city': city,
+      'phoneNumber': phoneNumber,
     };
   }
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
+      phoneNumber: map['phoneNumber'],
       profileImg: map['profileImg'],
       email: map['email'],
       name: map['name'],
@@ -68,7 +80,8 @@ class AppUser extends Equatable {
           ? (map['createdAt'] as Timestamp).toDate()
           : null,
       businessType: map['businessType'],
-      firstAdCreated: map['firstAdCreated'] ?? false,
+      state: map['state'],
+      city: map['city'],
     );
   }
 
@@ -93,7 +106,9 @@ class AppUser extends Equatable {
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
       businessType: data?['businessType'],
-      firstAdCreated: data?['firstAdCreated'] ?? false,
+      city: data?['city'],
+      state: data?['state'],
+      phoneNumber: data?['phoneNumber'],
     );
   }
 
@@ -104,7 +119,7 @@ class AppUser extends Equatable {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType, firstAdCreated: $firstAdCreated, profileImg: $profileImg)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, createdAt: $createdAt, businessType: $businessType, city: $city, state: $state,  profileImg: $profileImg, phoneNumber: $phoneNumber)';
   }
 
   @override
@@ -116,5 +131,8 @@ class AppUser extends Equatable {
         businessName,
         businessType,
         profileImg,
+        phoneNumber,
+        city,
+        state,
       ];
 }

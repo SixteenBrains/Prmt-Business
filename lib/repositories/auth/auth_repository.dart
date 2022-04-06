@@ -13,9 +13,11 @@ class AuthRepository extends BaseAuthRepository {
 
   AppUser? _appUser(User? user) {
     if (user == null) return null;
+    print('user phone number -- ${user.phoneNumber}');
     return AppUser(
       uid: user.uid,
       name: user.displayName,
+      phoneNumber: user.phoneNumber,
     );
   }
 

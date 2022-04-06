@@ -9,6 +9,8 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final TextInputType inputType;
+  final String? labelText;
+  final bool enabled;
 
   const CustomTextField({
     Key? key,
@@ -18,13 +20,16 @@ class CustomTextField extends StatelessWidget {
     required this.onchanged,
     required this.validator,
     required this.inputType,
+    this.labelText,
     this.initialValue,
     this.maxLenght,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       maxLines: maxLines,
       minLines: minLines,
       initialValue: initialValue,
@@ -34,7 +39,11 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       keyboardType: inputType,
       decoration: InputDecoration(
+        labelText: labelText,
         hintText: hintText,
+        disabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.blue, width: 2),
         ),

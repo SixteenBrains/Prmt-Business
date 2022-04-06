@@ -51,4 +51,33 @@ class ProfileCubit extends Cubit<ProfileState> {
       print('Error in img uploading');
     }
   }
+
+  void nameChanged(String value) {
+    emit(state.copyWith(name: value));
+  }
+
+  void stateNameChaned(String value) {
+    emit(state.copyWith(stateName: value));
+  }
+
+  void cityNameChanged(String value) {
+    emit(state.copyWith(cityName: value));
+  }
+
+  void editProfile() async {
+    try {
+      emit(state.copyWith(status: ProfileStatus.loading));
+      final user = state.user;
+      await _profileRepository.editProfile(
+        user: user?.copyWith(
+          name: state.name,
+          state: state.stateName,
+          city: state.cityName,
+        ),
+      );
+      emit(state.copyWith(status: ProfileStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: ProfileStatus.error));
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/profile/edit_profile.dart';
 import 'package:prmt_business/screens/profile/profile_screen.dart';
 import '/screens/ad-details/ad_details.dart';
 import '/screens/payment/payment_screen.dart';
@@ -64,6 +65,9 @@ class CustomRouter {
 
       case ProfileScreen.routeName:
         return ProfileScreen.route();
+
+      case EditProfile.routeName:
+        return EditProfile.route();
 
       default:
         return _errorRoute();

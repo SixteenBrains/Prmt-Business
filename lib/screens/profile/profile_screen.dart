@@ -202,11 +202,8 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const EditProfile(),
-                            ),
-                          ),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(EditProfile.routeName),
                           child: Container(
                             // height: 90.0,
                             width: _canvas.width * 0.43,
