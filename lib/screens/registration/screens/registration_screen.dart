@@ -29,6 +29,9 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _authBloc = context.read<AuthBloc>().state;
+
+    print('User ------- ${_authBloc.user}');
     return WillPopScope(
       onWillPop: () async => false,
       child: BlocConsumer<RegistrationCubit, RegistrationState>(

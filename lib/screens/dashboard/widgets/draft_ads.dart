@@ -42,15 +42,27 @@ class DrafAds extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: state.ads.length,
-                    itemBuilder: (context, index) {
-                      return DraftAdsCard(
-                        draftAd: draftsAds[index],
-                        adModel: state.ads[index],
-                      );
-                    },
-                  ),
+                  child: state.ads.isNotEmpty
+                      ? RefreshIndicator(
+                          onRefresh: () async {
+                            context.read<AdsCubit>().loadDraftAds();
+                          },
+                          child: ListView.builder(
+                            itemCount: state.ads.length,
+                            itemBuilder: (context, index) {
+                              return DraftAdsCard(
+                                draftAd: draftsAds[index],
+                                adModel: state.ads[index],
+                              );
+                            },
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            'Your draft is empty',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 55.0),
               ],

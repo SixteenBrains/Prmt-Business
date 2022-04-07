@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-const String _errorImage =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjMD6Pl7n4lSFFphlDlRz7o4ULYlNrAC9KJN4sfz9mRDDgU_FzGrA-DNgLL8keHh90KJg&usqp=CAU';
+import '/constants/constants.dart';
 
 class DisplayImage extends StatelessWidget {
   final String? imageUrl;
@@ -23,7 +21,7 @@ class DisplayImage extends StatelessWidget {
       width: width ?? 1000.0,
       height: height,
       // height: double.infinity,
-      imageUrl: imageUrl ?? _errorImage,
+      imageUrl: imageUrl ?? errorImage,
       fit: fit,
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
         child: CircularProgressIndicator(
@@ -33,7 +31,7 @@ class DisplayImage extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) =>
-          const Center(child: Icon(Icons.error)),
+          const Center(child: Icon(Icons.error, color: Colors.grey)),
     );
   }
 }

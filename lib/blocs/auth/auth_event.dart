@@ -14,3 +14,9 @@ class AuthUserChanged extends AuthEvent {
 }
 
 class AuthLogoutRequested extends AuthEvent {}
+
+class UserProfileImageChanged extends AuthEvent {
+  final String? imgUrl;
+
+  const UserProfileImageChanged({required this.imgUrl});
+}

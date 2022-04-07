@@ -1,4 +1,10 @@
+Todo 8 April
+1. Add error/ message if the data is not available 
+and error login in bloc listern
+
 Todo 7 April
+
+
 
 1. Edit Profile - Done
 2.Edit image

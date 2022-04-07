@@ -34,52 +34,27 @@ class LiveAdsTab extends StatelessWidget {
                     SortAds(onChanged: () {
                       context.read<AdsCubit>().toogleRecent();
                     }),
-                    // Container(
-                    //   height: 35.0,
-                    //   width: 80.0,
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     borderRadius: BorderRadius.circular(6.0),
-                    //     border: Border.all(color: Colors.blue, width: 1.5),
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: const [
-                    //       Text(
-                    //         'Sort',
-                    //         style: TextStyle(
-                    //           fontSize: 16.0,
-                    //           fontWeight: FontWeight.w600,
-                    //         ),
-                    //       ),
-                    //       SizedBox(width: 2.0),
-                    //       Icon(
-                    //         Icons.expand_more,
-                    //         color: Colors.blue,
-                    //         size: 22.0,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
                   ],
                 ),
                 const SizedBox(height: 20.0),
                 Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      context.read<AdsCubit>().loadLiveAds();
-                    },
-                    child: ListView.builder(
-                      // reverse: state.showRecent,
-                      itemCount: state.ads.length,
-                      itemBuilder: (context, index) {
-                        return LiveAdCard(
-                          //  ad: state.liveAds[index],
-                          adModel: state.ads[index],
-                        );
-                      },
-                    ),
-                  ),
+                  child: state.ads.isNotEmpty
+                      ? ListView.builder(
+                          // reverse: state.showRecent,
+                          itemCount: state.ads.length,
+                          itemBuilder: (context, index) {
+                            return LiveAdCard(
+                              //  ad: state.liveAds[index],
+                              adModel: state.ads[index],
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: Text(
+                            'You don\'t have any live ads',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 55.0),
               ],

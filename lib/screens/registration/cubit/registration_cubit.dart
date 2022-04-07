@@ -75,16 +75,19 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   void registerUser() async {
     try {
       emit(state.copyWith(status: RegistrationStatus.submitting));
-      await _registrationRepository.registerUser(
-        user: AppUser(
-          name: state.fName,
-          businessName: state.businessName,
-          email: state.email,
-          createdAt: DateTime.now(),
-          uid: _authBloc.state.user?.uid,
-          businessType: state.businessType?.type,
-        ),
+      final user = AppUser(
+        name: state.fName,
+        businessName: state.businessName,
+        email: state.email,
+        createdAt: DateTime.now(),
+        uid: _authBloc.state.user?.uid,
+        businessType: state.businessType?.type,
       );
+      await _registrationRepository.registerUser(
+          user: user.copyWith(
+        phoneNumber: _authBloc.state.user?.phoneNumber,
+        uid: _authBloc.state.user?.uid,
+      ));
 
       emit(state.copyWith(status: RegistrationStatus.succuss));
     } on Failure catch (error) {

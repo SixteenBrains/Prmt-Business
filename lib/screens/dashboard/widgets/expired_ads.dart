@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:prmt_business/screens/ad-details/ad_details.dart';
+import 'package:prmt_business/widgets/loading_indicator.dart';
 import 'package:prmt_business/widgets/sort_ads.dart';
 import '/models/ad_model.dart';
 import '/models/chart_data.dart';
@@ -17,6 +18,9 @@ class ExpiredAds extends StatelessWidget {
     return BlocConsumer<AdsCubit, AdsState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if (state.status == AdStatus.loading) {
+          return const LoadingIndicator();
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
@@ -41,14 +45,26 @@ class ExpiredAds extends StatelessWidget {
               ),
               const SizedBox(height: 20.0),
               Expanded(
-                child: ListView.builder(
-                  itemCount: state.ads.length,
-                  itemBuilder: (context, index) {
-                    return ExpiredCard(
-                      adModel: state.ads[index],
-                    );
-                  },
-                ),
+                child: state.ads.isNotEmpty
+                    ? RefreshIndicator(
+                        onRefresh: () async {
+                          context.read<AdsCubit>().loadExpiredAds();
+                        },
+                        child: ListView.builder(
+                          itemCount: state.ads.length,
+                          itemBuilder: (context, index) {
+                            return ExpiredCard(
+                              adModel: state.ads[index],
+                            );
+                          },
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          'You don\'t have any expired ads',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
               ),
               const SizedBox(height: 55.0),
             ],

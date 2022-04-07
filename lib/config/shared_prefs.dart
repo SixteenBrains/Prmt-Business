@@ -5,6 +5,8 @@ const String _token = 'token';
 const String _firstTime = 'firstTime';
 const String _sortType = 'sortType';
 
+const String _skipAd = '_skipAd';
+
 class SharedPrefs {
   static SharedPreferences? _sharedPrefs;
 
@@ -27,9 +29,17 @@ class SharedPrefs {
 
   bool get sortType => _sharedPrefs?.getBool(_firstTime) ?? false;
 
+  bool get skipAd => _sharedPrefs?.getBool(_skipAd) ?? true;
+
   Future<void> setToken(String value) async {
     if (_sharedPrefs != null) {
       await _sharedPrefs?.setString(_token, value);
+    }
+  }
+
+  Future<void> setSkipAd(bool value) async {
+    if (_sharedPrefs != null) {
+      await _sharedPrefs?.setBool(_skipAd, value);
     }
   }
 

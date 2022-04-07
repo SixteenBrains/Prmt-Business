@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:prmt_business/utils/media_util.dart';
-import 'package:prmt_business/widgets/display_image.dart';
-import 'package:prmt_business/widgets/loading_indicator.dart';
-import 'package:prmt_business/widgets/show_snackbar.dart';
+import '/utils/media_util.dart';
+import '/widgets/display_image.dart';
+import '/widgets/loading_indicator.dart';
+import '/widgets/show_snackbar.dart';
 import '/repositories/profile/profile_repo.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -218,11 +218,14 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               child: Row(
                                 children: [
-                                  const CircleAvatar(
+                                  CircleAvatar(
                                     radius: 22.0,
                                     backgroundColor: Colors.white,
-                                    backgroundImage: NetworkImage(
-                                        'https://media.istockphoto.com/photos/face-of-a-serious-adult-man-in-studio-picture-id1211615197?k=20&m=1211615197&s=612x612&w=0&h=QA3M1TkxP5qXwTtI5Q6aQ53xGPMo3COzNov8P00SHyk='),
+                                    child: ClipOval(
+                                      child: DisplayImage(
+                                        imageUrl: state.user?.profileImg,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(width: 10.0),
                                   Column(

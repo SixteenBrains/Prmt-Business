@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:prmt_business/repositories/profile/profile_repo.dart';
+import '/repositories/profile/profile_repo.dart';
 import '/models/appuser.dart';
 import '/repositories/auth/auth_repository.dart';
 
@@ -24,7 +23,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (user) async {
         final appUser =
             await _profileRepository.getCurrentUserProfile(userId: user?.uid);
-        add(AuthUserChanged(user: appUser));
+        add(
+          AuthUserChanged(
+            user: user?.copyWith(
+              //Skipping phone number and userId
+
+              profileImg: appUser?.profileImg,
+              createdAt: appUser?.createdAt,
+              state: appUser?.state,
+              city: appUser?.city,
+              name: appUser?.name,
+              email: appUser?.email,
+              businessName: appUser?.businessName,
+              businessType: appUser?.businessType,
+            ),
+          ),
+        );
       },
     );
     on<AuthEvent>((event, emit) async {
@@ -36,6 +50,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       } else if (event is AuthLogoutRequested) {
         await _authRepository.signOut();
+      } else if (event is UserProfileImageChanged) {
+        emit(state.copyWith(
+            user: state.user?.copyWith(profileImg: event.imgUrl)));
       }
     });
   }

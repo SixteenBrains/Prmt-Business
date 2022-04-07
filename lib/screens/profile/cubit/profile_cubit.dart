@@ -45,7 +45,10 @@ class ProfileCubit extends Cubit<ProfileState> {
         await _profileRepository.editProfileImage(
             user: user?.copyWith(profileImg: imgUrl));
 
-        emit(state.copyWith(status: ProfileStatus.imgUploaded));
+        emit(state.copyWith(
+            status: ProfileStatus.imgUploaded,
+            user: user?.copyWith(profileImg: imgUrl)));
+        _authBloc.add(UserProfileImageChanged(imgUrl: imgUrl));
       }
     } catch (error) {
       print('Error in img uploading');

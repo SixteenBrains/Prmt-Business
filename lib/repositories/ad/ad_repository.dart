@@ -21,12 +21,12 @@ class AdRepository extends BaseAdRepository {
   }) async {
     try {
       final today = Timestamp.fromDate(DateTime.now());
+      final authorRef = _firestore.collection(Paths.users).doc(userId);
 
       final adsSnaps = await _firestore
           .collection(Paths.ads)
+          .where('author', isEqualTo: authorRef)
           .where('endDate', isGreaterThanOrEqualTo: today)
-          .orderBy('endDate', descending: true)
-          // .where('startDate', isGreaterThanOrEqualTo: today)
           .get();
 
       return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();
@@ -40,11 +40,13 @@ class AdRepository extends BaseAdRepository {
       {required String? userId}) async {
     try {
       final today = Timestamp.fromDate(DateTime.now());
+      final authorRef = _firestore.collection(Paths.users).doc(userId);
 
       final adsSnaps = await _firestore
           .collection(Paths.ads)
+          .where('author', isEqualTo: authorRef)
           .where('endDate', isLessThan: today)
-          .orderBy('endDate', descending: true)
+          //.orderBy('endDate', descending: true)
           .get();
 
       return adsSnaps.docs.map((doc) => AdModel.fromDocument(doc)).toList();

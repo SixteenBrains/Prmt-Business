@@ -28,4 +28,14 @@ class AuthState extends Equatable {
 
   @override
   bool? get stringify => true;
+
+  AuthState copyWith({
+    AppUser? user,
+    AuthStatus? status,
+  }) {
+    return AuthState(
+      user: user ?? this.user,
+      status: status ?? this.status,
+    );
+  }
 }

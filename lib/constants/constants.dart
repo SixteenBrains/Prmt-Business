@@ -19,3 +19,6 @@ const InputDecoration dateFieldDecoration = InputDecoration(
     borderSide: BorderSide(color: Colors.blue, width: 2),
   ),
 );
+
+const String errorImage =
+    'https://developers.google.com/maps/documentation/streetview/images/error-image-generic.png';
