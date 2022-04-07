@@ -98,9 +98,10 @@ class RegistrationScreen extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _screens(state),
-                        ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: CurrentRegScreen(state: state)
+                            // _screens(state),
+                            ),
                       ),
                     ],
                   ),
@@ -112,8 +113,14 @@ class RegistrationScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _screens(RegistrationState state) {
+class CurrentRegScreen extends StatelessWidget {
+  final RegistrationState state;
+  const CurrentRegScreen({Key? key, required this.state}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     switch (state.currentPage) {
       case RegistrationCurrentPage.fName:
         return const AddName();
