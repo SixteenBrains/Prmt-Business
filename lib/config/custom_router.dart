@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/payment/screens/card_payment.dart';
 import 'package:prmt_business/screens/profile/edit_profile.dart';
 import 'package:prmt_business/screens/profile/profile_screen.dart';
 import '/screens/ad-details/ad_details.dart';
@@ -68,6 +69,9 @@ class CustomRouter {
 
       case EditProfile.routeName:
         return EditProfile.route();
+
+      case CardPayment.routeName:
+        return CardPayment.route();
 
       default:
         return _errorRoute();

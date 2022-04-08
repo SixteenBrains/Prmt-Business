@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:prmt_business/screens/payment/screens/card_payment.dart';
 import 'package:prmt_business/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/ad/ad_repository.dart';
@@ -10,6 +11,7 @@ import '/models/ad_model.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'payment_succuss.dart';
 import 'widgets/add_icon.dart';
+import 'widgets/saved_card.dart';
 
 class PaymentScreenArgs {
   final AdModel? ad;
@@ -129,7 +131,11 @@ class PaymentScreen extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const AddIcon(),
+                                GestureDetector(
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed(CardPayment.routeName),
+                                  child: const AddIcon(),
+                                ),
                                 const SizedBox(width: 15.0),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,6 +189,21 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 20.0,
+                      ),
+                      child: Text(
+                        'Saved Cards',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SavedCard(),
+                    // SavedCard(),
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,

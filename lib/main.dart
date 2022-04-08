@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:prmt_business/.env_key.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/repositories/profile/profile_repo.dart';
 import '/repositories/registraion/registration_repository.dart';
@@ -16,6 +18,10 @@ import 'repositories/auth/auth_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
   if (kIsWeb) {
     // await Firebase.initializeApp(
     //   options: const FirebaseOptions(

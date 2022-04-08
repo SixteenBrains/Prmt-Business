@@ -9,6 +9,15 @@
 .history
 .svn/
 
+
+# stripe key
+
+lib/.env_key.dart
+
+# Firebase 
+android/app/google-services.json
+
+
 # IntelliJ related
 *.iml
 *.ipr
