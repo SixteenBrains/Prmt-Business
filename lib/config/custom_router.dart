@@ -71,7 +71,7 @@ class CustomRouter {
         return EditProfile.route();
 
       case CardPayment.routeName:
-        return CardPayment.route();
+        return CardPayment.route(args: settings.arguments as CardPaymentArgs);
 
       default:
         return _errorRoute();

@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import '/enums/card_brand.dart';
+import '/models/save_card.dart';
+import '/repositories/payment/payment_repository.dart';
 import '/enums/enums.dart';
 import '/models/ad_model.dart';
 import '/utils/media_util.dart';
@@ -11,34 +15,115 @@ part 'payment_state.dart';
 class PaymentCubit extends Cubit<PaymentState> {
   final AdRepository _adRepository;
   final AuthBloc _authBloc;
-  final AdModel? _ad;
+  //final AdModel? _ad;
+  final PaymentRepository _paymentRepository;
 
-  PaymentCubit(
-      {required AdRepository adRepository,
-      required AuthBloc authBloc,
-      required AdModel? ad})
-      : _adRepository = adRepository,
+  PaymentCubit({
+    required AdRepository adRepository,
+    required AuthBloc authBloc,
+    required AdModel? ad,
+    required PaymentRepository paymentRepository,
+  })  : _adRepository = adRepository,
         _authBloc = authBloc,
-        _ad = ad,
+
+        ///  _ad = ad,
+        _paymentRepository = paymentRepository,
         super(PaymentState.initial());
 
-  void publishAd() async {
+  void publishAd({required AdModel? ad}) async {
     try {
       emit(state.copyWith(status: PaymentStatus.loading));
 
       String? mediaUrl;
-      if (_authBloc.state.user?.uid != null && _ad?.mediaFile != null) {
+      if (_authBloc.state.user?.uid != null && ad?.mediaFile != null) {
         mediaUrl = await MediaUtil.uploadAdMedia(
-          childName: _ad?.adType == MediaType.image ? 'images' : 'videos',
-          file: _ad!.mediaFile!,
+          childName: ad?.adType == MediaType.image ? 'images' : 'videos',
+          file: ad!.mediaFile!,
           uid: _authBloc.state.user!.uid!,
         );
       }
 
       await _adRepository.publishAd(
-          ad: _ad?.copyWith(mediaUrl: mediaUrl),
+          ad: ad?.copyWith(mediaUrl: mediaUrl),
           userId: _authBloc.state.user?.uid);
 
+      emit(state.copyWith(status: PaymentStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(status: PaymentStatus.error, failure: failure));
+    }
+  }
+
+  void cardNoChanged(String? value) async {
+    emit(state.copyWith(cardNo: value, status: PaymentStatus.initial));
+  }
+
+  void expMonthChanged(String? value) async {
+    emit(state.copyWith(expMonth: value, status: PaymentStatus.initial));
+  }
+
+  void expYearChanged(String? value) async {
+    emit(state.copyWith(expYear: value, status: PaymentStatus.initial));
+  }
+
+  void cvvChanged(String? value) {
+    emit(state.copyWith(cvv: value, status: PaymentStatus.initial));
+  }
+
+  void cardBrandChanged(String? value) {
+    //emit(state.copyWith(cvv: value));
+  }
+
+  void isCardValidChanged(bool? value) {
+    //emit(state.copyWith(cvv: value));
+    emit(state.copyWith(isCardValid: value, status: PaymentStatus.initial));
+  }
+
+  void updatePayment({required PaymentStatus status}) async {
+    emit(state.copyWith(status: status));
+  }
+
+  void throwPaymentError(String? errorMsg) {
+    emit(state.copyWith(
+        status: PaymentStatus.error, failure: Failure(message: errorMsg)));
+  }
+
+  void cardPayment(
+      {required double price, required PaymentMethod paymentMethod}) async {
+    try {
+      emit(state.copyWith(status: PaymentStatus.loading));
+
+      final result = await _paymentRepository.cardPayment(
+            price: price,
+            paymentMethod: paymentMethod,
+          ) ??
+          false;
+      print('Payment result $result');
+      if (result) {
+        emit(state.copyWith(status: PaymentStatus.paymentSuccuss));
+      } else {
+        // emit(state.copyWith(
+        //     status: PaymentStatus.error,
+        //     failure: const Failure(message: 'Something went wrong')));
+      }
+    } on Failure catch (failure) {
+      print('fatilre -- $failure');
+      emit(state.copyWith(status: PaymentStatus.error, failure: failure));
+    }
+  }
+
+  void saveCard() async {
+    try {
+      emit(state.copyWith(status: PaymentStatus.loading));
+      await _paymentRepository.saveCard(
+        userId: _authBloc.state.user?.uid,
+        card: SaveCard(
+          cardBrand: state.cardBrand,
+          cardNo: state.cardNo,
+          cvv: state.cvv,
+          expMon: state.expMonth,
+          expYear: state.expYear,
+        ),
+      );
       emit(state.copyWith(status: PaymentStatus.succuss));
     } on Failure catch (failure) {
       emit(state.copyWith(status: PaymentStatus.error, failure: failure));

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/config/shared_prefs.dart';
-import 'package:prmt_business/repositories/ad/ad_repository.dart';
-import 'package:prmt_business/screens/dashboard/dashboard.dart';
+import '/repositories/ad/ad_repository.dart';
 import '/screens/create-ad/ad_media.dart';
 import '/screens/create-ad/ad_content.dart';
 import '/screens/create-ad/ad_created.dart';
@@ -145,15 +143,15 @@ class CreateAdScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (SharedPrefs().skipAd)
-                            TextButton(
-                              onPressed: () async {
-                                await SharedPrefs().setSkipAd(false);
-                                Navigator.of(context)
-                                    .pushNamed(DashBoard.routeName);
-                              },
-                              child: const Text('Skip Now'),
-                            )
+                          // if (SharedPrefs().skipAd)
+                          //   TextButton(
+                          //     onPressed: () async {
+                          //       await SharedPrefs().setSkipAd(false);
+                          //       Navigator.of(context)
+                          //           .pushNamed(DashBoard.routeName);
+                          //     },
+                          //     child: const Text('Skip Now'),
+                          //   )
                         ],
                       ),
                       const SizedBox(height: 20.0),

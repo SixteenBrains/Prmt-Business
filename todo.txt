@@ -2,6 +2,8 @@ Todo 8 April
 1. Add error/ message if the data is not available 
 and error login in bloc listern
 
+Fix awesome page // before select target page
+
 Todo 7 April
 
 
@@ -12,6 +14,7 @@ Todo 7 April
 on media type on where ever ads are shown
 4. Add error logic in ever listner bloc
 
+MasterCard
 
 
 

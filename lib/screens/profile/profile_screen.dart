@@ -119,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                               radius: 18.0,
                               backgroundColor: Colors.white,
                               child: Icon(
-                                FontAwesomeIcons.edit,
+                                FontAwesomeIcons.penToSquare,
                                 size: 16.0,
                               ),
                             ),

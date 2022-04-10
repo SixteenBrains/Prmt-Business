@@ -9,34 +9,45 @@ class AdCreated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
       children: [
-        SizedBox(height: _canvas.height * 0.12),
-        Image.asset(
-          'assets/images/Group 101.png',
-          height: _canvas.height * 0.35,
-          width: _canvas.height * 0.35,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(height: _canvas.height * 0.06),
-        Text(
-          'Awesome! Now lets select your target group, demographics and location ',
-          style: TextStyle(
-            color: Colors.grey.shade800,
-            fontSize: 24.0,
-            fontWeight: FontWeight.w600,
+        SingleChildScrollView(
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: _canvas.height * 0.12),
+              Image.asset(
+                'assets/images/Group 101.png',
+                height: _canvas.height * 0.35,
+                width: _canvas.height * 0.35,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(height: _canvas.height * 0.06),
+              Text(
+                'Awesome! Now lets select your target group, demographics and location ',
+                style: TextStyle(
+                  color: Colors.grey.shade800,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              //const Spacer(),
+            ],
           ),
-          textAlign: TextAlign.center,
         ),
-        const Spacer(),
-        BottomNavButton(
-          onTap: () => context
-              .read<CreateAdCubit>()
-              .changePage(AdCurrentPage.targetGroup),
-          label: 'CONTINUE',
-          isEnabled: true,
+        Positioned(
+          bottom: 2.0,
+          right: 2.0,
+          left: 2.0,
+          child: BottomNavButton(
+            onTap: () => context
+                .read<CreateAdCubit>()
+                .changePage(AdCurrentPage.targetGroup),
+            label: 'CONTINUE',
+            isEnabled: true,
+          ),
         ),
       ],
     );

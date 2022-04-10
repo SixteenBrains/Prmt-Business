@@ -2,10 +2,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
-import 'package:prmt_business/.env_key.dart';
+import '/models/ad_model.dart';
+import '/screens/payment/payment_succuss.dart';
+import '/widgets/error_dialog.dart';
+import '/widgets/show_snackbar.dart';
+import '/widgets/loading_indicator.dart';
+import '/.env_key.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/ad/ad_repository.dart';
+import '/repositories/payment/payment_repository.dart';
+import '/screens/payment/cubit/payment_cubit.dart';
 
 // payment_screen.dart
 
@@ -19,14 +28,33 @@ const inputBorder = OutlineInputBorder(
   ),
 );
 
+class CardPaymentArgs {
+  final AdModel? adModel;
+
+  CardPaymentArgs({required this.adModel});
+}
+
 class CardPayment extends StatefulWidget {
   static const String routeName = '/card';
-  const CardPayment({Key? key}) : super(key: key);
+  const CardPayment({
+    Key? key,
+    required this.adModel,
+  }) : super(key: key);
 
-  static Route route() {
+  final AdModel? adModel;
+
+  static Route route({required CardPaymentArgs args}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const CardPayment(),
+      builder: (_) => BlocProvider(
+        create: (context) => PaymentCubit(
+          ad: args.adModel,
+          adRepository: context.read<AdRepository>(),
+          paymentRepository: context.read<PaymentRepository>(),
+          authBloc: context.read<AuthBloc>(),
+        ),
+        child: CardPayment(adModel: args.adModel),
+      ),
     );
   }
 
@@ -35,16 +63,29 @@ class CardPayment extends StatefulWidget {
 }
 
 class _CardPaymentState extends State<CardPayment> {
-  String cardNumber = '';
-  String expiryDate = '';
-  String cardHolderName = '';
-  String cvvCode = '';
-  bool isCvvFocused = false;
-
   void payment() async {
     try {
+      context.read<PaymentCubit>().updatePayment(status: PaymentStatus.loading);
+
+      // const billingDetails = BillingDetails(
+      //   email: 'rishukumar.prince@gmail.com',
+      //   phone: '+918540928489',
+      //   address: Address(
+      //     city: 'Bhopal',
+      //     country: 'IN',
+      //     line1: 'Patel Nagar',
+      //     line2: '',
+      //     state: 'Madhya Pradesh',
+      //     postalCode: '462022',
+      //   ),
+      // );
+
+      // final paymentMethod = await Stripe.instance
+      //     .createPaymentMethod(PaymentMethodParams.fromJson(jsonCard));
+
       final paymentMethod = await Stripe.instance.createPaymentMethod(
-        const PaymentMethodParams.card(billingDetails: BillingDetails()),
+        // const PaymentMethodParams.card(billingDetails: billingDetails),
+        const PaymentMethodParams.card(),
       );
 
       print('Payment method --- $paymentMethod');
@@ -54,10 +95,22 @@ class _CardPaymentState extends State<CardPayment> {
           paymentMethod: paymentMethod,
           billingDetails: paymentMethod.billingDetails);
       print('Resulta------- $result');
+      if (result) {
+        context
+            .read<PaymentCubit>()
+            .updatePayment(status: PaymentStatus.paymentSuccuss);
+        context.read<PaymentCubit>().publishAd(ad: widget.adModel);
+      }
 
       print('Payment method $paymentMethod');
+    } on StripeException catch (error) {
+      print('Error 0 ${error.toString()}');
+      // _controller.clear();
+      context.read<PaymentCubit>().throwPaymentError(error.error.message);
     } catch (error) {
-      print('Error ${error.toString()}');
+      print('Error 1 ${error.toString()}');
+      // _controller.clear();
+      context.read<PaymentCubit>().throwPaymentError(error.toString());
     }
   }
 
@@ -107,143 +160,159 @@ class _CardPaymentState extends State<CardPayment> {
       final paymentIntent = await Stripe.instance
           .confirmPayment(data['client_secret'], paymentParams);
 
-      // final paymentIntent = await StripePayment
-      // .confirmPaymentIntent(
-      //   PaymentIntent(
-      //     clientSecret: data['client_secret'],
-      //     paymentMethodId: paymentMethod.id,
-      //   ),
-      // );
-
       print('Payement Intent --------------- ${paymentIntent.status}');
 
       if (paymentIntent.status == PaymentIntentsStatus.Succeeded) {
         succuss = true;
       }
       return succuss;
+    } on StripeException catch (error) {
+      print('Payment Error from strip exception --- ${error.toString()}');
+      context
+          .read<PaymentCubit>()
+          .throwPaymentError(error.error.localizedMessage);
+      //_controller.clear();
+      return false;
     } catch (error) {
-      print('Payment Error --- ${error.toString()}');
-      // return false;
+      print('Payment Error 2 --- ${error.toString()}');
+      // _controller.clear();
+      context.read<PaymentCubit>().throwPaymentError(error.toString());
+
       return false;
     }
   }
 
-  //final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  //final _controller = CardFormEditController();
 
-  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
-    setState(() {
-      cardNumber = creditCardModel!.cardNumber;
-      expiryDate = creditCardModel.expiryDate;
-      cardHolderName = creditCardModel.cardHolderName;
-      cvvCode = creditCardModel.cvvCode;
-      isCvvFocused = creditCardModel.isCvvFocused;
-    });
-  }
+  // @override
+  // void initState() {
+  //   _controller.addListener(update);
+  //   super.initState();
+  // }
+
+  CardFieldInputDetails? _card;
+
+  Map<String, dynamic> jsonCard = {
+    'type': 'Visa',
+    'card': {
+      'number': '4242424242424242',
+      'exp_month': '12',
+      'exp_year': '34',
+      'cvc': '123',
+    },
+  };
+
+  // void update() => setState(() {});
+  // @override
+  // void dispose() {
+  //   _controller.removeListener(update);
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Card Payment',
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            CreditCardWidget(
-              cardNumber: cardNumber,
-              expiryDate: expiryDate,
-              cardHolderName: cardHolderName,
-              cvvCode: cvvCode,
-              showBackView: isCvvFocused,
-              backgroundImage: 'assets/images/card_bg.png',
-              obscureCardNumber: false,
-              obscureCardCvv: false,
-              isHolderNameVisible: false,
-              height: 220,
-              textStyle: const TextStyle(
-                fontFamily: 'halter',
-                fontSize: 16,
-                color: Colors.white,
-                package: 'flutter_credit_card',
+    return BlocConsumer<PaymentCubit, PaymentState>(
+      listener: (context, state) {
+        if (state.status == PaymentStatus.error) {
+          print('Status payment -- ${state.status}');
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorDialog(content: state.failure.message);
+            },
+          );
+        }
+        if (state.status == PaymentStatus.paymentSuccuss) {
+          ShowSnackBar.showSnackBar(context, title: 'Payment succussfull');
+        }
+        if (state.status == PaymentStatus.succuss) {
+          Navigator.of(context).pushNamed(PaymentSuccussfull.routeName);
+        }
+      },
+      builder: (context, state) {
+        if (state.status == PaymentStatus.loading) {
+          return const Scaffold(body: LoadingIndicator());
+        }
+        return WillPopScope(
+          onWillPop: () async => true,
+          // state.status == PaymentStatus.loading ? false : true,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0.0,
+              backgroundColor: Colors.white,
+              iconTheme: const IconThemeData(color: Colors.black),
+              title: const Text(
+                'Card Payment',
+                style: TextStyle(color: Colors.black),
               ),
-              width: MediaQuery.of(context).size.width,
-              isChipVisible: true,
-              isSwipeGestureEnabled: true,
-              animationDuration: const Duration(milliseconds: 1000),
-              cardBgColor: Colors.black,
-              onCreditCardWidgetChange: (value) {},
-              customCardTypeIcons: [
-                CustomCardTypeIcon(
-                  cardType: CardType.mastercard,
-                  cardImage: Image.asset(
-                    'assets/images/mastercard.png',
-                    height: 48,
-                    width: 48,
-                  ),
-                )
-              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15.0,
-                vertical: 20.0,
-              ),
-              child: CardField(
-                decoration: const InputDecoration(
-                  disabledBorder: inputBorder,
-                  enabledBorder: inputBorder,
-                  focusedBorder: inputBorder,
-                  contentPadding: EdgeInsets.fromLTRB(10, 20, 8, 12),
-                ),
-                dangerouslyGetFullCardDetails: true,
-                onCardChanged: (card) {
-                  print('Card $card');
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 50.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: CardField(
+                      // dangerouslyGetFullCardDetails: true,
+                      // dangerouslyUpdateFullCardDetails: true,
+                      onCardChanged: (card) {
+                        setState(() {
+                          _card = card;
+                        });
+                      },
+                    ),
+                    // CardFormField(
+                    //   enablePostalCode: false,
+                    //   backgroundColor: Colors.black,
+                    //   controller: _controller,
+                    // ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: 45.0,
+                    width: 120.0,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (widget.adModel?.budget != null) {
+                          payment();
+                          print('details -- $_card');
+                          if (_card?.complete == true) {
+                            print('Details completed');
+                            payment();
+                            // final paymentMethod =
+                            //     await Stripe.instance.createPaymentMethod(
+                            //   const PaymentMethodParams.card(
+                            //       billingDetails: BillingDetails()),
+                            // );
+                            // context.read<PaymentCubit>().cardPayment(
+                            //     price: double.parse(widget.adModel!.budget!),
+                            //     paymentMethod: paymentMethod);
+                          } else {
+                            print('Details incompleted');
+                            ShowSnackBar.showSnackBar(context,
+                                title: 'Card details incomplete');
+                          }
+                        }
+                      },
 
-                  print('Card number - ${card?.brand}');
-                  setState(() {
-                    cardNumber = card?.number ?? '';
-                    cvvCode = card?.cvc ?? '';
-                    expiryDate =
-                        '${card?.expiryMonth ?? 'MM'} / ${card?.expiryYear ?? 'YY'}';
-                  });
-                },
+                      //=> payment(),
+                      child: Text(
+                        'Pay ₹ ${widget.adModel?.budget ?? 'N/A'}',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            //  const SizedBox(height: 10.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: CheckboxListTile(
-                title: const Text('Save card for future user'),
-                value: true,
-                onChanged: (value) {},
-              ),
-            ),
-            const SizedBox(height: 30.0),
-            SizedBox(
-              height: 45.0,
-              width: 120.0,
-              child: ElevatedButton(
-                onPressed: () => payment(),
-                child: const Text(
-                  'Pay ₹ 20',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

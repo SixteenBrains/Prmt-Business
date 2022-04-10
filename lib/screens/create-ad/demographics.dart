@@ -18,6 +18,12 @@ class DemoGraphics extends StatefulWidget {
 
 class _DemoGraphicsState extends State<DemoGraphics> {
   @override
+  void initState() {
+    context.read<CreateAdCubit>().loadCites();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
     final _authBloc = context.read<AuthBloc>();
@@ -113,7 +119,9 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                       ),
                     ),
                     const SizedBox(height: 20.0),
-                    state.status == CreateAdStatus.initial
+                    // state.status == CreateAdStatus.initial
+                    //     ?
+                    state.stateCities.isNotEmpty
                         ? SizedBox(
                             height: _canvas.height * 0.4,
                             //height: 300.0,
@@ -200,7 +208,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
                 },
                 label: 'CONTINUE',
                 isEnabled:
-                    state.state.isNotEmpty && state.stateCities.isNotEmpty,
+                    state.state.isNotEmpty && state.selectedCities.isNotEmpty,
               ),
             ),
           ],

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prmt_business/screens/payment/screens/card_payment.dart';
-import 'package:prmt_business/widgets/loading_indicator.dart';
+import '/repositories/payment/payment_repository.dart';
+import '/screens/payment/screens/card_payment.dart';
+import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/screens/payment/cubit/payment_cubit.dart';
 import '/models/ad_model.dart';
 import '/widgets/bottom_nav_button.dart';
-import 'payment_succuss.dart';
 import 'widgets/add_icon.dart';
-import 'widgets/saved_card.dart';
 
 class PaymentScreenArgs {
   final AdModel? ad;
@@ -36,6 +35,7 @@ class PaymentScreen extends StatelessWidget {
           ad: args.ad,
           adRepository: context.read<AdRepository>(),
           authBloc: context.read<AuthBloc>(),
+          paymentRepository: context.read<PaymentRepository>(),
         ),
         child: PaymentScreen(ad: args.ad),
       ),
@@ -57,9 +57,9 @@ class PaymentScreen extends StatelessWidget {
       ),
       body: BlocConsumer<PaymentCubit, PaymentState>(
         listener: (context, state) {
-          if (state.status == PaymentStatus.succuss) {
-            Navigator.of(context).pushNamed(PaymentSuccussfull.routeName);
-          }
+          // if (state.status == PaymentStatus.succuss) {
+          //   Navigator.of(context).pushNamed(PaymentSuccussfull.routeName);
+          // }
         },
         builder: (context, state) {
           if (state.status == PaymentStatus.loading) {
@@ -85,8 +85,8 @@ class PaymentScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Total Payment',
                         style: TextStyle(
                           color: Colors.white,
@@ -94,8 +94,8 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '₹ 1,500',
-                        style: TextStyle(
+                        '₹ ${ad?.budget ?? 'N/A'}',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 38.0,
                         ),
@@ -189,20 +189,20 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 20.0,
-                      ),
-                      child: Text(
-                        'Saved Cards',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    SavedCard(),
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(
+                    //     horizontal: 20.0,
+                    //     vertical: 20.0,
+                    //   ),
+                    //   child: Text(
+                    //     'Saved Cards',
+                    //     style: TextStyle(
+                    //       fontSize: 20.0,
+                    //       fontWeight: FontWeight.w600,
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SavedCard(),
                     // SavedCard(),
                     const Padding(
                       padding: EdgeInsets.symmetric(
@@ -382,11 +382,13 @@ class PaymentScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: BottomNavButton(
                     onTap: () async {
+                      Navigator.of(context).pushNamed(CardPayment.routeName,
+                          arguments: CardPaymentArgs(adModel: ad));
                       // context
                       //     .read<AdRepository>()
                       //     .publishAd(ad: ad, userId: ad?.author?.uid);
 
-                      context.read<PaymentCubit>().publishAd();
+                      //  context.read<PaymentCubit>().publishAd();
 
                       //
                     },

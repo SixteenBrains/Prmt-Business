@@ -13,4 +13,6 @@ class Paths {
   // sub collection
 
   static const draftAds = 'draftAds';
+
+  static const savedCards = 'savedCards';
 }

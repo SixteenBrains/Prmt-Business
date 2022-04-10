@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:prmt_business/.env_key.dart';
+import 'package:prmt_business/repositories/payment/payment_repository.dart';
+import '/.env_key.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/repositories/profile/profile_repo.dart';
 import '/repositories/registraion/registration_repository.dart';
@@ -74,6 +75,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AdRepository>(
           create: (_) => AdRepository(),
         ),
+        RepositoryProvider<PaymentRepository>(
+          create: (_) => PaymentRepository(),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
