@@ -129,4 +129,12 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(state.copyWith(status: PaymentStatus.error, failure: failure));
     }
   }
+
+  void buyWithGooglePay(paymentResult) async {
+    try {
+      await _paymentRepository.buyWithGooglePay(paymentResult);
+    } catch (error) {
+      print('Google pay cubit catch error ${error.toString()}');
+    }
+  }
 }

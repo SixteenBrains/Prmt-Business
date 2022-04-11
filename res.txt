@@ -9,8 +9,12 @@ https://pub.dev/packages/dart_code_metrics
 
 Payment Integration
 
+
+
 Flutter Stripe
 https://blog.logrocket.com/exploring-stripe-flutter-sdk/
+
+https://stripe.com/docs/api/checkout/sessions?lang=cli
 
 https://business.paytm.com/docs/all-in-one-sdk/hybrid-apps/flutter/
 https://stripe.com/docs/keys

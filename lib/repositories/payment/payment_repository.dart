@@ -100,4 +100,67 @@ class PaymentRepository extends BasePaymentRepository {
       //  return false;
     }
   }
+
+  Future<void> buyWithGooglePay(paymentResult) async {
+    try {
+      String apiBase = 'https://api.stripe.com/v1';
+      String secretKey = stripeSecretKey;
+
+      String paymentUrl = '$apiBase/payment_intents';
+
+      int price = 1;
+
+      Map<String, dynamic> body = {
+        'amount': '${price.round()}00',
+        'currency': 'INR',
+        'payment_method_types[]': 'card'
+      };
+      Map<String, String> headers = {
+        'Authorization': 'Bearer $secretKey',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+
+      final response = await http.post(
+        Uri.parse(
+          paymentUrl,
+        ),
+        body: body,
+        headers: headers,
+      );
+      final data = jsonDecode(response.body);
+      print('Data response  --- $data');
+
+      print(data.runtimeType);
+
+      print('Client secrect --- ${data['client_secret']}');
+
+      //  final response = await fetchPaymentIntentClientSecret();
+      final clientSecret = data['clientSecret'];
+      final token =
+          paymentResult['paymentMethodData']['tokenizationData']['token'];
+
+      print('Token -- $token');
+      final tokenJson = Map.castFrom(json.decode(token));
+
+      print('Token Json $tokenJson');
+
+      print('Token id -- ${tokenJson['id']}');
+
+      final params = PaymentMethodParams.cardFromToken(
+        token: tokenJson['id'],
+        setupFutureUsage: PaymentIntentsFutureUsage.OnSession,
+      );
+
+      print('Params -- $params');
+      // Confirm Google pay payment method
+      final paymentInent = await Stripe.instance.confirmPayment(
+        clientSecret,
+        params,
+      );
+      print('Payment Intent status -- ${paymentInent.status}');
+      print('Payment Intent -- $paymentInent');
+    } catch (error) {
+      print('Google pay error from repo ${error.toString()}');
+    }
+  }
 }

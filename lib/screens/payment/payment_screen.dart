@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '/screens/payment/widgets/google_pay_btn.dart';
 import '/repositories/payment/payment_repository.dart';
 import '/screens/payment/screens/card_payment.dart';
 import '/widgets/loading_indicator.dart';
@@ -11,6 +13,8 @@ import '/screens/payment/cubit/payment_cubit.dart';
 import '/models/ad_model.dart';
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/add_icon.dart';
+
+import 'package:pay/pay.dart' as pay;
 
 class PaymentScreenArgs {
   final AdModel? ad;
@@ -41,6 +45,58 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
   }
+
+  // Future<void> onGooglePayResult(
+  //   paymentResult,
+  // ) async {
+  //   String apiBase = 'https://api.stripe.com/v1';
+  //   String secretKey = stripeSecretKey;
+
+  //   String paymentUrl = '$apiBase/payment_intents';
+
+  //   int price = 1;
+
+  //   Map<String, dynamic> body = {
+  //     'amount': '${price.round()}00',
+  //     'currency': 'INR',
+  //     'payment_method_types[]': 'card'
+  //   };
+  //   Map<String, String> headers = {
+  //     'Authorization': 'Bearer $secretKey',
+  //     'Content-Type': 'application/x-www-form-urlencoded',
+  //   };
+
+  //   final response = await http.post(
+  //     Uri.parse(
+  //       paymentUrl,
+  //     ),
+  //     body: body,
+  //     headers: headers,
+  //   );
+  //   final data = jsonDecode(response.body);
+  //   print('Data --- $data');
+
+  //   print(data.runtimeType);
+
+  //   print('Client secrect --- ${data['client_secret']}');
+
+  //   //  final response = await fetchPaymentIntentClientSecret();
+  //   final clientSecret = data['clientSecret'];
+  //   final token =
+  //       paymentResult['paymentMethodData']['tokenizationData']['token'];
+  //   final tokenJson = Map.castFrom(json.decode(token));
+
+  //   final params = stripe.PaymentMethodParams.cardFromToken(
+  //     token: tokenJson['id'],
+  //   );
+  //   // Confirm Google pay payment method
+  //   final paymentInent = await stripe.Stripe.instance.confirmPayment(
+  //     clientSecret,
+  //     params,
+  //   );
+  //   print('Payment Intent status -- ${paymentInent.status}');
+  //   print('Payment Intent -- $paymentInent');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +160,10 @@ class PaymentScreen extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: 20.0),
+
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,
@@ -217,72 +275,63 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Card(
-                      margin: EdgeInsets.zero,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 18.0,
-                            ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/google-pay.svg',
-                                  height: 30.0,
-                                  width: 30.0,
-                                ),
-                                const SizedBox(width: 10.0),
-                                const Text(
-                                  'Google Pay',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          const Divider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 10.0,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const AddIcon(),
-                                const SizedBox(width: 15.0),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Add New Card',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8.0),
-                                    Text(
-                                      'Save and pay via card',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+
+                    const SizedBox(height: 10.0),
+
+                    GooglePayBtn(
+                      paymentItems: [
+                        pay.PaymentItem(
+                          label: 'Total',
+                          amount: ad?.budget ?? '',
+                          status: pay.PaymentItemStatus.final_price,
+                        ),
+                      ],
                     ),
+                    // Card(
+                    //   margin: EdgeInsets.zero,
+                    //   shape: const RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.zero),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //     children: [
+                    //       const Divider(),
+                    //       Padding(
+                    //         padding: const EdgeInsets.symmetric(
+                    //           horizontal: 20.0,
+                    //           vertical: 10.0,
+                    //         ),
+                    //         child: Row(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             const AddIcon(),
+                    //             const SizedBox(width: 15.0),
+                    //             Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.start,
+                    //               children: [
+                    //                 const Text(
+                    //                   'Add New Card',
+                    //                   style: TextStyle(
+                    //                     fontSize: 16.0,
+                    //                     fontWeight: FontWeight.w600,
+                    //                   ),
+                    //                 ),
+                    //                 const SizedBox(height: 8.0),
+                    //                 Text(
+                    //                   'Save and pay via card',
+                    //                   style: TextStyle(
+                    //                     color: Colors.grey.shade600,
+                    //                     fontSize: 15.0,
+                    //                     fontWeight: FontWeight.w600,
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 20.0,
@@ -383,7 +432,7 @@ class PaymentScreen extends StatelessWidget {
                   child: BottomNavButton(
                     onTap: () async {
                       Navigator.of(context).pushNamed(CardPayment.routeName,
-                          arguments: CardPaymentArgs(adModel: ad));
+                          arguments: CardPaymentArgs(ad: ad));
                       // context
                       //     .read<AdRepository>()
                       //     .publishAd(ad: ad, userId: ad?.author?.uid);
