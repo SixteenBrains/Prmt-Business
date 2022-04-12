@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:prmt_business/models/payment_details.dart';
 import '/enums/card_brand.dart';
 import '/models/save_card.dart';
 import '/repositories/payment/payment_repository.dart';
@@ -43,9 +44,19 @@ class PaymentCubit extends Cubit<PaymentState> {
         );
       }
 
-      await _adRepository.publishAd(
+      final adId = await _adRepository.publishAd(
           ad: ad?.copyWith(mediaUrl: mediaUrl),
           userId: _authBloc.state.user?.uid);
+
+      final paymentDetails = PaymentDetails(
+        adId: adId,
+        createdAt: DateTime.now(),
+        amount: ad?.budget != null ? int.tryParse(ad!.budget!) : null,
+      );
+
+      // TODO: monitor this
+      await _paymentRepository.addPaymentDetails(
+          userId: _authBloc.state.user?.uid, details: paymentDetails);
 
       emit(state.copyWith(status: PaymentStatus.succuss));
     } on Failure catch (failure) {
@@ -87,8 +98,10 @@ class PaymentCubit extends Cubit<PaymentState> {
         status: PaymentStatus.error, failure: Failure(message: errorMsg)));
   }
 
-  void cardPayment(
-      {required double price, required PaymentMethod paymentMethod}) async {
+  void cardPayment({
+    required double price,
+    required PaymentMethod paymentMethod,
+  }) async {
     try {
       emit(state.copyWith(status: PaymentStatus.loading));
 

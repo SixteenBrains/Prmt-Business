@@ -7,6 +7,8 @@ abstract class DashboardEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadDashBoard extends DashboardEvent {}
+
 class ChangeTab extends DashboardEvent {
   final TabItem tabItem;
 

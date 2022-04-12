@@ -50,6 +50,12 @@ class AdsCubit extends Cubit<AdsState> {
     }
   }
 
+  Future<int?> getUserTotalAds() async {
+    final value =
+        await _adRepository.getUserTotalAds(userId: _authBloc.state.user?.uid);
+    return value;
+  }
+
   void loadExpiredAds() async {
     try {
       emit(state.copyWith(status: AdStatus.loading));

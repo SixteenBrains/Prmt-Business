@@ -10,9 +10,13 @@ class Paths {
 
   static const stats = 'stats';
 
+  static const payments = 'payments';
+
   // sub collection
 
   static const draftAds = 'draftAds';
 
   static const savedCards = 'savedCards';
+
+  static const userPayments = 'userPayments';
 }

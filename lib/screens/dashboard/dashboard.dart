@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '/widgets/loading_indicator.dart';
+import '/repositories/payment/payment_repository.dart';
 import '/widgets/display_image.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/screens/dashboard/bloc/dashboard_bloc.dart';
@@ -30,7 +32,9 @@ class DashBoard extends StatefulWidget {
           BlocProvider(
             create: (context) => DashboardBloc(
               adsCubit: context.read<AdsCubit>(),
-            ),
+              paymentRepository: context.read<PaymentRepository>(),
+              authBloc: context.read<AuthBloc>(),
+            )..add(LoadDashBoard()),
           ),
         ],
         child: const DashBoard(),
@@ -76,6 +80,9 @@ class _DashBoardState extends State<DashBoard>
       child: BlocConsumer<DashboardBloc, DashBoardState>(
         listener: (context, state) {},
         builder: (context, state) {
+          if (state.status == DashBoardStatus.loading) {
+            return const Scaffold(body: LoadingIndicator());
+          }
           return Scaffold(
               body: SafeArea(
             child: Column(
@@ -187,19 +194,22 @@ class _DashBoardState extends State<DashBoard>
                             ),
                             const SizedBox(height: 10.0),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  '₹ 5,000',
-                                  style: TextStyle(
+                                Text(
+                                  // '₹ 5,000',
+                                  '₹ ${state.totalSpents ?? 'N/A'}',
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 32.0,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 SizedBox(width: _canvas.width * 0.35),
-                                const Text(
-                                  '4',
-                                  style: TextStyle(
+                                Text(
+                                  '${state.noOfAds ?? 'N/A'}',
+                                  //'4',
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 32.0,
                                     fontWeight: FontWeight.w700,

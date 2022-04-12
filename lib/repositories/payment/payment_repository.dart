@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:prmt_business/.env_key.dart';
-import 'package:prmt_business/config/paths.dart';
-import 'package:prmt_business/models/failure.dart';
-import 'package:prmt_business/models/save_card.dart';
-import 'package:prmt_business/repositories/payment/base_payment_repo.dart';
+import '/models/payment_details.dart';
+import '/.env_key.dart';
+import '/config/paths.dart';
+import '/models/failure.dart';
+import '/models/save_card.dart';
+import '/repositories/payment/base_payment_repo.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentRepository extends BasePaymentRepository {
@@ -30,6 +31,51 @@ class PaymentRepository extends BasePaymentRepository {
     } catch (error) {
       print('Save card error ${error.toString()}');
       throw const Failure(message: 'Error in saving card');
+    }
+  }
+
+  Future<void> addPaymentDetails({
+    required String? userId,
+    required PaymentDetails? details,
+  }) async {
+    try {
+      if (userId == null || details == null) {
+        return;
+      }
+      // await _firestore
+      //     .collection(Paths.payments)
+      //     .doc(userId)
+      //     .set(details.toMap());
+
+      await _firestore
+          .collection(Paths.payments)
+          .doc(userId)
+          .collection(Paths.userPayments)
+          .doc(details.adId)
+          .set(details.toMap());
+    } catch (error) {
+      print('Error adding payment details ${error.toString()}');
+    }
+  }
+
+  Future<List<PaymentDetails?>> getUserPaymentDetails(
+      {required String? userId}) async {
+    try {
+      if (userId == null) {
+        return [];
+      }
+      final paymentSnaps = await _firestore
+          .collection(Paths.payments)
+          .doc(userId)
+          .collection(Paths.userPayments)
+          .get();
+
+      return paymentSnaps.docs
+          .map((doc) => PaymentDetails.fromMap(doc.data()))
+          .toList();
+    } catch (error) {
+      print('Error getting user payment details');
+      throw const Failure(message: 'Error getting user payment details');
     }
   }
 

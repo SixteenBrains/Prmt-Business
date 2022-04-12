@@ -100,13 +100,31 @@ class AdRepository extends BaseAdRepository {
     }
   }
 
-  Future<void> publishAd({
+  Future<int?> getUserTotalAds({required String? userId}) async {
+    try {
+      if (userId == null) {
+        return null;
+      }
+      final authorRef = _firestore.collection(Paths.users).doc(userId);
+      final adsSnaps = await _firestore
+          .collection(Paths.ads)
+          .where('author', isEqualTo: authorRef)
+          .get();
+
+      return adsSnaps.docs.length;
+    } catch (error) {
+      print('Error in getting user total ads ${error.toString()}');
+      throw const Failure(message: 'Error in getting user total ads');
+    }
+  }
+
+  Future<String?> publishAd({
     required AdModel? ad,
     required String? userId,
   }) async {
     try {
       if (ad == null || userId == null) {
-        return;
+        return null;
       }
 
       final docRef = await _firestore.collection(Paths.ads).add(ad.toMap());
@@ -115,6 +133,7 @@ class AdRepository extends BaseAdRepository {
           .collection(Paths.stats)
           .doc(docRef.id)
           .set(AdStats.emptyStats().toMap());
+      return docRef.id;
     } catch (error) {
       print('Error in draft ad ${error.toString()}');
       throw const Failure(message: 'Something went wrong, try again');
