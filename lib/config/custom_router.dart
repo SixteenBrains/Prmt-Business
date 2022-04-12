@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prmt_business/screens/payment/screens/card_payment.dart';
+import 'package:prmt_business/screens/payment/screens/razorpay_payment.dart';
 import 'package:prmt_business/screens/profile/edit_profile.dart';
 import 'package:prmt_business/screens/profile/profile_screen.dart';
 import '/screens/ad-details/ad_details.dart';
@@ -72,6 +73,10 @@ class CustomRouter {
 
       case CardPayment.routeName:
         return CardPayment.route(args: settings.arguments as CardPaymentArgs);
+
+      case RazorpayPayment.routeName:
+        return RazorpayPayment.route(
+            args: settings.arguments as RazorpayPaymentArgs);
 
       default:
         return _errorRoute();

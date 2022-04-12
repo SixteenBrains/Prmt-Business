@@ -40,7 +40,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       print('Timer tick cubit -- ${timer.tick}');
       if (state.countDown == 0) {
-        // print('Count down is 0');
+        print('Count down is 0');
         _timer.cancel();
         // _resendCode = true;
         emit(state.copyWith(otpSent: true));

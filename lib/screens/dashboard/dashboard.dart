@@ -193,29 +193,32 @@ class _DashBoardState extends State<DashBoard>
                               ],
                             ),
                             const SizedBox(height: 10.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  // '₹ 5,000',
-                                  '₹ ${state.totalSpents ?? 'N/A'}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32.0,
-                                    fontWeight: FontWeight.w700,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '₹ ${state.totalSpents ?? 'N/A'}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.0,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: _canvas.width * 0.35),
-                                Text(
-                                  '${state.noOfAds ?? 'N/A'}',
-                                  //'4',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32.0,
-                                    fontWeight: FontWeight.w700,
+                                  SizedBox(width: _canvas.width * 0.35),
+                                  Text(
+                                    '${state.noOfAds ?? 'N/A'}',
+                                    //'4',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.0,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )
                           ],
                         ),

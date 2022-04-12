@@ -54,7 +54,6 @@ class PaymentCubit extends Cubit<PaymentState> {
         amount: ad?.budget != null ? int.tryParse(ad!.budget!) : null,
       );
 
-      // TODO: monitor this
       await _paymentRepository.addPaymentDetails(
           userId: _authBloc.state.user?.uid, details: paymentDetails);
 

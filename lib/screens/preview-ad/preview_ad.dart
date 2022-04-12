@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prmt_business/models/ad_model.dart';
+import '/models/ad_model.dart';
+import '/screens/payment/screens/razorpay_payment.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/ad/ad_repository.dart';
 import '/screens/preview-ad/cubit/preview_ad_cubit.dart';
 import '/widgets/error_dialog.dart';
-import '/screens/payment/payment_screen.dart';
+
 import '/widgets/bottom_nav_button.dart';
 import 'widgets/facebook_preview.dart';
 import 'widgets/instagram_preview.dart';
@@ -175,9 +176,13 @@ class PreviewAdScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 25.0),
                   BottomNavButton(
+                    // onTap: () => Navigator.of(context).pushNamed(
+                    //   PaymentScreen.routeName,
+                    //   arguments: PaymentScreenArgs(ad: state.ad),
+                    // ),
                     onTap: () => Navigator.of(context).pushNamed(
-                      PaymentScreen.routeName,
-                      arguments: PaymentScreenArgs(ad: state.ad),
+                      RazorpayPayment.routeName,
+                      arguments: RazorpayPaymentArgs(ad: state.ad),
                     ),
                     label: 'PROCEED TO PAYMENT',
                     isEnabled: true,

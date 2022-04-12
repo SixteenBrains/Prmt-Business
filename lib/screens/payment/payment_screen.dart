@@ -11,6 +11,7 @@ import '/repositories/ad/ad_repository.dart';
 import '/screens/payment/cubit/payment_cubit.dart';
 import '/models/ad_model.dart';
 import '/widgets/bottom_nav_button.dart';
+
 import 'widgets/add_icon.dart';
 
 import 'package:pay/pay.dart' as pay;
@@ -261,6 +262,7 @@ class PaymentScreen extends StatelessWidget {
                     // ),
                     // const SavedCard(),
                     // SavedCard(),
+
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.0,
@@ -276,6 +278,14 @@ class PaymentScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 10.0),
+                    // ElevatedButton(
+                    //   onPressed: () => Navigator.of(context).push(
+                    //     MaterialPageRoute(
+                    //       builder: (_) => const RazorpayPayment(),
+                    //     ),
+                    //   ),
+                    //   child: const Text('Razorpay'),
+                    // ),
 
                     GooglePayBtn(
                       paymentItems: [

@@ -32,7 +32,7 @@ class _DemoGraphicsState extends State<DemoGraphics> {
 
     return BlocBuilder<CreateAdCubit, CreateAdState>(
       builder: (context, state) {
-        print('Cities --- ${state.stateCities}');
+        //print('Cities --- ${state.stateCities}');
         return Stack(
           children: [
             SingleChildScrollView(

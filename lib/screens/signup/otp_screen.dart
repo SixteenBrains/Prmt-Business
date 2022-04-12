@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -68,17 +67,17 @@ class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // ignore: close_sinks
-  StreamController<ErrorAnimationType>? _errorController;
+  // StreamController<ErrorAnimationType>? _errorController;
 
   @override
   void initState() {
-    _errorController = StreamController<ErrorAnimationType>();
+    //_errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
 
   @override
   void dispose() {
-    _errorController!.close();
+    //_errorController!.close();
     context.read<SignUpCubit>().close();
     _formKey.currentState?.dispose();
 
@@ -158,7 +157,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                     const SizedBox(height: 20.0),
                     PinCodeTextField(
-                      errorAnimationController: _errorController,
+                      // errorAnimationController: _errorController,
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.underline,
                         errorBorderColor: Colors.red,
@@ -174,7 +173,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       keyboardType: TextInputType.number,
                       validator: (v) {
                         if (state.errorOtp) {
-                          _errorController!.add(ErrorAnimationType.shake);
+                          // _errorController!.add(ErrorAnimationType.shake);
                           return 'Invalid OTP';
                         } else {
                           return null;
