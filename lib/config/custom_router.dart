@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_admin/screens/ads/screens/ad_details.dart';
 import '/repositories/auth/auth_wrapper.dart';
 import '/screens/dashboard/main_screen.dart';
 import '/screens/login/login_screen.dart';
@@ -28,6 +29,10 @@ class CustomRouter {
 
       case ContactScreen.routeName:
         return ContactScreen.route();
+
+      case AdDetails.routeName:
+        return AdDetails.route(args: settings.arguments as AdsDetailsArgs);
+
       default:
         return ErrorRoute.route();
     }
