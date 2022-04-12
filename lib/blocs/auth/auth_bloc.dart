@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:prmt_admin/models/appuser.dart';
+import 'package:prmt_admin/models/admin_user.dart';
 import '/repositories/auth/auth_repository.dart';
 
 part 'auth_event.dart';
@@ -10,7 +10,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  late StreamSubscription<AppUser?> _userSubscription;
+  late StreamSubscription<AdminUser?> _userSubscription;
 
   AuthBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/config/paths.dart';
-import '/models/appuser.dart';
+import '../../models/admin_user.dart';
 import '/models/contact_us.dart';
 import '/models/failure.dart';
 
@@ -19,10 +19,10 @@ class FirebaseServices {
     }
   }
 
-  Future<List<AppUser?>> getUsers() async {
+  Future<List<AdminUser?>> getUsers() async {
     try {
       final userSnaps = await _firestore.collection(Paths.users).get();
-      return userSnaps.docs.map((doc) => AppUser.fromDocument(doc)).toList();
+      return userSnaps.docs.map((doc) => AdminUser.fromDocument(doc)).toList();
     } catch (error) {
       print('Error in gettings users ${error.toString()}');
       throw const Failure(message: 'Error in getting users');

@@ -8,7 +8,7 @@ abstract class AuthEvent extends Equatable {
 }
 
 class AuthUserChanged extends AuthEvent {
-  final AppUser? user;
+  final AdminUser? user;
 
   const AuthUserChanged({required this.user});
 

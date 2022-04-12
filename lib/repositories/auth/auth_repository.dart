@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/services.dart';
 import '/config/paths.dart';
-import '/models/appuser.dart';
+import '../../models/admin_user.dart';
 
 import '/models/failure.dart';
 
@@ -15,10 +15,10 @@ class AuthRepository extends BaseAuthRepository {
   final CollectionReference usersRef =
       FirebaseFirestore.instance.collection(Paths.adminUsers);
 
-  AppUser? _appUser(User? user) {
+  AdminUser? _appUser(User? user) {
     if (user == null) return null;
 
-    return AppUser(
+    return AdminUser(
       uid: user.uid,
       email: user.email,
       //  userType: SharedPrefs().getUserType,
@@ -26,17 +26,18 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Stream<AppUser?> get onAuthChanges =>
+  Stream<AdminUser?> get onAuthChanges =>
       _firebaseAuth.userChanges().map((user) => _appUser(user));
 
   @override
-  Future<AppUser?> get currentUser async => _appUser(_firebaseAuth.currentUser);
+  Future<AdminUser?> get currentUser async =>
+      _appUser(_firebaseAuth.currentUser);
 
   String? get userImage => _firebaseAuth.currentUser?.photoURL;
 
   String? get userId => _firebaseAuth.currentUser?.uid;
 
-  Future<AppUser?> loginInWithEmailAndPassword({
+  Future<AdminUser?> loginInWithEmailAndPassword({
     required String? email,
     required String? password,
   }) async {

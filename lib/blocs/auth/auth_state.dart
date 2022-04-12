@@ -7,7 +7,7 @@ enum AuthStatus {
 }
 
 class AuthState extends Equatable {
-  final AppUser? user;
+  final AdminUser? user;
   final AuthStatus status;
 
   const AuthState({
@@ -17,7 +17,7 @@ class AuthState extends Equatable {
 
   factory AuthState.unknown() => const AuthState();
 
-  factory AuthState.authenticated({required AppUser? user}) =>
+  factory AuthState.authenticated({required AdminUser? user}) =>
       AuthState(user: user, status: AuthStatus.authenticated);
 
   factory AuthState.unAuthenticated() =>

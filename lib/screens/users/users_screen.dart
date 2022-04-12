@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/models/appuser.dart';
+import '../../models/admin_user.dart';
 import '/repositories/services/firebase_services.dart';
 import '/widgets/loading_indicator.dart';
 import '/constants/constants.dart';
@@ -19,7 +19,7 @@ class UsersScreen extends StatelessWidget {
           const Header(),
 
           Expanded(
-            child: FutureBuilder<List<AppUser?>>(
+            child: FutureBuilder<List<AdminUser?>>(
               future: _serviceRepo.getUsers(),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

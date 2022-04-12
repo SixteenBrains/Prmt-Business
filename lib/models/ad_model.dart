@@ -3,83 +3,88 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
+import '/models/ad_stats.dart';
 import '/enums/enums.dart';
 import '/config/paths.dart';
-import '/models/appuser.dart';
+import 'app_user.dart';
 
 class AdModel extends Equatable {
-  final String? name;
+  final String? title;
   final String? adId;
   final String? description;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? budget;
   final String? state;
-  final String? city;
+  final List<String?> cities;
   final String? targetLink;
   final File? mediaFile;
   final MediaType? adType;
   final AppUser? author;
   final String? mediaUrl;
+  final AdStats? stats;
 
   const AdModel({
-    this.name,
+    this.title,
     this.adId,
     this.description,
     this.startDate,
     this.endDate,
     this.budget,
     this.state,
-    this.city,
+    this.cities = const [],
     this.targetLink,
     this.mediaFile,
     required this.adType,
     this.author,
     this.mediaUrl,
+    this.stats,
   });
 
   AdModel copyWith({
-    String? name,
+    String? title,
     String? adId,
     String? description,
     DateTime? startDate,
     DateTime? endDate,
     String? budget,
     String? state,
-    String? city,
+    List<String?>? cities,
     String? targetLink,
     File? mediaFile,
     MediaType? adType,
     AppUser? author,
     String? mediaUrl,
+    AdStats? stats,
   }) {
     return AdModel(
-      name: name ?? this.name,
+      title: title ?? this.title,
       adId: adId ?? this.adId,
       description: description ?? this.description,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       budget: budget ?? this.budget,
       state: state ?? this.state,
-      city: city ?? this.city,
+      cities: cities ?? this.cities,
       targetLink: targetLink ?? this.targetLink,
       mediaFile: mediaFile ?? this.mediaFile,
       adType: adType ?? this.adType,
       author: author ?? this.author,
       mediaUrl: mediaUrl ?? this.mediaUrl,
+      stats: stats ?? this.stats,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'title': title,
       // 'adId': adId,
       'description': description,
       'startDate': startDate != null ? Timestamp.fromDate(startDate!) : null,
       'endDate': endDate != null ? Timestamp.fromDate(endDate!) : null,
       'budget': budget,
       'state': state,
-      'city': city,
+      'cities': cities,
       'targetLink': targetLink,
       //'mediaFile': mediaFile?.toMap(),
       'adType': EnumToString.convertToString(adType),
@@ -89,45 +94,6 @@ class AdModel extends Equatable {
     };
   }
 
-  static Future<AdModel?> fromMap(QueryDocumentSnapshot map) async {
-    final data = map.data() as Map?;
-    print('Ad data $data');
-    if (data != null) {
-      final userRef = data['author'] as DocumentReference?;
-      final userSnap = await userRef?.get();
-
-      return AdModel(
-        adId: map.id,
-        description: data['description'],
-        name: data['name'],
-        // ageGroup:
-        //     data['ageGroup'] != null ? List<String>.from(data['ageGroup']) : [],
-        // incomeRange: data['incomeRange'] != null
-        //     ? List<String>.from(data['incomeRange'])
-        //     : [],
-        // interests: data['interests'] != null
-        //     ? List<String>.from(data['interests'])
-        //     : [],
-        state: data['state'],
-        city: data['city'],
-        startDate: data['startDate'] != null
-            ? (data['startDate'] as Timestamp).toDate()
-            : null,
-        endDate: data['endDate'] != null
-            ? (data['endDate'] as Timestamp).toDate()
-            : null,
-        targetLink: data['targetLink'],
-        author: userSnap != null ? AppUser.fromDocument(userSnap) : null,
-        mediaUrl: data['mediaUrl'],
-        adType: EnumToString.fromString(
-          MediaType.values,
-          data['adType'],
-        ),
-      );
-    }
-    return null;
-  }
-
   static Future<AdModel?> fromDocument(DocumentSnapshot? doc) async {
     final data = doc?.data() as Map?;
     print('Ad data $data');
@@ -135,10 +101,20 @@ class AdModel extends Equatable {
       final userRef = data['author'] as DocumentReference?;
       final userSnap = await userRef?.get();
 
+      final statsSnaps = await FirebaseFirestore.instance
+          .collection(Paths.stats)
+          .doc(doc?.id)
+          .get();
+
+      final statsData = statsSnaps.data();
+
+      print('Stats data --- $statsData');
+
       return AdModel(
+        title: data['title'],
         adId: doc?.id,
         description: data['description'],
-        name: data['name'],
+        stats: statsData != null ? AdStats.fromMap(statsData) : null,
         // ageGroup:
         //     data['ageGroup'] != null ? List<String>.from(data['ageGroup']) : [],
         // incomeRange: data['incomeRange'] != null
@@ -147,8 +123,9 @@ class AdModel extends Equatable {
         // interests: data['interests'] != null
         //     ? List<String>.from(data['interests'])
         //     : [],
+        budget: data['budget'],
         state: data['state'],
-        city: data['city'],
+        cities: data['cities'] != null ? List<String>.from(data['cities']) : [],
         startDate: data['startDate'] != null
             ? (data['startDate'] as Timestamp).toDate()
             : null,
@@ -169,25 +146,26 @@ class AdModel extends Equatable {
 
   @override
   String toString() {
-    return 'AdMo(name: $name, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $city, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl)';
+    return 'AdMo(title: $title, adId: $adId, description: $description, startDate: $startDate, endDate: $endDate, budget: $budget, state: $state, city: $cities, targetLink: $targetLink, mediaFile: $mediaFile, adType: $adType, author: $author, mediaUrl: $mediaUrl, stats: $stats)';
   }
 
   @override
   List<Object?> get props {
     return [
-      name,
+      title,
       adId,
       description,
       startDate,
       endDate,
       budget,
       state,
-      city,
+      cities,
       targetLink,
       mediaFile,
       adType,
       author,
       mediaUrl,
+      stats,
     ];
   }
 }

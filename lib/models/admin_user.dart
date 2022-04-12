@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class AppUser extends Equatable {
+class AdminUser extends Equatable {
   final String? email;
   final String? name;
   final String? uid;
@@ -11,7 +11,7 @@ class AppUser extends Equatable {
   final String? businessName;
   final String? businessType;
 
-  const AppUser({
+  const AdminUser({
     this.email,
     this.name,
     this.uid,
@@ -20,7 +20,7 @@ class AppUser extends Equatable {
     this.businessType,
   });
 
-  AppUser copyWith({
+  AdminUser copyWith({
     String? email,
     String? name,
     String? uid,
@@ -28,7 +28,7 @@ class AppUser extends Equatable {
     DateTime? createdAt,
     String? businessType,
   }) {
-    return AppUser(
+    return AdminUser(
       email: email ?? this.email,
       name: name ?? this.name,
       uid: uid ?? this.uid,
@@ -48,8 +48,8 @@ class AppUser extends Equatable {
     };
   }
 
-  factory AppUser.fromMap(Map<String, dynamic> map) {
-    return AppUser(
+  factory AdminUser.fromMap(Map<String, dynamic> map) {
+    return AdminUser(
       email: map['email'],
       name: map['name'],
       uid: map['uid'],
@@ -60,7 +60,7 @@ class AppUser extends Equatable {
     );
   }
 
-  static const empty = AppUser(
+  static const empty = AdminUser(
     email: '',
     name: '',
     uid: '',
@@ -68,11 +68,11 @@ class AppUser extends Equatable {
     businessType: '',
   );
 
-  factory AppUser.fromDocument(DocumentSnapshot? doc) {
+  factory AdminUser.fromDocument(DocumentSnapshot? doc) {
     // if (doc == null) return null;
     final data = doc?.data() as Map?;
     print('App users ---- $data');
-    return AppUser(
+    return AdminUser(
       email: data?['email'],
       name: data?['name'],
       uid: doc?.id,
@@ -85,8 +85,8 @@ class AppUser extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory AppUser.fromJson(String source) =>
-      AppUser.fromMap(json.decode(source));
+  factory AdminUser.fromJson(String source) =>
+      AdminUser.fromMap(json.decode(source));
 
   @override
   String toString() {

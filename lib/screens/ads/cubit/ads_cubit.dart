@@ -21,7 +21,7 @@ class AdsCubit extends Cubit<AdsState> {
   void loadAds() async {
     try {
       emit(state.copyWith(status: AdsStatus.loading));
-      final ads = await _adsRepository.liveAds();
+      final ads = await _adsRepository.getAds();
       emit(state.copyWith(
           ads: await Future.wait(ads), status: AdsStatus.succuss));
     } on Failure catch (failure) {
