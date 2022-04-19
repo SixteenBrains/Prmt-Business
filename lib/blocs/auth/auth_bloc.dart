@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '/repositories/profile/profile_repo.dart';
+import '../../repositories/profile/profile_repository.dart';
 import '/models/appuser.dart';
 import '/repositories/auth/auth_repository.dart';
 

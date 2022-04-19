@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:prmt_business/blocs/auth/auth_bloc.dart';
 import 'package:prmt_business/models/appuser.dart';
 import 'package:prmt_business/models/failure.dart';
-import 'package:prmt_business/repositories/profile/profile_repo.dart';
+import 'package:prmt_business/repositories/profile/profile_repository.dart';
 import 'package:prmt_business/utils/media_util.dart';
 
 part 'profile_state.dart';

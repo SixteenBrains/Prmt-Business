@@ -119,7 +119,7 @@ class PaymentScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.status == PaymentStatus.loading) {
-            return const LoadingIndicator();
+            return const Scaffold(body: LoadingIndicator());
           }
           return SingleChildScrollView(
             child: Column(

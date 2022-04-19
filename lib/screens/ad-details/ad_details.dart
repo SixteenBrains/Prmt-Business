@@ -108,6 +108,7 @@ class AdDetails extends StatelessWidget {
                       const SizedBox(height: 5.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Icon(
                             Icons.alarm,

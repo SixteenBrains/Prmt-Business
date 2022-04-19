@@ -1,14 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:prmt_business/repositories/payment/payment_repository.dart';
+import '/repositories/payment/payment_repository.dart';
 import '/.env_key.dart';
 import '/repositories/ad/ad_repository.dart';
-import '/repositories/profile/profile_repo.dart';
+import 'repositories/profile/profile_repository.dart';
 import '/repositories/registraion/registration_repository.dart';
 import '/screens/splash/splash_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -35,6 +36,12 @@ Future<void> main() async {
     // );
   } else {
     await Firebase.initializeApp();
+    // Get any initial links
+    final PendingDynamicLinkData? initialLink =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+
+    print('Get initial link $initialLink');
+    //Navigator.pushNamed(context, deepLink.path);
   }
 
   await SharedPrefs().init();

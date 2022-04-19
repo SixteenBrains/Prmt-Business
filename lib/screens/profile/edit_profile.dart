@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/blocs/auth/auth_bloc.dart';
-import '/repositories/profile/profile_repo.dart';
+import '../../repositories/profile/profile_repository.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
 import '/widgets/custom_textfield.dart';
 import '/widgets/loading_indicator.dart';

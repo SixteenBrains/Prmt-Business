@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_business/screens/payment/screens/card_payment.dart';
-import 'package:prmt_business/screens/payment/screens/razorpay_payment.dart';
-import 'package:prmt_business/screens/profile/edit_profile.dart';
-import 'package:prmt_business/screens/profile/profile_screen.dart';
+import '/screens/ad-webview/ad_webview.dart';
+import '/screens/payment/screens/card_payment.dart';
+import '/screens/payment/screens/razorpay_payment.dart';
+import '/screens/profile/edit_profile.dart';
+import '/screens/profile/profile_screen.dart';
 import '/screens/ad-details/ad_details.dart';
 import '/screens/payment/payment_screen.dart';
 import '/screens/payment/payment_succuss.dart';
@@ -77,6 +78,9 @@ class CustomRouter {
       case RazorpayPayment.routeName:
         return RazorpayPayment.route(
             args: settings.arguments as RazorpayPaymentArgs);
+
+      case AdWebView.routeName:
+        return AdWebView.route(args: settings.arguments as AdWebViewArgs);
 
       default:
         return _errorRoute();

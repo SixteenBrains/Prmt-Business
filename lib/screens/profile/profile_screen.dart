@@ -6,7 +6,7 @@ import '/utils/media_util.dart';
 import '/widgets/display_image.dart';
 import '/widgets/loading_indicator.dart';
 import '/widgets/show_snackbar.dart';
-import '/repositories/profile/profile_repo.dart';
+import '../../repositories/profile/profile_repository.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/screens/my-ads/my_ads.dart';

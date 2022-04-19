@@ -151,13 +151,13 @@ class _RazorpayPaymentState extends State<RazorpayPayment> {
       },
       builder: (context, state) {
         if (state.status == PaymentStatus.loading) {
-          return const LoadingIndicator();
+          return const Scaffold(body: LoadingIndicator());
         }
         return Scaffold(
           body: Center(
-            child: TextButton(
+            child: ElevatedButton(
+              child: const Text('Retry Payment'),
               onPressed: openCheckout,
-              child: const Text('Retry'),
             ),
           ),
         );
