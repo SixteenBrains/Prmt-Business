@@ -56,6 +56,20 @@ class AdRepository extends BaseAdRepository {
     }
   }
 
+  Future<AdModel?> getAdDetails({required String? adId}) async {
+    try {
+      if (adId == null) {
+        return null;
+      }
+      final adSnap = await _firestore.collection(Paths.ads).doc(adId).get();
+
+      return await AdModel.fromDocument(adSnap);
+    } catch (error) {
+      print('Error getting ad details ${error.toString()}');
+      throw const Failure(message: 'Error in getting ad details');
+    }
+  }
+
   Future<List<Future<AdModel?>>> getUserDraftAds({
     required String? userID,
   }) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prmt_business/screens/ad-details/ad_details_from_id.dart';
 import '/screens/ad-webview/ad_webview.dart';
 import '/screens/payment/screens/card_payment.dart';
 import '/screens/payment/screens/razorpay_payment.dart';
@@ -82,6 +83,10 @@ class CustomRouter {
       case AdWebView.routeName:
         return AdWebView.route(args: settings.arguments as AdWebViewArgs);
 
+      case AdDetailsFromId.routeName:
+        return AdDetailsFromId.route(
+            args: settings.arguments as AdIdDetailsArgs);
+
       default:
         return _errorRoute();
     }
@@ -100,9 +105,7 @@ class CustomRouter {
       settings: const RouteSettings(name: '/error'),
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Error',
-          ),
+          title: const Text('Error'),
         ),
         body: const Center(
           child: Text(

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:prmt_business/screens/ad-details/ad_details_from_id.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '/widgets/loading_indicator.dart';
 import '/repositories/payment/payment_repository.dart';
@@ -73,9 +76,57 @@ class _DashBoardState extends State<DashBoard>
 
   Future<void> initDynamicLinks() async {
     FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+    // Calls when app is in terminated state
+    final PendingDynamicLinkData? data = await dynamicLinks.getInitialLink();
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      //print('')
+
+      // Navigator.pushNamed(context, deepLink.path);
+    }
+
+    // listens when app is in background
     dynamicLinks.onLink.listen((dynamicLinkData) {
       print('Dynamic link data $dynamicLinkData');
       print('Dynamic link data ${dynamicLinkData.link}');
+      print('Dynamic link data ${dynamicLinkData.utmParameters}');
+      print(
+          'Dynamic link queryParameters ${dynamicLinkData.link.queryParameters}');
+      print('Dynamic link data 2 ${dynamicLinkData.link.data}');
+      print('Dynamic link host ${dynamicLinkData.link.host}');
+      print('Dynamic link origin ${dynamicLinkData.link.origin}');
+
+      final host = dynamicLinkData.link.host; //  main link
+
+      print('Dynamic link path ${dynamicLinkData.link.path}');
+
+      print('Dynamic link pathSegments ${dynamicLinkData.link.pathSegments}');
+
+      // final pathSegments = dynamicLinkData.link.pathSegments;
+      // final queryData = jsonDecode(pathSegments[0]);
+      // print('Query data  - $queryData');
+
+      //  print('Query data runtimetype - ${queryData.runtimeType}');
+
+      print(
+          'Dynamic link queryParametersAll ${dynamicLinkData.link.queryParametersAll}');
+
+      //final adData =
+
+      final adDataQueryParams = dynamicLinkData.link.queryParameters;
+
+      final adDataParams = adDataQueryParams['ad'];
+      print('Ad ata params $adDataParams');
+      if (adDataParams != null) {
+        final adData = jsonDecode(adDataParams);
+        print('Ad data $adData');
+        print('Ad data ${adData.runtimeType}');
+
+        Navigator.of(context).pushNamed(AdDetailsFromId.routeName,
+            arguments: AdIdDetailsArgs(adId: '7REUdqeh77VkiDNSUjGa'));
+      }
 
       // final String link = dynamicLinkData.link.toString();
 
@@ -89,21 +140,21 @@ class _DashBoardState extends State<DashBoard>
       //     arguments: AdWebViewArgs(adUrl: dynamicLinkData.link.toString()));
 
       /// Navigator.pushNamed(context, dynamicLinkData.link.path);
-    }).onData((data) {
-      print('On data runs  ${data.link}');
-      final String link = data.link.toString();
+    }).
 
-      launchAdUrl(link);
+        // .onData((data) {
+        //   print('On data runs  ${data.link}');
+        //   final String link = data.link.toString();
+
+        //   print('Dynamic link data ${data.utmParameters}');
+
+        //   launchAdUrl(link);
+        // });
+
+        onError((error) {
+      print('onLink error');
+      print(' Error in getting dynamic link ${error.message}');
     });
-
-    // onError((error) {
-    //   print('onLink error');
-    //   print(' Error in getting dynamic link ${error.message}');
-    // });
-  }
-
-  void dylink() async {
-    FirebaseDynamicLinks.instance.onLink.listen((event) {}).onDone(() {});
   }
 
   void launchAdUrl(String url) async {
@@ -135,11 +186,10 @@ class _DashBoardState extends State<DashBoard>
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
                   print('Tapped');
+                  final data = jsonEncode({'name': 'Rishu', 'id': '123'});
                   final dynamicLinkParams = DynamicLinkParameters(
-                    link: Uri.parse(
-                      'https://www.flipkart.com/whirlpool-4-1-convertible-cooling-1-5-ton-3-star-split-inverter-ac-white/p/itm41cb594a1f24e?pid=ACNGAJ34NRZUNCPZ&lid=LSTACNGAJ34NRZUNCPZSPMDCI&marketplace=FLIPKART&store=j9e%2Fabm%2Fc54&srno=b_1_1&otracker=hp_bannerads_1_3.bannerAdCard.BANNERADS_AC_4WH7HKVIP23G&fm=organic&iid=9d2e4b93-9541-4655-b242-6b3d109dbd7e.ACNGAJ34NRZUNCPZ.SEARCH&ppt=hp&ppn=homepage&ssid=v4nm3hvhdc0000001650397944088',
-                    ),
-                    // 'https://www.amazon.in/dp/B01L8ZNWN2?ref_=cm_sw_r_cp_ud_dp_SKH9RQXA61VXM6FC156P'),
+                    // link: Uri.parse('https://flutter.dev/$data'),
+                    link: Uri.parse('https://flutter.dev/?ad=$data'),
                     uriPrefix: 'https://prmtbusiness.page.link',
                     androidParameters: const AndroidParameters(
                         packageName: 'com.sixteenbrains.prmt_business'),

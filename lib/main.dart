@@ -37,10 +37,10 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp();
     // Get any initial links
-    final PendingDynamicLinkData? initialLink =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+    // final PendingDynamicLinkData? initialLink =
+    //     await FirebaseDynamicLinks.instance.getInitialLink();
 
-    print('Get initial link $initialLink');
+    // print('Get initial link $initialLink');
     //Navigator.pushNamed(context, deepLink.path);
   }
 
