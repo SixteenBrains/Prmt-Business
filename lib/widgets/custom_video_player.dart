@@ -4,7 +4,12 @@ import 'package:video_player/video_player.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
   final String videoUrl;
-  const CustomVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
+  final double? height;
+  const CustomVideoPlayer({
+    Key? key,
+    required this.videoUrl,
+    this.height,
+  }) : super(key: key);
 
   @override
   State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
@@ -129,7 +134,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
     return SizedBox(
-      height: _canvas.height * 0.25,
+      height: widget.height ?? _canvas.height * 0.25,
       width: double.infinity,
       child: _chewieController != null &&
               _chewieController!.videoPlayerController.value.isInitialized

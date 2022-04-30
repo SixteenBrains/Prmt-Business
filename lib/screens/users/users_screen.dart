@@ -1,84 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../models/admin_user.dart';
-import '/repositories/services/firebase_services.dart';
-import '/widgets/loading_indicator.dart';
-import '/constants/constants.dart';
-import '/screens/dashboard/widgets/header.dart';
+import '/repositories/users/user_repository.dart';
+import '/screens/users/bussiness_list.dart';
+import '/screens/users/cubit/users_cubit.dart';
+import '/screens/users/promoters_list.dart';
 
 class UsersScreen extends StatelessWidget {
   const UsersScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _serviceRepo = context.read<FirebaseServices>();
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: Column(
-        children: [
-          const Header(),
-
-          Expanded(
-            child: FutureBuilder<List<AdminUser?>>(
-              future: _serviceRepo.getUsers(),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingIndicator();
-                }
-                return ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    final user = snapshot.data?[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Card(
-                        child: Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            ListTile(
-                              title: Text(
-                                user?.name ?? 'N/A',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              subtitle: Text(
-                                user?.email ?? 'N/A',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 2.0),
-                              decoration: const BoxDecoration(
-                                color: Colors.blue,
-                              ),
-                              child: Text(
-                                user?.businessType ?? 'N/A',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+            ],
           ),
-          // Spacer(),
-        ],
+        ),
+        body: TabBarView(
+          children: [
+            BlocProvider<UsersCubit>(
+              create: (context) => UsersCubit(
+                userRepository: context.read<UserRepository>(),
+              )..loadBussinessUsers(),
+              child: const BussinessList(),
+            ),
+            BlocProvider<UsersCubit>(
+              create: (context) => UsersCubit(
+                userRepository: context.read<UserRepository>(),
+              )..loadPromoters(),
+              child: const PromotersList(),
+            ),
+          ],
+        ),
       ),
-
-      ///  ),
     );
   }
 }

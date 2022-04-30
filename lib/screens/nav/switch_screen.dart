@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '/screens/users/users_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/ads/ads_repository.dart';
 import '/screens/ads/cubit/ads_cubit.dart';
@@ -7,7 +8,6 @@ import '/screens/dashboard/dashboard_screen.dart';
 import '/enums/enums.dart';
 import '/screens/ads/ads_screen.dart';
 import '/screens/payments/payments_screen.dart';
-import '/screens/users/users_screen.dart';
 
 class SwitchScreen extends StatelessWidget {
   final NavItem navItem;

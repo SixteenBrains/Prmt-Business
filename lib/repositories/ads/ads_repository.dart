@@ -20,6 +20,19 @@ class AdsRepository extends BaseAdsRepo {
     }
   }
 
+  // Future getPromoters({required String? adId}) async {
+  //   try {
+  //     final adSnaps =
+  //         await _firestore.collection('promotedAds').doc(adId).get();
+
+  //     final adData = adSnaps.data();
+
+  //     final promoters = adData?['promoters'] as List?;
+  //   } catch (error) {
+  //     print('Error in getting promoters ${error.toString()}');
+  //   }
+  // }
+
   // Future<List<Future<AdModel?>>> liveAds() async {
   //   try {
   //     final ads = await _firestore.collection(Paths.ads).get();

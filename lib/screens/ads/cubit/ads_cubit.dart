@@ -20,6 +20,7 @@ class AdsCubit extends Cubit<AdsState> {
 
   void loadAds() async {
     try {
+      print(_authBloc);
       emit(state.copyWith(status: AdsStatus.loading));
       final ads = await _adsRepository.getAds();
       emit(state.copyWith(

@@ -1,5 +1,6 @@
-{
-  "projects": {
-    "default": "prmt-97b51"
-  }
-}
+Todo Now
+
+1.
+
+// Show list of promoter of ad and thier promoted ad url
+

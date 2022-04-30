@@ -9,10 +9,12 @@ class ShowMedia extends StatelessWidget {
   final String? mediaUrl;
   final MediaType mediaType;
   final double? height;
+  final BoxFit fit;
   const ShowMedia({
     Key? key,
     required this.mediaUrl,
     required this.mediaType,
+    this.fit = BoxFit.contain,
     this.height,
   }) : super(key: key);
 
@@ -24,10 +26,13 @@ class ShowMedia extends StatelessWidget {
             mediaUrl ?? errorImage,
             height: height ?? _canvas.height * 0.25,
             width: double.infinity,
-            fit: BoxFit.contain,
+            fit: fit,
           )
         : mediaUrl != null
-            ? CustomVideoPlayer(videoUrl: mediaUrl!)
+            ? CustomVideoPlayer(
+                videoUrl: mediaUrl!,
+                height: height,
+              )
             : SizedBox(
                 height: height ?? _canvas.height * 0.25,
                 width: double.infinity,

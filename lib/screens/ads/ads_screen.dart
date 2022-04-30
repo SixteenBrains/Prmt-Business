@@ -7,6 +7,7 @@ import '/widgets/loading_indicator.dart';
 import '/widgets/show_media.dart';
 import '/constants/constants.dart';
 import '/screens/dashboard/widgets/header.dart';
+import 'screens/ad_details.dart';
 
 class AdsScreen extends StatelessWidget {
   const AdsScreen({Key? key}) : super(key: key);
@@ -43,30 +44,36 @@ class AdsScreen extends StatelessWidget {
                             vertical: 20.0,
                           ),
                           child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ShowMedia(
-                                  mediaUrl: ad?.mediaUrl,
-                                  mediaType: ad?.adType ?? MediaType.none,
-                                ),
-                                const SizedBox(height: 15.0),
-                                Text(
-                                  ad?.title ?? 'N/A',
-                                  style: const TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context).pushNamed(
+                                AdDetails.routeName,
+                                arguments: AdsDetailsArgs(ad: ad),
+                              ),
+                              child: Column(
+                                children: [
+                                  ShowMedia(
+                                    mediaUrl: ad?.mediaUrl,
+                                    mediaType: ad?.adType ?? MediaType.none,
                                   ),
-                                ),
-                                const SizedBox(height: 10.0),
-                                Text(
-                                  ad?.description ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.black,
+                                  const SizedBox(height: 15.0),
+                                  Text(
+                                    ad?.title ?? 'N/A',
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                )
-                              ],
+                                  const SizedBox(height: 10.0),
+                                  Text(
+                                    ad?.description ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -22,4 +22,11 @@ class Paths {
   static const savedCards = 'savedCards';
 
   static const userPayments = 'userPayments';
+
+  static const String promoters = 'promoters';
+
+  static const promotedAds = 'promotedAds';
+
+  // sub collection
+
 }
