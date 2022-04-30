@@ -23,9 +23,9 @@ class BussinessList extends StatelessWidget {
                   return const LoadingIndicator();
                 }
                 return ListView.builder(
-                  itemCount: state.bussinessUser.length,
+                  itemCount: state.bussinessUsers.length,
                   itemBuilder: (context, index) {
-                    final user = state.bussinessUser[index];
+                    final user = state.bussinessUsers[index];
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),

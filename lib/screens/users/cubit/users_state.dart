@@ -6,24 +6,24 @@ class UsersState extends Equatable {
   final List<Promoter?> promoters;
   final Failure failure;
   final UserStatus status;
-  final List<BussinessUser?> bussinessUser;
+  final List<BussinessUser?> bussinessUsers;
 
   const UsersState({
     required this.promoters,
     required this.failure,
     required this.status,
-    required this.bussinessUser,
+    required this.bussinessUsers,
   });
 
   factory UsersState.initial() => const UsersState(
         promoters: [],
         failure: Failure(),
         status: UserStatus.initial,
-        bussinessUser: [],
+        bussinessUsers: [],
       );
 
   @override
-  List<Object> get props => [promoters, failure, status, bussinessUser];
+  List<Object> get props => [promoters, failure, status, bussinessUsers];
 
   UsersState copyWith({
     List<Promoter?>? promoters,
@@ -35,12 +35,12 @@ class UsersState extends Equatable {
       promoters: promoters ?? this.promoters,
       failure: failure ?? this.failure,
       status: status ?? this.status,
-      bussinessUser: bussinessUser ?? this.bussinessUser,
+      bussinessUsers: bussinessUser ?? this.bussinessUsers,
     );
   }
 
   @override
   String toString() {
-    return 'UsersState(promoters: $promoters, failure: $failure, status: $status, bussinessUser: $bussinessUser)';
+    return 'UsersState(promoters: $promoters, failure: $failure, status: $status, bussinessUser: $bussinessUsers)';
   }
 }

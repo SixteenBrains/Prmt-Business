@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prmt_admin/screens/ads/screens/ad_details.dart';
+import '/screens/ads/screens/ad_details.dart';
+import '/screens/transactions/user_transactions.dart';
 import '/repositories/auth/auth_wrapper.dart';
 import '/screens/dashboard/main_screen.dart';
 import '/screens/login/login_screen.dart';
@@ -32,6 +33,10 @@ class CustomRouter {
 
       case AdDetails.routeName:
         return AdDetails.route(args: settings.arguments as AdsDetailsArgs);
+
+      case UserTransactions.routeName:
+        return UserTransactions.route(
+            args: settings.arguments as UserTransactionsArgs);
 
       default:
         return ErrorRoute.route();
