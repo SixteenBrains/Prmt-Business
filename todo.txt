@@ -4,3 +4,11 @@ Todo Now
 
 // Show list of promoter of ad and thier promoted ad url
 
+// DashBord containts ( all in card)
+
+1. Total ad posted
+3. Total Ads promoted
+2. Total Bussiness users
+4. Total Promoters
+5. Total Tranactions ( added and withdrawal)
+
