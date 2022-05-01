@@ -32,6 +32,7 @@ class UserTransactions extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          const SizedBox(height: 10.0),
           Expanded(
             child: BlocConsumer<TransactionsCubit, TransactionsState>(
               listener: (context, state) {},
@@ -39,21 +40,63 @@ class UserTransactions extends StatelessWidget {
                 if (state.status == TransactionsStatus.loading) {
                   return const LoadingIndicator();
                 }
+                if (state.transactions.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No Transactions Done',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.0),
+                    ),
+                  );
+                }
                 return ListView.builder(
                   itemCount: state.transactions.length,
                   itemBuilder: (context, index) {
                     final transaction = state.transactions[index];
                     String? time;
                     if (transaction?.createdAt != null) {
-                      time = DateFormat.MMMMd().format(transaction!.createdAt!);
+                      //time = DateFormat.MMMMd().format(transaction!.createdAt!);
+                      time =
+                          DateFormat.yMMMMd().format(transaction!.createdAt!);
                     }
 
-                    return Card(
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      child: Card(
                         child: ListTile(
-                      title: Text('Rishu Kumar'),
-                      trailing: Text('${transaction?.amount ?? ''}'),
-                      subtitle: Text(time ?? 'No'),
-                    ));
+                          leading: const Icon(
+                            Icons.outbound,
+                            size: 42.0,
+                          ),
+                          title: Text(
+                            'For (${transaction?.productTitle ?? 'N/A'})',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          trailing: Chip(
+                            backgroundColor: Colors.blue,
+                            label: Text(
+                              '₹ ${transaction?.amount ?? ''}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          subtitle: Text(
+                            time ?? 'N/A',
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 );
               },

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_admin/repositories/transaction/transaction_repository.dart';
-import 'package:prmt_admin/screens/transactions/cubit/transactions_cubit.dart';
 import '/screens/transactions/transactions_screen.dart';
 import '/screens/users/users_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -35,12 +33,7 @@ class SwitchScreen extends StatelessWidget {
         return const UsersScreen();
 
       case NavItem.payment:
-        return BlocProvider<TransactionsCubit>(
-          create: (context) => TransactionsCubit(
-            transactionRepository: context.read<TransactionRepository>(),
-          )..loadBussinessUsers(),
-          child: const TransactionsScreen(),
-        );
+        return const TransactionsScreen();
 
       default:
         return const Center(

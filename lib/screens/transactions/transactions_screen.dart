@@ -1,91 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_admin/screens/transactions/user_transactions.dart';
-import '/screens/transactions/cubit/transactions_cubit.dart';
-import '/widgets/loading_indicator.dart';
-import '/constants/constants.dart';
-import '/screens/dashboard/widgets/header.dart';
+import '/repositories/transaction/transaction_repository.dart';
+import '/screens/transactions/bussiness_transactions.dart';
+import '/screens/transactions/promoters_transactions.dart';
+
+import 'cubit/transactions_cubit.dart';
 
 class TransactionsScreen extends StatelessWidget {
   const TransactionsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: Column(
-        children: [
-          const Header(),
-          Expanded(
-            child: BlocConsumer<TransactionsCubit, TransactionsState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state.status == TransactionsStatus.loading) {
-                  return const LoadingIndicator();
-                }
-                return ListView.builder(
-                  itemCount: state.bussinessUsers.length,
-                  itemBuilder: (context, index) {
-                    final user = state.bussinessUsers[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (user?.uid != null) {
-                            Navigator.of(context).pushNamed(
-                                UserTransactions.routeName,
-                                arguments:
-                                    UserTransactionsArgs(userId: user!.uid!));
-                          }
-                        },
-                        child: Card(
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  user?.name ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  user?.email ?? 'N/A',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 2.0),
-                                decoration: const BoxDecoration(
-                                  color: Colors.blue,
-                                ),
-                                child: Text(
-                                  user?.businessType ?? 'N/A',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 1.2,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: const TabBar(
+            tabs: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  'Bussiness Users',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  'Promoters',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            BlocProvider(
+              create: (context) => TransactionsCubit(
+                transactionRepository: context.read<TransactionRepository>(),
+              )..loadBussinessUsers(),
+              child: const BussinessTransactions(),
             ),
-          )
-        ],
+            const PromotersTransactions(),
+          ],
+        ),
       ),
-
-      ///  ),
     );
   }
 }

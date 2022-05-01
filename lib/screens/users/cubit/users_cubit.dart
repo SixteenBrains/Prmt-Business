@@ -17,7 +17,7 @@ class UsersCubit extends Cubit<UsersState> {
     try {
       emit(state.copyWith(status: UserStatus.loading));
       final users = await _userRepository.getBussinessUsers();
-      emit(state.copyWith(bussinessUser: users, status: UserStatus.succuss));
+      emit(state.copyWith(bussinessUsers: users, status: UserStatus.succuss));
     } on Failure catch (failure) {
       emit(state.copyWith(failure: failure, status: UserStatus.error));
     }

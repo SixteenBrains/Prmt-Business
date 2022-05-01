@@ -29,13 +29,13 @@ class UsersState extends Equatable {
     List<Promoter?>? promoters,
     Failure? failure,
     UserStatus? status,
-    List<BussinessUser?>? bussinessUser,
+    List<BussinessUser?>? bussinessUsers,
   }) {
     return UsersState(
       promoters: promoters ?? this.promoters,
       failure: failure ?? this.failure,
       status: status ?? this.status,
-      bussinessUsers: bussinessUser ?? this.bussinessUsers,
+      bussinessUsers: bussinessUsers ?? this.bussinessUsers,
     );
   }
 

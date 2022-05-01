@@ -17,8 +17,28 @@ class UsersScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           bottom: const TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_transit)),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  'Bussiness Users',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  'Promoters',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
