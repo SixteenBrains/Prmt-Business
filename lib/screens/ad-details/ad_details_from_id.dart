@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:prmt_business/screens/dashboard/dashboard.dart';
+import '/screens/dashboard/dashboard.dart';
 import '/enums/enums.dart';
 import '/models/chart_data.dart';
 import '/screens/dashboard/widgets/show_media.dart';

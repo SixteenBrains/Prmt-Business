@@ -28,7 +28,7 @@ class CustomRouter {
             builder: (_) => const Scaffold());
 
       case SplashScreen.routeName:
-        return SplashScreen.route();
+        return SplashScreen.route(args: settings.arguments as SplashScreenArgs);
 
       case OnBoardingScreen.routeName:
         return OnBoardingScreen.route();

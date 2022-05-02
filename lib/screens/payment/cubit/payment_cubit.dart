@@ -52,6 +52,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         adId: adId,
         createdAt: DateTime.now(),
         amount: ad?.budget != null ? int.tryParse(ad!.budget!) : null,
+        productTitle: ad?.title,
       );
 
       await _paymentRepository.addPaymentDetails(

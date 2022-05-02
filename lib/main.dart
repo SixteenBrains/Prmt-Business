@@ -37,23 +37,26 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp();
     // Get any initial links
-    // final PendingDynamicLinkData? initialLink =
-    //     await FirebaseDynamicLinks.instance.getInitialLink();
 
     // print('Get initial link $initialLink');
     //Navigator.pushNamed(context, deepLink.path);
   }
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+
+  print('Initial dynamic link $initialLink');
 
   await SharedPrefs().init();
   EquatableConfig.stringify = kDebugMode;
   // Bloc.observer = SimpleBlocObserver();
   BlocOverrides.runZoned(() {}, blocObserver: SimpleBlocObserver());
 
-  runApp(const MyApp());
+  runApp(MyApp(data: initialLink));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final PendingDynamicLinkData? data;
+  const MyApp({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,43 +93,51 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-                authRepository: context.read<AuthRepository>(),
-                profileRepository: context.read<ProfileRepository>()),
+              authRepository: context.read<AuthRepository>(),
+              profileRepository: context.read<ProfileRepository>(),
+            ),
           ),
           // BlocProvider(
           //   create: (context) => SignUpCubit(),
           // )
         ],
         child: MaterialApp(
-          //showPerformanceOverlay: true,
-          theme: ThemeData(
-            fontFamily: 'GoogleSans',
-            scaffoldBackgroundColor: Colors.white,
-          ),
-          debugShowCheckedModeBanner: false,
-          //  home: const SplashScreen3(),
+            //showPerformanceOverlay: true,
+            theme: ThemeData(
+              fontFamily: 'GoogleSans',
+              scaffoldBackgroundColor: Colors.white,
+            ),
+            debugShowCheckedModeBanner: false,
+            //  home: const SplashScreen3(),
 
-          //  const ShowUp(
-          //   child: Scaffold(
-          //     body: Center(
-          //       child: Text('I am good'),
-          //     ),
-          //   ),
-          //   delay: 10,
-          // ),
-          onGenerateRoute: CustomRouter.onGenerateRoute,
-          initialRoute: SplashScreen.routeName,
+            //  const ShowUp(
+            //   child: Scaffold(
+            //     body: Center(
+            //       child: Text('I am good'),
+            //     ),
+            //   ),
+            //   delay: 10,
+            // ),
+            onGenerateRoute: CustomRouter.onGenerateRoute,
+            initialRoute: SplashScreen.routeName,
+            onGenerateInitialRoutes: (_) {
+              return [
+                SplashScreen.route(args: SplashScreenArgs(data: data))
+                // MaterialPageRoute(
+                //   builder: (_) => Sp())
+              ];
+            }
 
-          // debugShowCheckedModeBanner: false,
-          // title: 'Flutter Demo',
-          // theme: ThemeData(
-          //   scaffoldBackgroundColor: Colors.white,
-          //   primarySwatch: Colors.blue,
-          //   fontFamily: 'GoogleSans',
-          // ),
-          // home: const SplashScreen(),
-          //home: const DashBoard(),
-        ),
+            // debugShowCheckedModeBanner: false,
+            // title: 'Flutter Demo',
+            // theme: ThemeData(
+            //   scaffoldBackgroundColor: Colors.white,
+            //   primarySwatch: Colors.blue,
+            //   fontFamily: 'GoogleSans',
+            // ),
+            // home: const SplashScreen(),
+            //home: const DashBoard(),
+            ),
       ),
     );
   }

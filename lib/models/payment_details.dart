@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 class PaymentDetails extends Equatable {
   final String? adId;
+  final String? productTitle;
   final DateTime? createdAt;
   final int? amount;
 
@@ -12,17 +13,20 @@ class PaymentDetails extends Equatable {
     this.adId,
     this.createdAt,
     this.amount,
+    required this.productTitle,
   });
 
   PaymentDetails copyWith({
     String? adId,
     DateTime? createdAt,
     int? amount,
+    String? productTitle,
   }) {
     return PaymentDetails(
       adId: adId ?? this.adId,
       createdAt: createdAt ?? this.createdAt,
       amount: amount ?? this.amount,
+      productTitle: productTitle ?? this.productTitle,
     );
   }
 
@@ -31,6 +35,7 @@ class PaymentDetails extends Equatable {
       'adId': adId,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'amount': amount,
+      'productTitle': productTitle,
     };
   }
 
@@ -41,6 +46,7 @@ class PaymentDetails extends Equatable {
           ? (map['createdAt'] as Timestamp).toDate()
           : null,
       amount: map['amount']?.toInt(),
+      productTitle: map['productTitle'],
     );
   }
 
@@ -51,10 +57,10 @@ class PaymentDetails extends Equatable {
 
   @override
   String toString() =>
-      'PaymentDetals(adId: $adId, createdAt: $createdAt, amount: $amount)';
+      'PaymentDetals(adId: $adId, createdAt: $createdAt, amount: $amount, productTitle: $productTitle)';
 
   @override
-  List<Object?> get props => [adId, createdAt, amount];
+  List<Object?> get props => [adId, createdAt, amount, productTitle];
 }
 
 

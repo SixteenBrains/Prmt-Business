@@ -1,19 +1,29 @@
 import 'dart:async';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:prmt_business/screens/ad-details/ad_details_from_id.dart';
 import '/config/auth_wrapper.dart';
 import '/config/shared_prefs.dart';
 import '/screens/onboarding/onboarding_screen.dart';
 
+class SplashScreenArgs {
+  final PendingDynamicLinkData? data;
+
+  SplashScreenArgs({required this.data});
+}
+
 class SplashScreen extends StatefulWidget {
   static const String routeName = '/splash';
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key? key, required this.data}) : super(key: key);
 
-  static Route route() {
+  final PendingDynamicLinkData? data;
+
+  static Route route({required SplashScreenArgs args}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const SplashScreen(),
+      builder: (_) => SplashScreen(data: args.data),
     );
   }
 
@@ -41,11 +51,16 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       } else if (_timer.tick == 6) {
         _timer.cancel();
-        final routeName = SharedPrefs().isFirstTime
-            ? OnBoardingScreen.routeName
-            : AuthWrapper.routeName;
+        if (widget.data != null) {
+          Navigator.of(context).pushNamed(AdDetailsFromId.routeName,
+              arguments: AdIdDetailsArgs(adId: '7REUdqeh77VkiDNSUjGa'));
+        } else {
+          final routeName = SharedPrefs().isFirstTime
+              ? OnBoardingScreen.routeName
+              : AuthWrapper.routeName;
 
-        Navigator.of(context).pushNamed(routeName);
+          Navigator.of(context).pushNamed(routeName);
+        }
       }
     });
   }

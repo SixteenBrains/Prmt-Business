@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prmt_business/screens/dashboard/dashboard.dart';
+import '/screens/dashboard/dashboard.dart';
 import '/screens/registration/screens/registration_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/screens/signup/signup_screen.dart';
