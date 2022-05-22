@@ -1,5 +1,12 @@
 Todo Now
 
+// List view in Ads
+// filter according to 50 / 100
+short link
+edit package of promoting Ads
+Expire ad links - redirect to prmt website saying ad is expired
+
+
 1.
 
 // Show list of promoter of ad and thier promoted ad url

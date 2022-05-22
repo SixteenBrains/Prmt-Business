@@ -133,22 +133,24 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
-    return SizedBox(
-      height: widget.height ?? _canvas.height * 0.25,
-      width: double.infinity,
-      child: _chewieController != null &&
-              _chewieController!.videoPlayerController.value.isInitialized
-          ? Chewie(
-              controller: _chewieController!,
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-                Text('Loading'),
-              ],
-            ),
+    return Center(
+      child: SizedBox(
+        height: widget.height ?? _canvas.height * 0.25,
+        width: _canvas.width * 0.4,
+        child: _chewieController != null &&
+                _chewieController!.videoPlayerController.value.isInitialized
+            ? Chewie(
+                controller: _chewieController!,
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 20),
+                  Text('Loading'),
+                ],
+              ),
+      ),
     );
   }
 }

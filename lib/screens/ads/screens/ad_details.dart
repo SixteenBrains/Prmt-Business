@@ -142,6 +142,9 @@ class AdDetails extends StatelessWidget {
                   if (state.status == AdsStatus.loading) {
                     return const LoadingIndicator();
                   }
+                  if (state.adData.isEmpty) {
+                    return const Center(child: Text('No Promoters Available'));
+                  }
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.adData.length,

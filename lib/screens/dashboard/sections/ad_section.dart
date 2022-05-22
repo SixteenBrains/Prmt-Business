@@ -47,7 +47,7 @@ class _AdSectionState extends State<AdSection> {
             SectionCard(
               label: 'Expired Ads',
               value: state.expiredAds ?? 0,
-              color: const Color(0xff7FB5FF),
+              color: const Color(0xffC4DDFF),
             ),
           ],
         );

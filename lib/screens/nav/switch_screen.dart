@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/repositories/stats/stats_repo.dart';
+import '../../repositories/stats/stats_reposotory.dart';
 import '/screens/dashboard/cubit/dashboard_cubit.dart';
 import '/screens/transactions/transactions_screen.dart';
 import '/screens/users/users_screen.dart';

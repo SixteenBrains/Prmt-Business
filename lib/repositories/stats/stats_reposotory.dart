@@ -18,9 +18,6 @@ class StatsRepository extends BaseStatsRepository {
       int promotedAds = 0;
       int expiredAds = 0;
 
-      final promotedAdsSnaps =
-          await _firestore.collection(Paths.promotedAds).get();
-
       final today = Timestamp.fromDate(DateTime.now());
       final liveAdsSnaps = await _firestore
           .collection(Paths.ads)
@@ -31,6 +28,24 @@ class StatsRepository extends BaseStatsRepository {
           .collection(Paths.ads)
           .where('endDate', isLessThanOrEqualTo: today)
           .get();
+
+      final promotedAdsSnaps =
+          await _firestore.collection(Paths.promotedAds).get();
+
+      // final promotedAdsSnaps = await _firestore
+      //     .collection(Paths.promotedAds)
+      //     .doc('N5Bjwqc0AGcKg4UXAJORJ90OiXw2')
+      //     .collection(Paths.ads)
+      //     .get();
+
+      // final proAds = await _firestore.collection(Paths.promotedAds).get();
+      // for (var element in proAds.docs) {
+      //   print('Element id ${element.id}');
+      // }
+
+      // print('Prmoted ads nsos ${promotedAdsSnaps.docs.length}');
+
+      // promotedAds += promotedAdsSnaps.docs.length;
 
       print('Prmotto ads an --- ${promotedAdsSnaps.docs.length}');
       for (var element in promotedAdsSnaps.docs) {

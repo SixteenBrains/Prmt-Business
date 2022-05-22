@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '/models/failure.dart';
-import '/repositories/stats/stats_repo.dart';
+import '../../../repositories/stats/stats_reposotory.dart';
 
 part 'dashboard_state.dart';
 
